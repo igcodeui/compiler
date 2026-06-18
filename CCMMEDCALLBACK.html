@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCM Medicare Callback Engine</title>
+    <style>
+        :root {
+            --bg-main: #0b1121;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --border-color: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--bg-main);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .btn-reset {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .btn-reset:hover {
+            background-color: var(--bg-card);
+            border-color: var(--text-muted);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Agent Input Section */
+        .agent-setup {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .agent-setup input {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+            width: 250px;
+        }
+
+        .agent-setup input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        /* Section Headers */
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        /* Card Panels */
+        .panel {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        /* Script Type Selector */
+        .type-selector {
+            display: flex;
+            gap: 15px;
+        }
+
+        .type-card {
+            flex: 1;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .type-card:hover {
+            background-color: var(--bg-card-hover);
+        }
+
+        .type-card.active {
+            background-color: var(--bg-card-hover);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 1px var(--accent-blue);
+        }
+
+        .type-card h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .type-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Script Display */
+        .script-content {
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .script-content strong {
+            color: var(--accent-blue);
+        }
+
+        .rebuttal-note {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+            font-size: 15px;
+            color: var(--warning);
+            font-style: italic;
+        }
+
+        /* Qualifiers */
+        .question-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .question-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .req-tag {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 8px;
+            font-weight: normal;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-ans {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-ans:hover {
+            background-color: var(--bg-card-hover);
+        }
+
+        .btn-ans.correct {
+            background-color: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .btn-ans.wrong {
+            background-color: var(--danger);
+            border-color: var(--danger);
+            color: white;
+        }
+
+        /* Required Info Block */
+        .info-block {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--accent-blue);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Outro Block */
+        .outro-block {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--success);
+            padding: 20px;
+            background-color: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="badge">CCM INTAKE</span>
+            <span class="title">Medicare Callback Engine</span>
+        </div>
+        <button class="btn-reset" onclick="resetFlow()">
+            ↺ Reset Flow
+        </button>
+    </nav>
+
+    <div class="container">
+        
+        <!-- Agent Setup -->
+        <div class="agent-setup">
+            <strong>Agent Name:</strong>
+            <input type="text" id="agentName" placeholder="Enter your name..." oninput="updateScript()">
+        </div>
+
+        <!-- Script Type Selection -->
+        <div>
+            <div class="section-label">INTRODUCTION — SCRIPT TYPE</div>
+            <div class="type-selector">
+                <div class="type-card active" id="cardNormal" onclick="setScript('normal')">
+                    <h3>1A — Normal Call</h3>
+                    <p>(Incomplete initial assistance)</p>
+                </div>
+                <div class="type-card" id="cardCancel" onclick="setScript('cancel')">
+                    <h3>1B — New Cancel Leads</h3>
+                    <p>(Policy did not activate)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Script Display Panel -->
+        <div class="panel">
+            <div class="script-content" id="scriptDisplay">
+                <!-- Script injected via JS -->
+            </div>
+            <div class="rebuttal-note">
+                <strong>Note:</strong> If they start to ask any questions, let them know your Licensed Agent will be answering all of their questions and continue.
+            </div>
+            <div style="margin-top: 15px; font-weight: bold; font-size: 18px; color: white;">
+                "Now just to confirm..."
+            </div>
+        </div>
+
+        <!-- Qualifiers Panel -->
+        <div>
+            <div class="section-label">QUALIFYING QUESTIONS</div>
+            <div class="panel">
+                
+                <div class="question-row">
+                    <div class="question-text">
+                        1. Do you have Medicare Parts A and B? <span class="req-tag">(Must be YES)</span>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn-ans" onclick="markAnswer(this, true)">YES</button>
+                        <button class="btn-ans" onclick="markAnswer(this, false)">NO</button>
+                    </div>
+                </div>
+
+                <div class="question-row">
+                    <div class="question-text">
+                        2. Do you have Tricare or a Retirement Plan? <span class="req-tag">(Must be NO)</span>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn-ans" onclick="markAnswer(this, false)">YES</button>
+                        <button class="btn-ans" onclick="markAnswer(this, true)">NO</button>
+                    </div>
+                </div>
+
+                <div class="question-row">
+                    <div class="question-text">
+                        3. Do you make your own healthcare decisions? <span class="req-tag">(Must be YES)</span>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn-ans" onclick="markAnswer(this, true)">YES</button>
+                        <button class="btn-ans" onclick="markAnswer(this, false)">NO</button>
+                    </div>
+                </div>
+
+                <div class="question-row">
+                    <div class="question-text">
+                        4. Do you live in a nursing home/Assisted living Facility? <span class="req-tag">(Must be NO)</span>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn-ans" onclick="markAnswer(this, false)">YES</button>
+                        <button class="btn-ans" onclick="markAnswer(this, true)">NO</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Information Gathering -->
+        <div>
+            <div class="section-label">REQUIRED INFORMATION</div>
+            <div class="info-block">
+                📋 Ask for their Name, Date of Birth, and Zip Code.
+            </div>
+        </div>
+
+        <!-- Outro -->
+        <div>
+            <div class="section-label">TRANSFER TO AGENT</div>
+            <div class="outro-block">
+                "Please hang tight while I get an agent on the line to assist you."
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const scripts = {
+            normal: `Hi this is <strong><span class="agent-name-display">(_______)</span></strong> with AHS, I am reaching out because I noticed you spoke to one of our agents, but for some reason it looks like we weren’t able to finish assisting you. Now before I get you over to an agent...`,
+            cancel: `Hi this is <strong><span class="agent-name-display">(_______)</span></strong> with AHS, I am reaching out because I noticed you enrolled with one of our agents, but for some reason it looks like your policy did not activate and I want to ensure you don’t lose the benefits you were being set up with. Now before I get you over to an agent...`
+        };
+
+        let currentMode = 'normal';
+
+        // Initialize script on load
+        window.onload = () => {
+            updateScript();
+        };
+
+        function setScript(mode) {
+            currentMode = mode;
+            
+            // Update UI Selection Cards
+            document.getElementById('cardNormal').classList.remove('active');
+            document.getElementById('cardCancel').classList.remove('active');
+            
+            if (mode === 'normal') {
+                document.getElementById('cardNormal').classList.add('active');
+            } else {
+                document.getElementById('cardCancel').classList.add('active');
+            }
+
+            updateScript();
+        }
+
+        function updateScript() {
+            const agentName = document.getElementById('agentName').value.trim() || '(_______)';
+            const scriptBox = document.getElementById('scriptDisplay');
+            
+            // Inject base text
+            scriptBox.innerHTML = scripts[currentMode];
+            
+            // Replace the placeholder with actual typed name
+            const displays = document.getElementsByClassName('agent-name-display');
+            for(let i = 0; i < displays.length; i++) {
+                displays[i].innerText = agentName;
+            }
+        }
+
+        function markAnswer(btn, isCorrect) {
+            // Reset siblings in the same button group
+            const siblings = btn.parentElement.children;
+            for (let sibling of siblings) {
+                sibling.classList.remove('correct', 'wrong');
+            }
+
+            // Apply specific class based on correctness
+            if (isCorrect) {
+                btn.classList.add('correct');
+            } else {
+                btn.classList.add('wrong');
+            }
+        }
+
+        function resetFlow() {
+            // Reset script selection
+            setScript('normal');
+
+            // Reset all answer buttons
+            const buttons = document.querySelectorAll('.btn-ans');
+            buttons.forEach(btn => btn.classList.remove('correct', 'wrong'));
+
+            // Optional: Keep agent name or clear it. Usually agents prefer it stays.
+            // If you want to clear it, uncomment the line below:
+            // document.getElementById('agentName').value = '';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

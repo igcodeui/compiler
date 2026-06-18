@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iGrant - Premium Agent Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Premium Elegant Theme Architecture */
+        :root {
+            /* Dark Slate (Default) */
+            --bg-body: #0f172a;
+            --bg-panel: #1e293b;
+            --bg-card: #0b1120;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --accent-amber: #f59e0b;
+            --accent-blue: #38bdf8;
+            --btn-hover-glow: rgba(255,255,255,0.05);
+        }
+
+        /* Base Typography & Transitions */
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Semantic UI Classes mapped to variables */
+        .ui-panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+        }
+        
+        .ui-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+        }
+
+        .ui-text-main { color: var(--text-main); transition: color 0.4s ease; }
+        .ui-text-muted { color: var(--text-muted); transition: color 0.4s ease; }
+        .ui-border { border-color: var(--border-color); transition: border-color 0.4s ease; }
+
+        .ui-interactive:hover {
+            background-color: var(--btn-hover-glow);
+            border-color: var(--accent-amber);
+        }
+
+        /* Elegant Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+    </style>
+</head>
+<body class="h-full flex flex-col antialiased selection:bg-blue-500/30">
+
+    <!-- Top Navigation Bar -->
+    <header class="ui-panel border-b px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm z-10 relative">
+        <div class="flex items-center space-x-4">
+            <div class="bg-amber-500/10 border border-amber-500/30 text-amber-500 font-semibold px-3 py-1 rounded-md text-[10px] tracking-widest uppercase">
+                Live Campaign
+            </div>
+            <h1 class="text-xl font-semibold tracking-wide ui-text-main flex items-center gap-2">
+                PLUM / WINBACK <span class="text-xs font-normal ui-text-muted tracking-normal">v3.2</span>
+            </h1>
+        </div>
+        
+        <!-- Live Interface Utilities Controls -->
+        <div class="flex flex-wrap items-center gap-5 text-sm w-full sm:w-auto justify-end">
+            <!-- Theme Dropdown -->
+            <div class="flex items-center space-x-3">
+                <span class="text-[11px] font-medium ui-text-muted uppercase tracking-widest">Theme</span>
+                <select id="themeSelector" onchange="changeTheme(this.value)" class="ui-card ui-text-main text-xs font-medium px-4 py-2 rounded-lg focus:outline-none cursor-pointer shadow-sm hover:shadow-md transition-shadow appearance-none pr-8 relative bg-no-repeat bg-[right_10px_center] bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%226%22%20viewBox%3D%220%200%2010%206%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M1%201L5%205L9%201%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')]">
+                    <option value="dark">Dark Slate</option>
+                    <option value="light">Light Crisp</option>
+                    <option value="blue">Ocean Blue</option>
+                    <option value="pink">Modern Pink</option>
+                </select>
+            </div>
+
+            <span class="hidden sm:inline h-6 w-px ui-border border-l"></span>
+            
+            <button onclick="resetScript()" class="text-rose-500 hover:text-rose-600 bg-rose-500/10 hover:bg-rose-500/20 font-medium px-5 py-2.5 rounded-lg transition-all duration-200 text-xs flex items-center space-x-2 cursor-pointer shadow-sm">
+                <span>🔄</span> <span>Reset Flow</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-1 max-w-[1600px] w-full mx-auto p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 overflow-hidden">
+        
+        <!-- Left Side: Core Flow & Dynamic Scripting (7 Columns) -->
+        <section class="lg:col-span-7 flex flex-col ui-panel rounded-2xl shadow-xl overflow-hidden min-h-[550px]">
+            <div class="px-8 py-5 border-b ui-border flex justify-between items-center bg-black/5">
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-emerald-500 flex items-center gap-2">
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]"></span> Active Dialogue
+                </span>
+                <span id="step-badge" class="ui-card ui-text-main text-xs font-medium px-4 py-1.5 rounded-full shadow-sm">
+                    Step 1: Verification
+                </span>
+            </div>
+            
+            <!-- Dynamic Script Display Box -->
+            <div class="p-8 flex-1 flex flex-col justify-between gap-8">
+                <div class="ui-card p-10 rounded-2xl relative min-h-[280px] flex flex-col justify-center shadow-sm border-l-4" style="border-left-color: var(--accent-blue);">
+                    <p id="script-text" class="text-2xl leading-[1.6] ui-text-main font-medium transition-all duration-200">
+                        <!-- Content Injected Dynamically -->
+                    </p>
+                </div>
+
+                <!-- Guided Navigation Triggers -->
+                <div id="action-container" class="space-y-4 pt-4">
+                    <p class="text-[10px] font-bold tracking-widest ui-text-muted uppercase">Client Response Options</p>
+                    <div id="action-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Buttons Injected Dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Side: Rapid Objection & Rebuttal Dashboard (5 Columns) -->
+        <section class="lg:col-span-5 flex flex-col ui-panel rounded-2xl shadow-xl overflow-hidden min-h-[550px]">
+            <div class="px-8 py-5 border-b ui-border bg-black/5">
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-rose-500 flex items-center gap-2">
+                    🛑 Objection Handling
+                </span>
+            </div>
+            
+            <div class="p-8 space-y-6 overflow-y-auto flex-1">
+                <p class="text-sm ui-text-muted leading-relaxed">Select a rebuttal below to instantly view the response strategy without losing your place in the script.</p>
+                
+                <!-- Quick Objection Anchors Grid -->
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="triggerObjection('why_call')" class="group text-left ui-card ui-interactive text-sm px-5 py-4 rounded-xl transition-all duration-300 font-medium cursor-pointer shadow-sm flex justify-between items-center transform hover:-translate-y-0.5">
+                        <span class="ui-text-main">🛡️ Why are you calling me? What is this call about?</span>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ui-text-muted">➔</span>
+                    </button>
+                    <button onclick="triggerObjection('happy_current')" class="group text-left ui-card ui-interactive text-sm px-5 py-4 rounded-xl transition-all duration-300 font-medium cursor-pointer shadow-sm flex justify-between items-center transform hover:-translate-y-0.5">
+                        <span class="ui-text-main">🛡️ Happy with current plan</span>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ui-text-muted">➔</span>
+                    </button>
+                    <button onclick="triggerObjection('who_are_you')" class="group text-left ui-card ui-interactive text-sm px-5 py-4 rounded-xl transition-all duration-300 font-medium cursor-pointer shadow-sm flex justify-between items-center transform hover:-translate-y-0.5">
+                        <span class="ui-text-main">🔍 Who is My Senior Health Plan?</span>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ui-text-muted">➔</span>
+                    </button>
+                    <button onclick="triggerObjection('uhc_check')" class="group text-left ui-card ui-interactive text-sm px-5 py-4 rounded-xl transition-all duration-300 font-medium cursor-pointer shadow-sm flex justify-between items-center transform hover:-translate-y-0.5">
+                        <span class="ui-text-main">🏥 Are you with United Health Care?</span>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ui-text-muted">➔</span>
+                    </button>
+                    <button onclick="triggerObjection('send_email')" class="group text-left ui-card ui-interactive text-sm px-5 py-4 rounded-xl transition-all duration-300 font-medium cursor-pointer shadow-sm flex justify-between items-center transform hover:-translate-y-0.5">
+                        <span class="ui-text-main">📩 Send coverages via email</span>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ui-text-muted">➔</span>
+                    </button>
+                    <button onclick="triggerObjection('location_check')" class="group text-left ui-card ui-interactive text-sm px-5 py-4 rounded-xl transition-all duration-300 font-medium cursor-pointer shadow-sm flex justify-between items-center transform hover:-translate-y-0.5">
+                        <span class="ui-text-main">📍 Where are you located?</span>
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ui-text-muted">➔</span>
+                    </button>
+                </div>
+
+                <!-- Rebuttal Workspace Card -->
+                <div class="ui-card border-l-4 border-rose-500 rounded-xl p-6 mt-4 hidden flex-col justify-between min-h-[260px] shadow-lg transition-all duration-300" id="rebuttal-box">
+                    <div>
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b ui-border">
+                            <span class="text-xs font-bold uppercase tracking-widest text-rose-500" id="rebuttal-title">
+                                Objection Strategy
+                            </span>
+                            <button onclick="closeRebuttal()" class="ui-text-muted hover:text-rose-500 text-2xl font-light leading-none transition-colors cursor-pointer px-2">&times;</button>
+                        </div>
+                        <p id="rebuttal-text" class="text-[15px] leading-[1.7] ui-text-main font-normal whitespace-pre-line"></p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t ui-border flex justify-end">
+                        <button onclick="closeRebuttal()" class="bg-rose-500 hover:bg-rose-600 text-white text-xs font-medium px-5 py-2.5 rounded-lg transition-all cursor-pointer shadow-sm">
+                            Close Strategy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Core Scripting Logic Engine -->
+    <script>
+        const steps = {
+            intro: {
+                badge: "Step 1: Verification",
+                text: `"Hi! Am I speaking with <span style='color: var(--accent-amber);' class='font-semibold'>[Client Name]</span>?"`,
+                actions: [
+                    { label: "Yes, speaking", next: "pitch", style: "emerald" },
+                    { label: "No, wrong person / Not home", objection: "wrong_person", style: "rose" }
+                ]
+            },
+            pitch: {
+                badge: "Step 2: Value Proposition",
+                text: `"Hi <span style='color: var(--accent-amber);' class='font-semibold'>[Client Name]</span>, how are you today? My name is <span style='color: var(--accent-blue);' class='font-semibold'>[Agent First Name]</span>, and I’m calling with My Senior Health Plan. We’ve assisted you with your Medicare insurance plan and we have some important plan updates we would like to share with you."`,
+                actions: [
+                    { label: "Continue to Transfer Ask", next: "transfer_ask", style: "emerald" }
+                ]
+            },
+            transfer_ask: {
+                badge: "Step 3: The Close",
+                text: `"May I transfer you now to your agent who can go over your options with you?"`,
+                actions: [
+                    { label: "Client Agrees (Yes)", next: "transfer_hold", style: "emerald" }
+                ]
+            },
+            transfer_hold: {
+                badge: "Action Required: Warm Transfer",
+                text: `<div class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 rounded-xl p-4 mb-5 text-xs font-bold uppercase tracking-widest shadow-sm">🔥 EXECUTE WARM TRANSFER LINE NOW</div>"Great. I’ll get you connected now — it’ll just take a moment. Please hold for me."`,
+                actions: []
+            }
+        };
+
+        const objections = {
+            why_call: {
+                title: "Why are you calling me? What is this call about?",
+                text: `"The reason for our call today is to follow up on your recent internet inquiry regarding Medicare insurance.  We're reaching out to offer you a complimentary plan review to make sure you have the strongest benefits.  May I transfer you now to a benefits specialist who can assist you?`
+            },
+            wrong_person: {
+                title: "Wrong Number / Unavailable",
+                text: `"No problem at all, I apologize for any inconvenience. Have a wonderful rest of your day." \n\n[Action: Disconnect Call & Code Profile as Bad Number/Inactive]`
+            },
+            location_check: {
+                title: "Where are we located?",
+                text: `"My Senior Health Plan is located in San Diego California."`
+            },
+            who_are_you: {
+                title: "Who/What is My Senior Health Plan?",
+                text: `"Great question. We’re with My Senior Health Plan, a licensed Medicare insurance agency and we are responding to an inquiry you submitted online recently. We represent several Medicare insurance providers to help seniors review their coverage and make sure they're receiving all the benefits they may qualify for. \n\nAre you interested in a complimentary plan review?"`
+            },
+            send_email: {
+                title: "I want to see the coverages via email",
+                text: `"We often send our plan comparisons by email so you can review them in detail."`
+            },
+            uhc_check: {
+                title: "Are you with United Health Care?",
+                text: `"We work with United Healthcare, along with many other carriers. If you are interested in reviewing options with United Healthcare, our licensed representative can review that with you."`
+            },
+            happy_current: {
+                title: "Client is happy with current plan",
+                text: `"I totally understand, if you’re already happy with your current plan, that’s a great place to be. Just to be clear, there’s absolutely no need to make any changes today. \n\nWhat our Medicare specialist would do is just quickly walk you through the newest benefits and updates available to you. Plans evolve over time, and sometimes there are added perks or savings that people aren’t even aware they already qualify for. \n\nIt’ll only take a few minutes and you’ll know you’re getting the most value possible from what’s out there. If everything still checks out with your current setup, then you can feel even more confident staying right where you are."`
+            }
+        };
+
+        const themes = {
+            dark: {
+                '--bg-body': '#0f172a',
+                '--bg-panel': '#1e293b',
+                '--bg-card': '#0b1120',
+                '--text-main': '#f8fafc',
+                '--text-muted': '#94a3b8',
+                '--border-color': '#334155',
+                '--accent-amber': '#f59e0b',
+                '--accent-blue': '#38bdf8',
+                '--btn-hover-glow': 'rgba(255,255,255,0.03)'
+            },
+            light: {
+                '--bg-body': '#f8fafc',
+                '--bg-panel': '#ffffff',
+                '--bg-card': '#f1f5f9',
+                '--text-main': '#0f172a',
+                '--text-muted': '#64748b',
+                '--border-color': '#e2e8f0',
+                '--accent-amber': '#d97706',
+                '--accent-blue': '#0284c7',
+                '--btn-hover-glow': 'rgba(0,0,0,0.03)'
+            },
+            blue: {
+                '--bg-body': '#0b132b',
+                '--bg-panel': '#1c2541',
+                '--bg-card': '#0a1024',
+                '--text-main': '#edf2f4',
+                '--text-muted': '#8d99ae',
+                '--border-color': '#3a506b',
+                '--accent-amber': '#f59e0b',
+                '--accent-blue': '#64dfdf',
+                '--btn-hover-glow': 'rgba(255,255,255,0.03)'
+            },
+            pink: {
+                '--bg-body': '#2d142c',
+                '--bg-panel': '#512b58',
+                '--bg-card': '#250f24',
+                '--text-main': '#f8ede3',
+                '--text-muted': '#cda3c5',
+                '--border-color': '#754070',
+                '--accent-amber': '#fcc419',
+                '--accent-blue': '#ffdeeb',
+                '--btn-hover-glow': 'rgba(255,255,255,0.04)'
+            }
+        };
+
+        function changeTheme(themeKey) {
+            const themeConfig = themes[themeKey];
+            const root = document.documentElement;
+            for (const [property, value] of Object.entries(themeConfig)) {
+                root.style.setProperty(property, value);
+            }
+        }
+
+        function renderStep(stepKey) {
+            const step = steps[stepKey];
+            document.getElementById('step-badge').innerText = step.badge;
+            document.getElementById('script-text').innerHTML = step.text;
+            
+            const btnContainer = document.getElementById('action-buttons');
+            btnContainer.innerHTML = ''; 
+
+            step.actions.forEach(action => {
+                const btn = document.createElement('button');
+                
+                let baseClasses = "font-medium py-4 px-6 rounded-xl transition-all duration-300 shadow-sm flex items-center justify-between text-[15px] cursor-pointer transform hover:-translate-y-0.5 w-full tracking-wide";
+                let colorClasses = "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-900/20";
+                
+                if (action.style === 'emerald') {
+                    colorClasses = "bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-900/20";
+                } else if (action.style === 'rose') {
+                    colorClasses = "bg-rose-100 hover:bg-rose-200 text-rose-700 border border-rose-200 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 dark:text-rose-300 dark:border-rose-800/40";
+                }
+
+                btn.className = `${baseClasses} ${colorClasses}`;
+                
+                // FIXED LOGIC: Checks if it's a "next" step or an "objection" popup
+                if (action.next) {
+                    btn.setAttribute('onclick', `nextStep('${action.next}')`);
+                } else if (action.objection) {
+                    btn.setAttribute('onclick', `triggerObjection('${action.objection}')`);
+                }
+
+                btn.innerHTML = `<span>${action.label}</span> <span class='text-sm opacity-60'>➔</span>`;
+                btnContainer.appendChild(btn);
+            });
+
+            const containerElement = document.getElementById('action-container');
+            if (step.actions.length === 0) {
+                containerElement.classList.add('hidden');
+            } else {
+                containerElement.classList.remove('hidden');
+            }
+        }
+
+        function nextStep(stepKey) {
+            renderStep(stepKey);
+        }
+
+        function triggerObjection(objKey) {
+            const obj = objections[objKey];
+            const box = document.getElementById('rebuttal-box');
+            
+            document.getElementById('rebuttal-title').innerHTML = `${obj.title}`;
+            document.getElementById('rebuttal-text').innerHTML = obj.text;
+            
+            box.classList.remove('hidden');
+            box.classList.add('flex');
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function closeRebuttal() {
+            const box = document.getElementById('rebuttal-box');
+            box.classList.add('hidden');
+            box.classList.remove('flex');
+        }
+
+        function resetScript() {
+            closeRebuttal();
+            renderStep('intro');
+        }
+
+        window.onload = function() {
+            document.getElementById('themeSelector').value = 'dark';
+            renderStep('intro');
+        };
+    </script>
+</body>
+</html>

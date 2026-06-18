@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVA Campaign Intake & Scripting Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cinzel:wght@600;700&family=Oswald:wght@500;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* CSS VARIABLE THEME SCHEME ENGINE */
+        :root, [data-theme="apple"] {
+            --bg-main: #000000;
+            --text-main: #F5F5F7;
+            --text-muted: #8E8E93;
+            --panel-bg: rgba(28, 28, 30, 0.75);
+            --panel-border: rgba(255, 255, 255, 0.1);
+            --inner-bg: #2C2C2E;
+            --accent: #0A84FF;
+            --accent-hover: #007AFF;
+            --accent-text: #ffffff;
+            --highlight: #FF9F0A;
+            --success-bg: #32D74B;
+            --success-text: #000000;
+            --danger-bg: #FF453A;
+            --danger-text: #ffffff;
+            --radius: 24px;
+            --radius-sm: 12px;
+            --border-style: solid;
+            --shadow: 0 10px 30px rgba(0,0,0,0.6);
+            --glass-blur: blur(20px);
+            --font-layout: 'Poppins', sans-serif;
+            --font-headings: 'Poppins', sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --panel-bg: #1e293b;
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --inner-bg: #334155;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --accent-text: #ffffff;
+            --highlight: #fbbf24;
+            --success-bg: #22c55e;
+            --success-text: #ffffff;
+            --danger-bg: #ef4444;
+            --danger-text: #ffffff;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --border-style: solid;
+            --shadow: 0 10px 25px rgba(0,0,0,0.3);
+            --glass-blur: none;
+            --font-layout: 'Poppins', sans-serif;
+            --font-headings: 'Poppins', sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --panel-bg: #ffffff;
+            --panel-border: #cbd5e1;
+            --inner-bg: #f8fafc;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --accent-text: #ffffff;
+            --highlight: #b45309;
+            --success-bg: #16a34a;
+            --success-text: #ffffff;
+            --danger-bg: #dc2626;
+            --danger-text: #ffffff;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --border-style: solid;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --glass-blur: none;
+            --font-layout: 'Poppins', sans-serif;
+            --font-headings: 'Poppins', sans-serif;
+        }
+
+        [data-theme="game"] {
+            --bg-main: #091428;
+            --text-main: #f0e6d2;
+            --text-muted: #a39a88;
+            --panel-bg: #1e2836;
+            --panel-border: #c89b3c;
+            --inner-bg: #060c18;
+            --accent: #c89b3c;
+            --accent-hover: #f0e6d2;
+            --accent-text: #091428;
+            --highlight: #0ac8b9;
+            --success-bg: #005a82;
+            --success-text: #f0e6d2;
+            --danger-bg: #cd1e25;
+            --danger-text: #ffffff;
+            --radius: 4px;
+            --radius-sm: 2px;
+            --border-style: solid;
+            --shadow: 0 0 20px rgba(200, 155, 60, 0.15);
+            --glass-blur: none;
+            --font-layout: 'Poppins', sans-serif;
+            --font-headings: 'Cinzel', serif;
+        }
+
+        [data-theme="glitch"] {
+            --bg-main: #050505;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --panel-bg: #0a0a0a;
+            --panel-border: #222222;
+            --inner-bg: #111111;
+            --accent: #d4ff00;
+            --accent-hover: #bce600;
+            --accent-text: #000000;
+            --highlight: #ff00ea;
+            --success-bg: #d4ff00;
+            --success-text: #000000;
+            --danger-bg: #ff00ea;
+            --danger-text: #ffffff;
+            --radius: 0px;
+            --radius-sm: 0px;
+            --border-style: solid;
+            --shadow: none;
+            --glass-blur: none;
+            --font-layout: 'Poppins', sans-serif;
+            --font-headings: 'Oswald', sans-serif;
+        }
+
+        /* EXPLORE THEME */
+        [data-theme="explore"] {
+            --bg-main: #9ad3d5;
+            --text-main: #000000;
+            --text-muted: #4a3e35;
+            --panel-bg: #f2ead3;
+            --panel-border: #5a3c1e;
+            --inner-bg: #e5dcc0;
+            --accent: #c87038;
+            --accent-hover: #d98147;
+            --accent-text: #ffffff;
+            --highlight: #3c5a24;
+            --success-bg: #5c8038;
+            --success-text: #ffffff;
+            --danger-bg: #a34832;
+            --danger-text: #ffffff;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --border-style: solid;
+            --shadow: 4px 4px 0px rgba(90, 60, 30, 0.15);
+            --glass-blur: none;
+            --font-layout: 'Nunito', sans-serif;
+            --font-headings: 'Nunito', sans-serif;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 32 32'><path d='M6 6 L14 26 L17 17 L26 14 Z' fill='%23c87038' stroke='%235a3c1e' stroke-width='2' stroke-linejoin='round'/></svg>") 6 6, auto;
+        }
+        
+        [data-theme="explore"] a, 
+        [data-theme="explore"] button, 
+        [data-theme="explore"] select {
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 32 32'><path d='M8 8 L16 28 L19 19 L28 16 Z' fill='%239ad3d5' stroke='%235a3c1e' stroke-width='2' stroke-linejoin='round'/></svg>") 8 8, pointer;
+        }
+
+        /* BUS THEME - REFINED FOR READABILITY & DESIGN */
+        [data-theme="bus"] {
+            --bg-main: #1e1e24; /* Darker clean asphalt for contrast */
+            --text-main: #f5f5f5;
+            --text-muted: #999999;
+            --panel-bg: #2b2b36;
+            --panel-border: #ffcc00; 
+            --inner-bg: #22222a;
+            
+            /* Sharp, highly readable button colors */
+            --accent: #ffcc00; /* School Bus Yellow */
+            --accent-hover: #e6b800;
+            --accent-text: #111111; /* Pitch black text on yellow for maximum readability */
+            --highlight: #ffcc00;
+            --success-bg: #28a745; /* Distinct Green */
+            --success-text: #ffffff;
+            --danger-bg: #dc3545; /* Distinct Red */
+            --danger-text: #ffffff;
+            
+            --radius: 8px;
+            --radius-sm: 4px;
+            --border-style: dashed;
+            --shadow: 0 10px 20px rgba(0,0,0,0.4);
+            --glass-blur: none;
+            
+            /* Changed from Oswald to Poppins for excellent readability at quick glances */
+            --font-layout: 'Poppins', sans-serif;
+            --font-headings: 'Poppins', sans-serif;
+        }
+
+        /* Base Bus Button Shape (Applies to all buttons, including rebuttals) */
+        [data-theme="bus"] .custom-btn-bg,
+        [data-theme="bus"] .theme-btn-accent,
+        [data-theme="bus"] .theme-btn-success,
+        [data-theme="bus"] .theme-btn-danger,
+        [data-theme="bus"] .custom-btn-bg-red {
+            position: relative;
+            background-color: var(--accent) !important;
+            border: 2px solid #000000 !important;
+            border-radius: 4px 16px 4px 4px !important; /* Sloped front hood */
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            overflow: visible !important;
+            transition: filter 0.2s ease, background-color 0.2s ease;
+            color: var(--accent-text) !important;
+        }
+
+        /* Specific text colors depending on button type for high contrast */
+        [data-theme="bus"] .theme-btn-success { background-color: var(--success-bg) !important; color: var(--success-text) !important; }
+        [data-theme="bus"] .theme-btn-danger, [data-theme="bus"] .custom-btn-bg-red { background-color: var(--danger-bg) !important; color: var(--danger-text) !important; }
+
+        /* Drawing the Wheels (Applies to all buttons, including rebuttals) */
+        [data-theme="bus"] .custom-btn-bg::before, [data-theme="bus"] .custom-btn-bg::after,
+        [data-theme="bus"] .theme-btn-accent::before, [data-theme="bus"] .theme-btn-accent::after,
+        [data-theme="bus"] .theme-btn-success::before, [data-theme="bus"] .theme-btn-success::after,
+        [data-theme="bus"] .theme-btn-danger::before, [data-theme="bus"] .theme-btn-danger::after,
+        [data-theme="bus"] .custom-btn-bg-red::before, [data-theme="bus"] .custom-btn-bg-red::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            width: 14px;
+            height: 14px;
+            background-color: #222;
+            border: 2px solid #000;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 2px #666; /* Shiny hubcap */
+        }
+        
+        [data-theme="bus"] .custom-btn-bg::before, [data-theme="bus"] .theme-btn-accent::before,
+        [data-theme="bus"] .theme-btn-success::before, [data-theme="bus"] .theme-btn-danger::before,
+        [data-theme="bus"] .custom-btn-bg-red::before { left: 12px; }
+        
+        [data-theme="bus"] .custom-btn-bg::after, [data-theme="bus"] .theme-btn-accent::after,
+        [data-theme="bus"] .theme-btn-success::after, [data-theme="bus"] .theme-btn-danger::after,
+        [data-theme="bus"] .custom-btn-bg-red::after { right: 20px; }
+
+        /* ADDING WINDOWS & DOORS *ONLY* TO THE MAIN SCRIPT BUTTONS */
+        [data-theme="bus"] main .custom-btn-bg,
+        [data-theme="bus"] main .theme-btn-accent,
+        [data-theme="bus"] main .theme-btn-success,
+        [data-theme="bus"] main .theme-btn-danger,
+        [data-theme="bus"] main .custom-btn-bg-red {
+            /* Using CSS gradients to paint windows and doors directly onto the button background */
+            background-image: 
+                /* 1. Headlight (Front right) */
+                radial-gradient(circle at center, #ffffff 50%, transparent 55%),
+                /* 2. Double Door (Front right) */
+                linear-gradient(to right, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.8) 55%, rgba(0,0,0,0.2) 55%),
+                /* 3. Repeating Windows (Top edge) */
+                repeating-linear-gradient(to right, transparent, transparent 4px, rgba(20, 20, 25, 0.85) 4px, rgba(20, 20, 25, 0.85) 32px) !important;
+            
+            background-size: 
+                10px 10px, /* Headlight size */
+                16px 60%,  /* Door size */
+                calc(100% - 50px) 14px !important; /* Window size (stops before the door) */
+            
+            background-position: 
+                right 4px bottom 8px, /* Headlight pos */
+                right 16px bottom 4px, /* Door pos */
+                left 8px top 6px !important; /* Window pos */
+            
+            background-repeat: no-repeat !important;
+            
+            /* PUSH TEXT DOWN so it doesn't overlap with the tinted windows */
+            padding-top: 28px !important;
+            padding-bottom: 12px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Fast 0.5s Animation Engine Start & Drive */
+        @keyframes busStartAndDriveFast {
+            0% { transform: translateX(0) translateY(0) rotate(0deg); }
+            20% { transform: translateX(-2px) translateY(-1px) rotate(-1deg); } 
+            40% { transform: translateX(2px) translateY(1px) rotate(1deg); }   
+            60% { transform: translateX(-15px) translateY(0) rotate(-2deg); } /* Rev back */          
+            100% { transform: translateX(120vw) translateY(0) rotate(2deg); opacity: 0; } /* Zoom off */
+        }
+
+        .bus-driving-away {
+            /* Now running at 0.5s instead of 1s */
+            animation: busStartAndDriveFast 0.5s forwards cubic-bezier(0.4, 0, 0.2, 1) !important;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Base styles */
+        body {
+            font-family: var(--font-layout);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        h1, h2, h3, .heading-font {
+            font-family: var(--font-headings);
+        }
+        
+        ::selection {
+            background-color: var(--accent);
+            color: var(--accent-text);
+        }
+
+        .theme-panel {
+            background-color: var(--panel-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px var(--border-style) var(--panel-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: all 0.25s ease;
+        }
+        
+        .theme-inner-card {
+            background-color: var(--inner-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: var(--radius-sm);
+            transition: all 0.25s ease;
+        }
+
+        .theme-btn-accent {
+            background-color: var(--accent);
+            color: var(--accent-text);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+        .theme-btn-accent:hover { filter: brightness(1.1); }
+
+        .theme-btn-success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+        .theme-btn-success:hover { filter: brightness(1.15); }
+
+        .theme-btn-danger {
+            background-color: var(--danger-bg);
+            color: var(--danger-text);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+        .theme-btn-danger:hover { filter: brightness(1.15); }
+
+        .theme-text-muted { color: var(--text-muted); }
+        .theme-highlight { color: var(--highlight); }
+
+        /* Game Theme Specific Overrides */
+        [data-theme="game"] .custom-btn-bg {
+            background-image: url('https://raw.githubusercontent.com/KenneyNL/UI-Pack/master/PNG/yellow_button00.png');
+            background-size: 100% 100%;
+            background-color: transparent !important;
+            border: none !important;
+            color: #5c3a00 !important;
+            text-transform: uppercase;
+            font-weight: 800;
+            box-shadow: none !important;
+        }
+        [data-theme="game"] .custom-btn-bg:hover { filter: brightness(1.1); }
+
+        [data-theme="game"] .custom-btn-bg-red {
+            background-image: url('https://raw.githubusercontent.com/KenneyNL/UI-Pack/master/PNG/red_button00.png');
+            background-size: 100% 100%;
+            background-color: transparent !important;
+            border: none !important;
+            color: #ffffff !important;
+            text-transform: uppercase;
+            font-weight: 800;
+            text-shadow: 1px 1px 2px black;
+            box-shadow: none !important;
+        }
+        [data-theme="game"] .custom-btn-bg-red:hover { filter: brightness(1.1); }
+
+        /* GLITCH THEME BUTTON OVERRIDES */
+        [data-theme="glitch"] .custom-btn-bg {
+            background-image: none !important;
+            background-color: var(--highlight) !important;
+            color: #ffffff !important;
+            border: none !important;
+            box-shadow: 4px 4px 0px var(--accent) !important;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-family: var(--font-headings);
+            letter-spacing: 1px;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        [data-theme="glitch"] .custom-btn-bg:active {
+            transform: translate(4px, 4px) !important;
+            box-shadow: 0px 0px 0px var(--accent) !important;
+        }
+
+        [data-theme="glitch"] .custom-btn-bg-red {
+            background-image: none !important;
+            background-color: transparent !important;
+            color: #ffffff !important;
+            border: 2px solid #ffffff !important;
+            box-shadow: 4px 4px 0px var(--highlight) !important;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-family: var(--font-headings);
+            letter-spacing: 1px;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        [data-theme="glitch"] .custom-btn-bg-red:active {
+            transform: translate(4px, 4px) !important;
+            box-shadow: 0px 0px 0px var(--highlight) !important;
+        }
+        
+        [data-theme="glitch"] .theme-btn-success {
+            box-shadow: 4px 4px 0px var(--highlight);
+            text-transform: uppercase;
+            font-weight: 700;
+            font-family: var(--font-headings);
+        }
+        [data-theme="glitch"] .theme-btn-success:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px var(--highlight);
+        }
+
+        [data-theme="glitch"] .theme-btn-accent.w-full {
+            background-color: var(--highlight);
+            box-shadow: 4px 4px 0px var(--accent);
+            text-transform: uppercase;
+            font-weight: 700;
+            font-family: var(--font-headings);
+        }
+        [data-theme="glitch"] .theme-btn-accent.w-full:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px var(--accent);
+        }
+
+        /* EXPLORE THEME BUTTON OVERRIDES */
+        [data-theme="explore"] .custom-btn-bg,
+        [data-theme="explore"] .theme-btn-accent,
+        [data-theme="explore"] .theme-btn-success,
+        [data-theme="explore"] .theme-btn-danger,
+        [data-theme="explore"] .custom-btn-bg-red {
+            background-image: none !important;
+            border: 2px solid var(--panel-border) !important;
+            border-radius: 12px !important;
+            box-shadow: 0px 4px 0px var(--panel-border) !important;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.2s ease;
+        }
+        [data-theme="explore"] .custom-btn-bg {
+            background-color: var(--accent) !important;
+            color: #ffffff !important;
+        }
+        [data-theme="explore"] .custom-btn-bg-red,
+        [data-theme="explore"] .theme-btn-danger {
+            background-color: var(--danger-bg) !important;
+            color: #ffffff !important;
+        }
+        [data-theme="explore"] .theme-btn-success {
+            background-color: var(--success-bg) !important;
+            color: #ffffff !important;
+        }
+        [data-theme="explore"] .custom-btn-bg:active,
+        [data-theme="explore"] .theme-btn-accent:active,
+        [data-theme="explore"] .theme-btn-success:active,
+        [data-theme="explore"] .theme-btn-danger:active,
+        [data-theme="explore"] .custom-btn-bg-red:active {
+            transform: translateY(4px) !important;
+            box-shadow: 0px 0px 0px var(--panel-border) !important;
+        }
+
+        /* Generic Alert Overrides */
+        .alert-warning-box {
+            background-color: rgba(255, 159, 10, 0.1);
+            border: 1px solid var(--highlight);
+        }
+
+        .sticky-offset {
+            top: 72px; 
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-[14px]">
+
+    <!-- MAIN NAVBAR -->
+    <header id="main-header" class="theme-panel sticky top-0 z-50 rounded-none border-t-0 border-x-0 bg-opacity-90 backdrop-blur-md h-[72px]">
+        <div class="max-w-[1000px] w-full mx-auto px-6 h-full flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="theme-btn-accent font-bold py-1 px-3 text-xs tracking-wide uppercase">MVA INTAKE</div>
+                <h1 class="text-lg font-semibold tracking-tight hidden sm:block heading-font">Motor Vehicle Accident Engine</h1>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-medium theme-text-muted">Choose Your Theme:</span>
+                    <select id="global-theme-menu" onchange="changeActiveTheme(this.value)" class="theme-inner-card text-inherit border border-opacity-20 text-xs px-3 py-1.5 focus:outline-none cursor-pointer font-semibold">
+                        <option value="explore">Beige Theme</option>
+                        <option value="bus">Bus Theme</option>
+                        <option value="glitch">Glitch Theme</option>
+                        <option value="dark">Dark Theme</option>
+                        <option value="light">Light Theme</option>
+                    </select>
+                </div>
+
+                <button onclick="resetEntirePortal()" class="theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-4 text-xs flex items-center gap-2">
+                    ⟲ Reset Flow
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- STICKY REBUTTALS BAR -->
+    <div class="sticky sticky-offset z-40 bg-[var(--bg-main)] shadow-xl transition-colors duration-250 border-b border-[var(--panel-border)]">
+        <div class="max-w-[1000px] w-full mx-auto px-4 py-3 space-y-3">
+            <span class="font-semibold theme-text-muted uppercase tracking-wider text-[11px] block heading-font">🛡️ Quick Rebuttals</span>
+            
+            <!-- Rebuttal Buttons Container -->
+            <div class="flex flex-wrap gap-2">
+                <!-- General Rebuttals -->
+                <button onclick="showRebuttal(1)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Early Legal Q.</button>
+                <button onclick="showRebuttal(2)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Mid-Call Q.</button>
+                <button onclick="showRebuttal(3)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Who is this?</button>
+                <button onclick="showRebuttal(7)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Do I pay?</button>
+                <button onclick="showRebuttal(8)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What happens next?</button>
+                <button onclick="showRebuttal(9)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">⏱How long?</button>
+
+                <!-- Negative Rebuttals (Red) -->
+                <button onclick="showRebuttal(4)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">How did you get my #?</button>
+                <button onclick="showRebuttal(5)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Is this a scam?</button>
+                <button onclick="showRebuttal(6)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Are you a lawyer?</button>
+                <button onclick="showRebuttal(10)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Is this binding?</button>
+            </div>
+
+            <!-- Rebuttal Display Screen -->
+            <div id="rebuttal-display-container" class="hidden">
+                <div class="theme-inner-card p-4 border-l-4 border-[var(--accent)] flex items-start gap-3 relative">
+                    <button onclick="closeRebuttal()" class="absolute top-2 right-2 text-xs theme-text-muted hover:text-[var(--text-main)]">✖ Close</button>
+                    <span class="text-xl">💡</span>
+                    <p id="rebuttal-display-text" class="text-sm leading-relaxed"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN SCRIPT AREA -->
+    <main class="flex-1 max-w-[1000px] w-full mx-auto p-4 sm:p-6 pb-24">
+        
+        <div class="space-y-6">
+            
+            <div class="theme-panel p-6 space-y-3">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-opacity-20 flex items-center justify-center shrink-0 style-accent-box" style="background-color: rgba(255,204,0,0.15)">
+                        <span class="text-lg">⚖️</span>
+                    </div>
+                    <p class="text-sm leading-relaxed font-medium">
+                        <strong class="theme-highlight">Compliance Reminder:</strong> You are not an attorney. Do not give legal advice, mention deadlines, statutes of limitations, or imply any outcome.<br><br>
+                        <strong class="theme-highlight">Notes:</strong> Take detailed notes on every answer. Use the client's exact words. Do not evaluate or interpret.
+                    </p>
+                </div>
+            </div>
+
+            <div id="call-initiation" class="theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction — Identify Yourself</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button onclick="revealGreeting('path-inbound')" class="p-5 theme-inner-card hover:bg-opacity-50 text-left space-y-1 group relative overflow-hidden transition-colors">
+                        <p class="text-base font-semibold group-hover:text-[var(--accent)] transition-colors heading-font">1A — Inbound</p>
+                        <p class="text-sm theme-text-muted">(They Call You)</p>
+                    </button>
+                    <button onclick="revealGreeting('path-outbound')" class="p-5 theme-inner-card hover:bg-opacity-50 text-left space-y-1 group relative overflow-hidden transition-colors">
+                        <p class="text-base font-semibold group-hover:text-[var(--accent)] transition-colors heading-font">1B — Outbound</p>
+                        <p class="text-sm theme-text-muted">(You Call Them)</p>
+                    </button>
+                </div>
+            </div>
+
+            <div id="path-inbound" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold theme-text-muted uppercase tracking-wider block heading-font">1A — Inbound (They Call You)</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Hey, this is (Agent Name) with Car Accident Payout — how can I assist you today? <br><br>
+                    <span class="theme-highlight font-semibold">Agent:</span> Great! Let's start off with this — can I just confirm the state you're calling from, your first and last name, and your phone number?
+                </p>
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="goToStep(1, 'path-inbound')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">
+                        Collect details, then go to Step 1
+                    </button>
+                </div>
+            </div>
+
+            <div id="path-outbound" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold theme-text-muted uppercase tracking-wider block heading-font">1B — Outbound (You Call Them)</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Hi (Client Name), this is (Your Name) calling from Car Accident Payout — can you hear me okay? <br><br>
+                    <span class="theme-highlight font-semibold">Agent:</span> I'm following up because you recently reached out after a vehicle accident. Is that right?
+                </p>
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="goToStep(1, 'path-outbound')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">
+                        Confirm, then go to Step 1
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-1" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Step 1 — Setting Expectations</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Great! I just have a few short questions to make sure I have all the info I need — then, if you would like, I can get you in contact with a licensed attorney. Does that work for you?
+                </p>
+                <div class="alert-warning-box p-4 rounded-[var(--radius-sm)]">
+                    <p class="text-sm font-medium">🚨 <strong>STOP:</strong> Get a clear YES before continuing. If hesitant or no, end the call politely.</p>
+                </div>
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="goToStep(2, 'step-1')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">
+                        Consent Logged — Proceed to Step 2
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-2" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Step 2 — Location & Accident Timing</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> What state did the accident take place in? <br><br>
+                    <span class="theme-highlight font-semibold">Agent:</span> Do you remember the date the accident happened?<br><br>
+                    <span class="theme-text-muted text-sm">-- Note: If unsure of exact date, ask roughly when (e.g. End of November 2024).</span>
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="goToStep(3, 'step-2')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">
+                        Within SOL
+                    </button>
+                    <button onclick="triggerDispo('step-2')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">
+                        Outside SOL Limit (Dispo)
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-3" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Step 3 — Incident & Case Details</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Can you quickly describe what happened? Did they hit you from the driver side or passenger side? <br><br>
+                    <span class="theme-highlight font-semibold">Agent:</span> Was this your personal car, or did it involve a commercial vehicle?
+                </p>
+                <div class="grid grid-cols-1 gap-3 mt-4">
+                    <button onclick="goToStep(4, 'step-3')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">
+                        Profiling Completed — Move to Step 4
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-4" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Step 4 — Fault</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Who was at fault for the accident?
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="goToStep(5, 'step-4')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">
+                        Other driver at fault
+                    </button>
+                    <button onclick="triggerDispo('step-4')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">
+                        Client admits fault
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-5" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Step 5 — Legal Status</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Are you currently represented by an attorney for this accident?
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="goToStep(6, 'step-5')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">
+                        No current attorney
+                    </button>
+                    <button onclick="triggerDispo('step-5')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">
+                        Represented / Dropped
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-6" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Step 6 — Injuries</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Were you physically injured in the accident?
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="revealFollowUpInjuries()" class="custom-btn-bg theme-btn-success font-semibold shadow-md">
+                        Injury confirmed
+                    </button>
+                    <button onclick="triggerDispo('step-6')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">
+                        No injury reported
+                    </button>
+                </div>
+
+                <div id="injury-followups" class="hidden pt-6 space-y-5 border-t border-opacity-25 border-white">
+                    <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                        <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear that. Can you describe the injuries briefly?
+                    </p>
+                    <button onclick="goToStep(7, 'step-6')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">
+                        Move to Step 7
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-7" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Step 7 — Initial Treatment</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Did you see a doctor, go to urgent care, or visit the ER within 30 days?
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="goToStep(8, 'step-7')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">
+                        Treatment within 30 days
+                    </button>
+                    <button onclick="triggerDispo('step-7')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">
+                        No treatment
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-8" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Step 8 — Ongoing Treatment</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Are you still receiving medical treatment? When is your next appointment?
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="goToStep(9, 'step-8')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">
+                        Active / Documented Gap
+                    </button>
+                    <button onclick="triggerDispo('step-8')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">
+                        Gap > 2 months
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-9" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Step 9 — Police Report</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Was a police report filed?
+                </p>
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="goToStep(10, 'step-9')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">
+                        Log Report Status — Go to Step 10
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-10" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Step 10 — Insurance</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Do you know if the other driver had car insurance? Do you have UM/UIM on yours?
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
+                    <button onclick="goToStep('closing', 'step-10')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">
+                        Valid Ins. / Has UM
+                    </button>
+                    <button onclick="triggerDispo('step-10')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">
+                        Uninsured & No UM
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-closing" class="hidden theme-panel p-6 space-y-5">
+                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Closing & Retainer</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Thank you (sir/ma'am) — I've got everything I need. I'm just going to quickly prepare the agreement...
+                </p>
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="goToStep('warm-transfer', 'step-closing')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-lg">
+                        Retainer Verified — Prepare Handoff
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-warm-transfer" class="hidden theme-panel p-6 space-y-5 border-[var(--accent)] border-opacity-50 relative overflow-hidden">
+                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] relative heading-font">Transfer</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed relative">
+                    <span class="theme-highlight font-semibold">Agent:</span> Thank you so much (Client Name) — let me try to get you connected with the firm now.<br><br>
+                    <strong>If firm picks up:</strong> Hi there, this is (Your Name) with Car Accident Payout. I have (Client Name) on the line — they just signed your retainer. Can you please confirm you received it?<br><br> <strong>Note:</strong> Confirm name, number, and email with the rep.
+                    <br><br><span class="theme-highlight font-semibold">Agent:</span> Thank you so much - have a great day.
+                </p>
+            </div>
+
+            <div id="step-dispo" class="hidden relative theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--danger-bg)]">
+                <button onclick="goBackFromDispo()" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">
+                    ↶ Go Back
+                </button>
+                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--danger-bg)] block pr-24 heading-font">Disposition — Disqualified Lead</span>
+                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                    <span class="theme-highlight font-semibold">Agent:</span> Ok, I understand. Based on what you've shared, this particular program may not be the right fit for you... but that doesn't mean you're without options.<br><br>You're always welcome to get a second opinion elsewhere. Take care.
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        let previousStepId = null; 
+        let activeGreetingPath = null; 
+
+        // REBUTTAL LOGIC
+        const rebuttalsData = {
+            1: "<span class='theme-highlight font-semibold'>Agent:</span> That's a great question — I'm not an attorney and I can't give legal advice, but that's exactly why I'd love to try to connect you with one. I just need a little more information from you first.",
+            2: "<span class='theme-highlight font-semibold'>Agent:</span> That's a fair question, but that's really something only an attorney can answer. Let me keep going — I'm almost done, and then I'll try to get you connected with one right away.",
+            3: "<span class='theme-highlight font-semibold'>Agent:</span> This is ___ with Car Accident Payout. We're not a law firm — we help people get information and, if they choose, connect with independent attorneys.",
+            4: "<span class='theme-highlight font-semibold'>Agent:</span> You submitted a request for information regarding an accident, and I'm following up on that. If you'd prefer not to be contacted, just say the word and I'll remove you immediately.",
+            5: "<span class='theme-highlight font-semibold'>Agent:</span> Completely understandable — you're right to be careful. There's no cost, no commitment, and no pressure. We're a legitimate intake service, and you're fully in control of what happens next.",
+            6: "<span class='theme-highlight font-semibold'>Agent:</span> No, I'm not an attorney. My role is to gather your information and, if you'd like, try to connect you with a licensed attorney.",
+            7: "<span class='theme-highlight font-semibold'>Agent:</span> There's no charge to speak with us. Any fee discussion would be directly between you and the attorney you choose. Attorneys typically work on a contingency basis — you pay nothing unless they win your case.",
+            8: "<span class='theme-highlight font-semibold'>Agent:</span> That's entirely up to you. The attorney will walk you through their process and you can decide from there.",
+            9: "<span class='theme-highlight font-semibold'>Agent:</span> Just a few minutes on my end — then you choose how you want to continue.",
+            10: "<span class='theme-highlight font-semibold'>Agent:</span> Completely fair concern. Both you and the firm have the right to end the agreement at any time — you're not permanently committed. For specific questions about the terms, the attorney will be the best person to walk you through those when you speak with them."
+        };
+
+        function showRebuttal(id) {
+            const container = document.getElementById('rebuttal-display-container');
+            const textBox = document.getElementById('rebuttal-display-text');
+            textBox.innerHTML = rebuttalsData[id];
+            container.classList.remove('hidden');
+        }
+
+        function closeRebuttal() {
+            document.getElementById('rebuttal-display-container').classList.add('hidden');
+        }
+
+        // THEME HANDLING LOADER CONTROLLER
+        function changeActiveTheme(themeName) {
+            document.body.setAttribute('data-theme', themeName);
+            localStorage.setItem('mva-portal-theme', themeName);
+            document.getElementById('global-theme-menu').value = themeName;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('mva-portal-theme') || 'explore';
+            changeActiveTheme(savedTheme);
+        });
+
+        // --- GLOBAL BUS ANIMATION HANDLER ---
+        // Runs at exactly 0.5s (500ms) to match the new faster CSS animation
+        function handleBusAnimation(callback) {
+            if (document.body.getAttribute('data-theme') === 'bus' && window.event) {
+                const clickedButton = window.event.target.closest('button');
+                if (clickedButton && !clickedButton.classList.contains('bus-driving-away')) {
+                    clickedButton.classList.add('bus-driving-away');
+                    
+                    setTimeout(() => {
+                        callback(); 
+                        clickedButton.classList.remove('bus-driving-away'); 
+                    }, 500); // Trigger transition after exactly 0.5 seconds
+                    
+                    return true; 
+                }
+            }
+            return false; 
+        }
+
+        // SCRIPT NAVIGATION
+        function revealGreeting(id) {
+            const action = () => {
+                activeGreetingPath = id; 
+                document.getElementById('call-initiation').classList.add('hidden');
+                document.getElementById('path-inbound').classList.add('hidden');
+                document.getElementById('path-outbound').classList.add('hidden');
+                
+                const selectedElement = document.getElementById(id);
+                selectedElement.classList.remove('hidden');
+                selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            };
+            
+            if (!handleBusAnimation(action)) { action(); }
+        }
+
+        function goToStep(stepNum, currentTrackId) {
+            const action = () => {
+                if (currentTrackId) { previousStepId = currentTrackId; }
+                const stepId = typeof stepNum === 'number' ? 'step-' + stepNum : 'step-' + stepNum;
+                const element = document.getElementById(stepId);
+                
+                if (element) {
+                    element.classList.remove('hidden');
+                    setTimeout(() => { element.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+                }
+            };
+
+            if (!handleBusAnimation(action)) { action(); }
+        }
+
+        function revealFollowUpInjuries() {
+            const action = () => {
+                const el = document.getElementById('injury-followups');
+                el.classList.remove('hidden');
+                setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+            };
+
+            if (!handleBusAnimation(action)) { action(); }
+        }
+
+        function triggerDispo(originStepId) {
+            const action = () => {
+                if (originStepId) { previousStepId = originStepId; }
+                const dispoCard = document.getElementById('step-dispo');
+                dispoCard.classList.remove('hidden');
+                setTimeout(() => { dispoCard.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+            };
+
+            if (!handleBusAnimation(action)) { action(); }
+        }
+
+        function goBackFromDispo() {
+            document.getElementById('step-dispo').classList.add('hidden');
+            if (previousStepId) {
+                const element = document.getElementById(previousStepId);
+                if (element) element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function hideAllSteps() {
+            const steps = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'step-6', 'step-7', 'step-8', 'step-9', 'step-10', 'step-closing', 'step-warm-transfer', 'step-dispo'];
+            steps.forEach(s => {
+                const el = document.getElementById(s);
+                if (el) el.classList.add('hidden');
+            });
+        }
+
+        function resetEntirePortal() {
+            hideAllSteps();
+            previousStepId = null;
+            activeGreetingPath = null;
+            document.getElementById('path-inbound').classList.add('hidden');
+            document.getElementById('path-outbound').classList.add('hidden');
+            document.getElementById('injury-followups').classList.add('hidden');
+            document.getElementById('call-initiation').classList.remove('hidden');
+            closeRebuttal();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

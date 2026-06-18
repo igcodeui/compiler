@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCM MEDICARE RET</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        /* Color palette derived from image_37c0a7.png */
+        :root {
+            --bg-main: #0b111e;
+            --bg-header: #111827;
+            --bg-card: #172033;
+            --bg-hover: #1f2a45;
+            --border-color: #1e293b;
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --pill-blue: #4f46e5;
+            --pill-red: #ef4444;
+            --pill-amber: #f59e0b;
+            --pill-intake: #3b82f6;
+        }
+
+        /* Light Theme variables override */
+        .light-theme {
+            --bg-main: #f1f5f9;
+            --bg-header: #ffffff;
+            --bg-card: #ffffff;
+            --bg-hover: #f8fafc;
+            --border-color: #cbd5e1;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 3rem;
+            transition: background-color 0.2s ease;
+        }
+
+        /* Top Bar Layout */
+        .top-navbar {
+            background-color: var(--bg-header);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.85rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .intake-badge {
+            background-color: var(--pill-blue);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .engine-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .controls-group {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .theme-select {
+            background-color: #1e293b;
+            color: white;
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .btn-reset {
+            background-color: #334155;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .btn-reset:hover {
+            background-color: #475569;
+        }
+
+        /* Main Workspace Container */
+        .workspace {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Rebuttals Block styling */
+        .rebuttals-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--pill-intake);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .rebuttals-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .btn-pill {
+            border: none;
+            color: white;
+            padding: 0.45rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.1s ease, filter 0.2s ease;
+        }
+
+        .btn-pill:hover {
+            filter: brightness(1.15);
+        }
+
+        .btn-pill:active {
+            transform: scale(0.97);
+        }
+
+        .pill-indigo { background-color: #5850ec; }
+        .pill-danger { background-color: var(--pill-red); }
+
+        /* Dynamic Popup Tooltip for Rebuttals */
+        .rebuttal-display-box {
+            background-color: #1e293b;
+            border-left: 4px solid var(--pill-blue);
+            padding: 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            display: none;
+        }
+
+        /* Compliance Card Panel */
+        .compliance-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .compliance-icon {
+            background-color: #232d42;
+            padding: 0.6rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--pill-amber);
+        }
+
+        .compliance-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .highlight-amber {
+            color: var(--pill-amber);
+            font-weight: 700;
+        }
+
+        /* Main Dialogue Flows Section */
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .flow-header {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .flow-split-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .script-pane-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .pane-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .pane-body {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .pane-body p {
+            margin-bottom: 1rem;
+        }
+        .pane-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Client Variable Tokens */
+        .token {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            font-weight: 600;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        /* Question Toggles Style */
+        .interactive-question-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+            background-color: #0f172a;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .question-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .question-label {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .decision-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-choice {
+            background-color: #1e293b;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-choice.selected-pass {
+            background-color: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .btn-choice.selected-fail {
+            background-color: var(--pill-red);
+            color: white;
+            border-color: var(--pill-red);
+        }
+
+        /* Call Status Banners */
+        .status-banner {
+            padding: 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .status-disqualified {
+            background-color: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--pill-red);
+            color: #fca5a5;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Block matching image_37c0a7.png -->
+    <div class="top-navbar">
+        <div class="brand-group">
+            <span class="intake-badge">CCM</span>
+            <h1 class="engine-title">CCM MED RET</h1>
+        </div>
+        <div class="controls-group">
+            <div>
+                Choose Your Theme: 
+                <select class="theme-select" id="themeSelector" onchange="toggleTheme()">
+                    <option value="dark">Dark Theme</option>
+                    <option value="light">Light Theme</option>
+                </select>
+            </div>
+            <button class="btn-reset" onclick="resetForm()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                Reset Flow
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Workspace Container -->
+    <div class="workspace">
+        
+        <!-- Rebuttals Framework 
+        <div class="rebuttals-section">
+            <div class="section-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM12 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm1 10h-2v-6h2v6z"/></svg>
+                Quick Rebuttals
+            </div>
+            <div class="rebuttals-grid">
+                <button class="btn-pill pill-indigo" onclick="showRebuttal('ahs')">Who is AHS?</button>
+                <button class="btn-pill pill-indigo" onclick="showRebuttal('why')">Why am I flagged?</button>
+                <button class="btn-pill pill-indigo" onclick="showRebuttal('decision')">Why must I make my own decisions?</button>
+                <button class="btn-pill pill-danger" onclick="showRebuttal('scam')">Is this a scam?</button>
+                <button class="btn-pill pill-danger" onclick="showRebuttal('remove')">Remove me from your list</button>
+            </div>
+            <div class="rebuttal-display-box" id="rebuttalBox"></div>
+        </div>
+-->
+        <!-- Compliance Banner Panel Layout matching image_37c0a7.png -->
+        <div class="compliance-card">
+            <div class="compliance-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="compliance-text">
+                <p><span class="highlight-amber">Compliance Reminder:</span> You are verifying state-managed registration data. Do not declare specific plan adjustments or guarantee pricing changes before connecting with a licensed benefits specialist.</p>
+                <p style="margin-top: 0.4rem;"><span class="highlight-amber">Notes:</span> Capture full confirmations. Do not guess misspelled responses for DOB and ZIP code fields.</p>
+            </div>
+        </div>
+
+        <!-- Flow Logic Segment -->
+        <div class="flow-container">
+            <div class="flow-header">Introduction — Identify and Validate</div>
+            
+            <div class="flow-split-row">
+                <!-- Greeting Card Split -->
+                <div class="script-pane-card">
+                    <div class="pane-title">1A — Greet Client</div>
+                    <div class="pane-body">
+                        <p>"Hi, is this <span class="token">[client first name]</span>?"</p>
+                    </div>
+                </div>
+
+                <!-- Explanation Loop Card Split -->
+                <div class="script-pane-card">
+                    <div class="pane-title">1B — Pitch Statement</div>
+                    <div class="pane-body">
+                        <p>"Hi <span class="token">[client first name]</span>, this is <span class="token">------</span> with AHS. I'm calling regarding an update that was flagged on your benefits since your enrollment. We need to complete a review to ensure you remain eligible and continue receiving your benefits without interruption."</p>
+                        <p style="color: var(--pill-amber); font-weight: 500;">"Before I proceed, can you confirm your DOB and zip code?"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Post Verification Segment -->
+        <div class="flow-container">
+            <div class="flow-header">Verification & Qualification Stack</div>
+            <div class="script-pane-card">
+                <div class="pane-title">2A — Benefit Review Disclaimer</div>
+                <div class="pane-body">
+                    <p>"Thank you! Because of the change noted on your file, we need to review your benefits to make sure everything is accurate and that nothing affects your coverage or eligibility."</p>
+                    <p>"Before we continue..."</p>
+                    
+                    <!-- Qualification Interactive Matrix Toggle Elements -->
+                    <div class="interactive-question-box">
+                        <div class="question-item">
+                            <span class="question-label">1. "Do you make your own health care decisions?" (Must be YES)</span>
+                            <div class="decision-buttons">
+                                <button class="btn-choice" id="q1Yes" onclick="submitQ1(true)">YES</button>
+                                <button class="btn-choice" id="q1No" onclick="submitQ1(false)">NO</button>
+                            </div>
+                        </div>
+
+                        <div class="question-item hidden" id="q2Row">
+                            <span class="question-label">2. "Do you live in a nursing home or assisted living facility?" (Must be NO)</span>
+                            <div class="decision-buttons">
+                                <button class="btn-choice" id="q2Yes" onclick="submitQ2(true)">YES</button>
+                                <button class="btn-choice" id="q2No" onclick="submitQ2(false)">NO</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reactive Conditional Outcomes Display Blocks -->
+                    <div class="status-banner status-disqualified" id="bannerDisqualified">
+                        🛑 Disqualified Profile: Politely end the review conversation. Disconnect call flow.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Safe Hot Transfer State Layout Area -->
+        <div class="flow-container hidden" id="transferSection">
+            <div class="flow-header">Transition — Live Transfer Module</div>
+            
+            <div class="flow-split-row">
+                <div class="script-pane-card" style="border-color: #10b981;">
+                    <div class="pane-title" style="color: #10b981;">3A — Client Hand-off Announcement</div>
+                    <div class="pane-body">
+                        <p>"I'm going to bring a licensed agent on the line now so we can get this taken care of for you. Please stay with me while I connect you."</p>
+                    </div>
+                </div>
+
+                <div class="script-pane-card" style="border-color: #3b82f6; background-color: rgba(59,130,246,0.02)">
+                    <div class="pane-title" style="color: #60a5fa;">3B — Receiving Agent Statement <span style="font-size:0.75rem; font-weight:normal; opacity:0.7;">(Client Not On Line)</span></div>
+                    <div class="pane-body" style="font-style: italic; color: #94a3b8;">
+                        <p>"I have <span class="token">[client first name]</span> <span class="token">[Last name]</span> on the line. DOB and ZIP are verified. Calling to complete the eligibility and benefits continuation review due to a recent update on file."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Application Script Controls logic engine -->
+    <script>
+        const rebuttalData = {
+            ahs: "AHS stands for Advanced Healthcare Solutions. We assist program enrollments to ensure eligibility files stay accurate with current municipal updates.",
+            why: "Every registration cycle triggers regular compliance cross-checks. We observed an active marker requiring record checks to avoid processing gaps.",
+            decision: "For security metrics, the licensed verification desk requires clear self-authorized consent inputs directly from the direct account stakeholder.",
+            scam: "We are validated processors updating active state profiles. You can verify our agency configuration status anytime via our compliance tracking line.",
+            remove: "Understood. Let me stamp your direct line item immediately inside our internal registry status engine to stop outbound dial flows."
+        };
+
+        let answers = { q1: null, q2: null };
+
+        function showRebuttal(key) {
+            const box = document.getElementById('rebuttalBox');
+            box.style.display = 'block';
+            box.innerHTML = `<strong>Rebuttal Response Guide:</strong> ${rebuttalData[key]}`;
+        }
+
+        function submitQ1(isYes) {
+            answers.q1 = isYes;
+            document.getElementById('q1Yes').className = `btn-choice ${isYes ? 'selected-pass' : ''}`;
+            document.getElementById('q1No').className = `btn-choice ${!isYes ? 'selected-fail' : ''}`;
+            
+            const q2Row = document.getElementById('q2Row');
+            const dqBanner = document.getElementById('bannerDisqualified');
+            const txSection = document.getElementById('transferSection');
+
+            if (isYes) {
+                q2Row.classList.remove('hidden');
+                dqBanner.style.display = 'none';
+                if(answers.q2 !== null) submitQ2(answers.q2);
+            } else {
+                q2Row.classList.add('hidden');
+                txSection.classList.add('hidden');
+                dqBanner.style.display = 'block';
+            }
+        }
+
+        function submitQ2(isYes) {
+            answers.q2 = isYes;
+            document.getElementById('q2Yes').className = `btn-choice ${isYes ? 'selected-fail' : ''}`;
+            document.getElementById('q2No').className = `btn-choice ${!isYes ? 'selected-pass' : ''}`;
+
+            const dqBanner = document.getElementById('bannerDisqualified');
+            const txSection = document.getElementById('transferSection');
+
+            if (!isYes) { // Answered NO (Valid criteria path)
+                dqBanner.style.display = 'none';
+                txSection.classList.remove('hidden');
+                setTimeout(() => { txSection.scrollIntoView({ behavior: 'smooth' }); }, 100);
+            } else {
+                txSection.classList.add('hidden');
+                dqBanner.style.display = 'block';
+            }
+        }
+
+        function toggleTheme() {
+            const theme = document.getElementById('themeSelector').value;
+            if(theme === 'light') {
+                document.body.classList.add('light-theme');
+            } else {
+                document.body.classList.remove('light-theme');
+            }
+        }
+
+        function resetForm() {
+            answers = { q1: null, q2: null };
+            
+            document.getElementById('q1Yes').className = 'btn-choice';
+            document.getElementById('q1No').className = 'btn-choice';
+            document.getElementById('q2Yes').className = 'btn-choice';
+            document.getElementById('q2No').className = 'btn-choice';
+            
+            document.getElementById('q2Row').classList.add('hidden');
+            document.getElementById('transferSection').classList.add('hidden');
+            document.getElementById('bannerDisqualified').style.display = 'none';
+            document.getElementById('rebuttalBox').style.display = 'none';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

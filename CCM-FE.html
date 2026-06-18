@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FE Interactive Script 🌸</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc; /* Slate 50 */
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+            border: 2px solid #1e293b;
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-slate-800/80 backdrop-blur-md border-b border-pink-400/30 shadow-lg sticky top-0 z-50">
+        <div class="max-w-[1600px] w-full mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-pink-400 text-slate-900 font-bold p-2.5 rounded-2xl text-xs tracking-wider shadow-[0_0_15px_rgba(244,114,182,0.4)]">🌸 SCRIPT</div>
+                <h1 class="text-xl font-bold tracking-tight text-white hidden sm:block">Final Expense Call Flow</h1>
+            </div>
+            <button onclick="resetEntirePortal()" class="bg-slate-700 hover:bg-slate-600 text-pink-300 font-bold py-2 px-4 rounded-xl text-xs tracking-wide transition-all shadow-md flex items-center gap-2 border border-pink-400/20">
+                ⟲ Start Over
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-[1600px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 xl:grid-cols-12 gap-6 pb-20">
+        
+        <div class="xl:col-span-7 space-y-8">
+            
+            <div id="step-1" class="bg-slate-800 border-2 border-pink-400/20 rounded-3xl p-6 md:p-8 shadow-xl space-y-5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 1</div>
+                
+                <h2 class="text-sm font-bold uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                    ✨ The Pattern-Interrupter Opening
+                </h2>
+                
+                <div class="space-y-4 text-sm leading-relaxed">
+                    <p class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/50 text-slate-200">
+                        <span class="text-pink-300 font-semibold">Agent:</span> Hi, is this <span class="text-white font-bold border-b border-dashed border-pink-400/50">(Customer Name)</span>?
+                    </p>
+                    <p class="bg-slate-700/30 p-4 rounded-2xl border border-slate-600/30 text-slate-300 italic">
+                        <span class="text-slate-400 font-semibold not-italic">Prospect:</span> Yes, who is this?
+                    </p>
+                    <p class="bg-slate-900/80 p-4 rounded-2xl border-l-4 border-l-pink-400 border-t border-r border-b border-slate-700/50 text-slate-200">
+                        <span class="text-pink-300 font-semibold">Agent:</span> Hi <span class="text-white font-bold">(Customer Name)</span>, this is <span class="text-pink-300 border-b border-dashed border-pink-400/50">(Your Name)</span>. I'm calling because I have an alert here, in regards to your Life insurance policy.
+                    </p>
+                    
+                    <div class="bg-rose-500/10 border border-rose-400/30 p-4 rounded-2xl text-center">
+                        <span class="text-rose-300 font-bold text-xs uppercase tracking-widest block mb-1">🛑 CRITICAL PAUSE</span>
+                        <span class="text-slate-300 text-xs">Stop talking completely for 1 to 2 seconds. Let the word "alert" sink in. Then say:</span>
+                    </div>
+
+                    <p class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/50 text-slate-200">
+                        <span class="text-pink-300 font-semibold">Agent:</span> ...Are you there?
+                    </p>
+                </div>
+
+                <button onclick="revealSection('step-2')" class="w-full bg-pink-500 hover:bg-pink-400 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(244,114,182,0.3)] text-sm flex justify-center items-center gap-2 mt-4">
+                    Next: The Fork in the Road ➔
+                </button>
+            </div>
+
+            <div id="step-2" class="hidden animate-fadeIn bg-slate-800 border-2 border-purple-400/20 rounded-3xl p-6 md:p-8 shadow-xl space-y-5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-purple-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 2</div>
+                
+                <h2 class="text-sm font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+                    🔀 The Fork in the Road
+                </h2>
+
+                <p class="text-xs text-slate-400 mb-2">How did the prospect respond to the opening?</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button onclick="toggleTrack('A')" id="btn-track-a" class="bg-slate-700/50 hover:bg-slate-600 border border-slate-600 text-slate-200 font-bold py-4 px-4 rounded-2xl text-xs transition-all flex flex-col items-center text-center gap-2">
+                        <span class="text-lg">🤷‍♀️</span>
+                        <span>"I don't have a policy!"<br><span class="font-normal text-[10px] text-slate-400">or "My life insurance is fine!"</span></span>
+                    </button>
+                    <button onclick="toggleTrack('B')" id="btn-track-b" class="bg-slate-700/50 hover:bg-slate-600 border border-slate-600 text-slate-200 font-bold py-4 px-4 rounded-2xl text-xs transition-all flex flex-col items-center text-center gap-2">
+                        <span class="text-lg">🛡️</span>
+                        <span>"I already have a policy"<br><span class="font-normal text-[10px] text-slate-400">or "I'm covered."</span></span>
+                    </button>
+                </div>
+
+                <div id="track-a-content" class="hidden bg-slate-900/60 p-5 rounded-2xl border border-purple-400/40 space-y-4 animate-fadeIn mt-4">
+                    <span class="text-xs font-bold text-purple-300 uppercase tracking-wider block bg-purple-500/20 w-max px-3 py-1 rounded-lg">Track A: No Policy / Fine</span>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        <span class="text-purple-300 font-semibold">Agent:</span> Exactly, <span class="text-white font-bold">(Customer Name)</span>, and that’s why it flagged an alert. Our system shows you don't have any life insurance active right now to back up your health coverage. Let’s just check your request real quick:
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-300 pl-4 border-l-2 border-purple-400/30">
+                        <li>• Were you just looking to make sure your kids aren't stuck paying for a $10,000 funeral out of pocket?</li>
+                        <li>• If something happened tomorrow, would they have to pay for it out of their own savings?</li>
+                        <li>• To see what plans you qualify for when you clicked the link, you're still located in <span class="text-white font-semibold border-b border-dashed border-purple-400/50">(State)</span>, correct?</li>
+                        <li>• And you are managing to take care of yourself at home right now, no nursing home care?</li>
+                    </ul>
+                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                        <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest block mb-1">🌉 The Responsibility Bridge</span>
+                        <p class="text-sm text-slate-200">Got it. Now, when you looked this up online, it asked who you wanted to protect. If something happened unexpectedly...</p>
+                    </div>
+                </div>
+
+                <div id="track-b-content" class="hidden bg-slate-900/60 p-5 rounded-2xl border border-indigo-400/40 space-y-4 animate-fadeIn mt-4">
+                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider block bg-indigo-500/20 w-max px-3 py-1 rounded-lg">Track B: Already Covered</span>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        <span class="text-indigo-300 font-semibold">Agent:</span> Got it, and that explains the alert. The system flagged it to make sure your current policy actually covers a modern funeral, since inflation has made a lot of older plans too small. Let's look at your request:
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-300 pl-4 border-l-2 border-indigo-400/30">
+                        <li>• Is your current policy enough to cover a $10,000 funeral today, or did you want a little extra cushion so your family isn't short?</li>
+                        <li>• Is your plan a permanent whole life policy, or is it a term plan that expires when you get older?</li>
+                        <li>• Does your payment stay exactly the same forever, or does the price go up?</li>
+                    </ul>
+                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                        <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest block mb-1">🌉 The Responsibility Bridge</span>
+                        <p class="text-sm text-slate-200">Perfect. Since you already have a plan, you know how this works. If something happened unexpectedly...</p>
+                    </div>
+                </div>
+
+                <button onclick="revealSection('step-3')" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] text-sm flex justify-center items-center gap-2 mt-4">
+                    Next: Discovery & Tie-Down ➔
+                </button>
+            </div>
+
+            <div id="step-3" class="hidden animate-fadeIn bg-slate-800 border-2 border-sky-400/20 rounded-3xl p-6 md:p-8 shadow-xl space-y-5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-sky-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 3</div>
+                
+                <h2 class="text-sm font-bold uppercase tracking-wider text-sky-400 flex items-center gap-2">
+                    🔍 Discovery & Emotional Tie-Down
+                </h2>
+
+                <div class="space-y-4 text-sm leading-relaxed">
+                    <p class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/50 text-slate-200">
+                        <span class="text-sky-300 font-semibold">Agent:</span> ...Who would be the one handling things for you? Your <span class="text-sky-300 border-b border-dashed border-sky-400/50">(Son/Daughter/Spouse)</span>?
+                    </p>
+                    
+                    <p class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/50 text-slate-200">
+                        Have you talked to them about it, or would they be figuring it out on the fly?
+                    </p>
+
+                    <div class="bg-sky-900/20 border-l-4 border-sky-400 p-5 rounded-r-2xl mt-2">
+                        <p class="text-slate-200 font-medium">
+                            Look, that’s exactly why we’re fixing this alert. When someone passes, the funeral home demands money immediately. If there's no plan, your family has to make heavy emotional choices while scrambling for cash. Since you want <span class="text-white font-bold border-b border-dashed border-slate-500 px-1">(Beneficiary Name)</span> handling things, would you rather leave them a solid plan, or leave them stuck with the bill?
+                        </p>
+                    </div>
+                </div>
+
+                <button onclick="revealSection('step-4')" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(14,165,233,0.3)] text-sm flex justify-center items-center gap-2">
+                    Next: Health Qualification ➔
+                </button>
+            </div>
+
+            <div id="step-4" class="hidden animate-fadeIn bg-slate-800 border-2 border-emerald-400/20 rounded-3xl p-6 md:p-8 shadow-xl space-y-5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 4</div>
+                
+                <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+                    🩺 Health Qualification
+                </h2>
+
+                <p class="text-sm text-slate-200 bg-slate-900/80 p-4 rounded-2xl border border-slate-700/50">
+                    <span class="text-emerald-300 font-semibold">Agent:</span> Now I am going to ask a few health questions so I can see which companies would approve you and which one gives you the best rate.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                    <div class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-center gap-3">
+                        <span class="text-emerald-400 text-lg">🚬</span> Do you currently use tobacco or nicotine?
+                    </div>
+                    <div class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-center gap-3">
+                        <span class="text-emerald-400 text-lg">⚖️</span> What is your height and weight?
+                    </div>
+                    <div class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-center gap-3 md:col-span-2">
+                        <span class="text-emerald-400 text-lg">❤️</span> Any heart attack, stroke, cancer, COPD, diabetes, oxygen use, kidney issues, or hospital stays recently?
+                    </div>
+                    <div class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-center gap-3">
+                        <span class="text-emerald-400 text-lg">💊</span> Any medications you take regularly?
+                    </div>
+                    <div class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-center gap-3">
+                        <span class="text-emerald-400 text-lg">🏥</span> Any home health care, nursing home care, or mobility assistance?
+                    </div>
+                    <div class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-center gap-3 md:col-span-2">
+                        <span class="text-emerald-400 text-lg">🩺</span> Any recent surgeries, pending tests, or upcoming procedures?
+                    </div>
+                </div>
+
+                <button onclick="revealSection('step-5')" class="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] text-sm flex justify-center items-center gap-2">
+                    Next: Present Three Options ➔
+                </button>
+            </div>
+
+            <div id="step-5" class="hidden animate-fadeIn bg-slate-800 border-2 border-amber-400/20 rounded-3xl p-6 md:p-8 shadow-xl space-y-5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-amber-500 text-slate-900 text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 5</div>
+                
+                <h2 class="text-sm font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                    📊 Present Three Options
+                </h2>
+
+                <p class="text-sm text-slate-200 mb-2">
+                    <span class="text-amber-300 font-semibold">Agent:</span> Based on your age and health, here are the three options that make the most sense:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-4 flex flex-col gap-2 relative">
+                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Basic Option</div>
+                        <div class="text-xl font-bold text-white">$5,000</div>
+                        <div class="text-amber-300 text-sm font-mono bg-amber-500/10 w-max px-2 py-0.5 rounded border border-amber-500/30">$____ / mo</div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed mt-2">Helps with immediate costs, but may not cover everything.</p>
+                    </div>
+                    
+                    <div class="bg-slate-800 border-2 border-amber-400 rounded-2xl p-4 flex flex-col gap-2 relative shadow-[0_0_15px_rgba(251,191,36,0.15)] transform md:-translate-y-2">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-slate-900 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest whitespace-nowrap">Most Common</div>
+                        <div class="text-[10px] font-bold text-amber-200 uppercase tracking-wider mt-1">Standard Option</div>
+                        <div class="text-2xl font-bold text-white">$10,000</div>
+                        <div class="text-amber-300 text-sm font-mono bg-amber-500/20 w-max px-2 py-0.5 rounded border border-amber-400/50">$____ / mo</div>
+                        <p class="text-[11px] text-slate-300 leading-relaxed mt-2">Best balance of protection and affordability for most families.</p>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-4 flex flex-col gap-2 relative">
+                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Stronger Protection</div>
+                        <div class="text-xl font-bold text-white">$15,000</div>
+                        <div class="text-amber-300 text-sm font-mono bg-amber-500/10 w-max px-2 py-0.5 rounded border border-amber-500/30">$____ / mo</div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed mt-2">More breathing room for funeral costs, final bills, and family support.</p>
+                    </div>
+                </div>
+
+                <div class="bg-amber-900/20 border-l-4 border-amber-400 p-4 rounded-r-2xl mt-4">
+                    <p class="text-sm text-slate-200">
+                        <span class="text-amber-300 font-semibold">Agent:</span> Most families choose the middle option because it gives solid protection without overdoing the monthly payment. Would the $10,000 option be comfortable for you, or do you want to keep it closer to the basic option?
+                    </p>
+                </div>
+
+                <button onclick="revealSection('step-6')" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(251,191,36,0.3)] text-sm flex justify-center items-center gap-2">
+                    Next: Assumptive Close ➔
+                </button>
+            </div>
+
+            <div id="step-6" class="hidden animate-fadeIn bg-slate-800 border-2 border-rose-400/20 rounded-3xl p-6 md:p-8 shadow-xl space-y-5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-rose-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 6</div>
+                
+                <h2 class="text-sm font-bold uppercase tracking-wider text-rose-400 flex items-center gap-2">
+                    📝 Assumptive Close Into Application
+                </h2>
+
+                <p class="text-sm text-slate-200 bg-slate-900/80 p-4 rounded-2xl border border-slate-700/50 leading-relaxed">
+                    <span class="text-rose-300 font-semibold">Agent:</span> Good choice. That gives your family real protection without making the payment uncomfortable. Let us get the application started and see if we can get you approved today. I will walk you through it. It is simple. To confirm approval, underwriting just needs the basic application details:
+                </p>
+
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                    <li class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-start gap-2">
+                        <span class="text-rose-400 mt-0.5">🔹</span> First, I need your full legal name exactly as it appears on your ID.
+                    </li>
+                    <li class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-start gap-2">
+                        <span class="text-rose-400 mt-0.5">🔹</span> What is your date of birth?
+                    </li>
+                    <li class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-start gap-2">
+                        <span class="text-rose-400 mt-0.5">🔹</span> What is your current mailing address?
+                    </li>
+                    <li class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-start gap-2">
+                        <span class="text-rose-400 mt-0.5">🔹</span> Who would you want listed as the beneficiary? What is their relationship to you?
+                    </li>
+                    <li class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-start gap-2">
+                        <span class="text-rose-400 mt-0.5">🔹</span> What is the best phone number for you?
+                    </li>
+                    <li class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/50 text-xs text-slate-300 flex items-start gap-2">
+                        <span class="text-rose-400 mt-0.5">🔹</span> For the payment draft, what day of the month is usually best? Most people choose the day after they receive Social Security or their monthly income.
+                    </li>
+                </ul>
+
+                <button onclick="revealSection('step-7')" class="w-full bg-rose-500 hover:bg-rose-400 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(244,63,94,0.3)] text-sm flex justify-center items-center gap-2">
+                    Next: Final Confirmation ➔
+                </button>
+            </div>
+
+            <div id="step-7" class="hidden animate-fadeIn grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="bg-slate-800 border-2 border-indigo-400/40 rounded-3xl p-6 shadow-xl space-y-4 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Final Step</div>
+                    
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-2">
+                        ✅ Final Confirmation
+                    </h2>
+
+                    <p class="text-sm text-slate-200 bg-slate-900 p-5 rounded-2xl border border-slate-700 leading-relaxed shadow-inner">
+                        <span class="text-indigo-300 font-semibold">Agent:</span> So just to confirm, the goal here is to make sure <span class="text-white font-bold border-b border-dashed border-slate-500 px-1">(Beneficiary)</span> is not left trying to come up with money at the worst possible time. We are going with the <span class="text-indigo-300 font-mono font-bold">$________</span> coverage at <span class="text-indigo-300 font-mono font-bold">$________</span> per month. The rate is designed to stay level, the coverage does not decrease, and as long as the premium is paid, this stays in place for your family. Let us finish the application and get the approval confirmed.
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-6 shadow-xl flex flex-col">
+                    <div class="flex items-center gap-3 mb-4 border-b border-slate-700 pb-3">
+                        <div class="w-10 h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center text-lg shadow-inner">
+                            👤
+                        </div>
+                        <div>
+                            <h3 class="text-white font-bold text-sm">(First Name) (Last Name)</h3>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-widest">Active Lead</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 text-xs flex-1">
+                        <div class="flex justify-between items-center bg-slate-800/50 p-2 rounded-lg border border-slate-700/50">
+                            <span class="text-slate-400 font-medium">State</span>
+                            <span class="text-white font-bold bg-slate-700 px-2 py-0.5 rounded">(State)</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-800/50 p-2 rounded-lg border border-slate-700/50">
+                            <span class="text-slate-400 font-medium">Zip Code</span>
+                            <span class="text-white font-mono">(Zip Code)</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-800/50 p-2 rounded-lg border border-slate-700/50">
+                            <span class="text-slate-400 font-medium">Country</span>
+                            <span class="text-white">US</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-slate-700 flex gap-2">
+                        <button class="flex-1 bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold py-2 rounded-xl transition-colors border border-slate-600">
+                            🏷️ Tags
+                        </button>
+                        <button class="flex-1 bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 text-xs font-bold py-2 rounded-xl transition-colors border border-pink-500/30">
+                            📝 Note
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="hidden xl:block xl:col-span-5 bg-slate-800/80 backdrop-blur-md border border-pink-400/20 rounded-3xl p-5 shadow-xl sticky top-24 max-h-[85vh] overflow-y-auto custom-scrollbar space-y-5">
+            
+            <div class="border-b border-slate-700 pb-3 flex items-center gap-2">
+                <span class="text-xl">🚀</span>
+                <h2 class="font-bold text-white tracking-wide text-sm uppercase">Live Agent Assistance</h2>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 items-start">
+                
+                <div class="space-y-3">
+                    <span class="font-bold text-amber-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">⭐ FE Positioning</span>
+                    <div class="space-y-2 text-[11px] text-slate-300">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“The biggest mistake most families make is waiting until health changes or rates increase.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“Final expense coverage is designed to protect your loved ones from financial stress during an already difficult time.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“Most people aren’t looking for millions of dollars — they just want dignity, peace of mind, and to make sure their family is okay.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“Even a small policy can make a huge difference for a family.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“The goal is protection that actually fits your budget long term.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“A policy only works if it stays affordable.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“We shop multiple companies because no one carrier is best for everyone.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“A lot of people are surprised they qualify for more than they expected.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“The licensed specialist’s job is to help you understand your options — not pressure you.”</div>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <span class="font-bold text-rose-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">🛡️ Rebuttals</span>
+                    <div class="space-y-2 text-[11px] text-slate-300">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
+                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If skeptical:</span>
+                            <p class="italic text-slate-200">“That’s fair — this is exactly why we review everything carefully before recommending anything.”</p>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
+                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If worried about cost:</span>
+                            <p class="italic text-slate-200">“We’re not trying to create another bill — the goal is to find something comfortable and sustainable.”</p>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
+                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If “I already talked to someone”:</span>
+                            <p class="italic text-slate-200">“Absolutely, and this is simply a second review to make sure nothing was missed and that you’re getting the best value available.”</p>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
+                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If “I need to think about it”:</span>
+                            <p class="italic text-slate-200">“Of course — most people do. That’s why we at least make sure you have accurate information and real numbers first.”</p>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
+                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If older lead:</span>
+                            <p class="italic text-slate-200">“A lot of people requested information months ago and life just got busy. We’re simply following up to see what still makes sense for you today.”</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <div class="fixed bottom-6 right-6 z-50 xl:hidden">
+        <button onclick="toggleStatementsModal(true)" class="bg-pink-500 hover:bg-pink-400 text-white font-bold py-3 px-5 rounded-full shadow-[0_0_20px_rgba(244,114,182,0.4)] text-xs tracking-wider uppercase transition-all flex items-center gap-2 border border-pink-300">
+            📋 View Rebuttals
+        </button>
+    </div>
+
+    <div id="statements-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border-2 border-pink-400/30 w-full max-w-[800px] max-h-[85vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+            
+            <div class="bg-slate-900 px-6 py-4 border-b border-slate-700 flex justify-between items-center">
+                <h3 class="text-white font-bold text-sm uppercase tracking-wide flex items-center gap-2">🚀 Live Agent Assistance</h3>
+                <button onclick="toggleStatementsModal(false)" class="bg-slate-800 hover:bg-rose-500 text-slate-300 hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold uppercase transition-colors border border-slate-600">✕ Close</button>
+            </div>
+
+            <div class="p-6 overflow-y-auto custom-scrollbar">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    
+                    <div class="space-y-3">
+                        <span class="font-bold text-amber-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">⭐ FE Positioning</span>
+                        <div class="space-y-2 text-xs text-slate-300">
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“The biggest mistake most families make is waiting until health changes or rates increase.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“Final expense coverage is designed to protect your loved ones from financial stress during an already difficult time.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“Most people aren’t looking for millions of dollars — they just want dignity, peace of mind, and to make sure their family is okay.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“Even a small policy can make a huge difference for a family.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“The goal is protection that actually fits your budget long term.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“A policy only works if it stays affordable.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“We shop multiple companies because no one carrier is best for everyone.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“A lot of people are surprised they qualify for more than they expected.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“The licensed specialist’s job is to help you understand your options — not pressure you.”</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <span class="font-bold text-rose-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">🛡️ Rebuttals</span>
+                        <div class="space-y-2 text-xs text-slate-300">
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
+                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If skeptical:</span>
+                                <p class="italic text-slate-200">“That’s fair — this is exactly why we review everything carefully before recommending anything.”</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
+                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If worried about cost:</span>
+                                <p class="italic text-slate-200">“We’re not trying to create another bill — the goal is to find something comfortable and sustainable.”</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
+                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If “I already talked to someone”:</span>
+                                <p class="italic text-slate-200">“Absolutely, and this is simply a second review to make sure nothing was missed and that you’re getting the best value available.”</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
+                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If “I need to think about it”:</span>
+                                <p class="italic text-slate-200">“Of course — most people do. That’s why we at least make sure you have accurate information and real numbers first.”</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
+                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If older lead:</span>
+                                <p class="italic text-slate-200">“A lot of people requested information months ago and life just got busy. We’re simply following up to see what still makes sense for you today.”</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function revealSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.remove('hidden');
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 50);
+            }
+        }
+
+        function toggleTrack(track) {
+            const trackA = document.getElementById('track-a-content');
+            const trackB = document.getElementById('track-b-content');
+            const btnA = document.getElementById('btn-track-a');
+            const btnB = document.getElementById('btn-track-b');
+
+            if (track === 'A') {
+                trackA.classList.remove('hidden');
+                trackB.classList.add('hidden');
+                
+                // Active State for A
+                btnA.className = "bg-purple-600 border-2 border-purple-400 text-white font-bold py-4 px-4 rounded-2xl text-xs transition-all flex flex-col items-center text-center gap-2 shadow-[0_0_15px_rgba(168,85,247,0.4)] scale-105";
+                btnB.className = "bg-slate-800 border border-slate-700 text-slate-400 font-bold py-4 px-4 rounded-2xl text-xs transition-all flex flex-col items-center text-center gap-2 opacity-50";
+            } else {
+                trackB.classList.remove('hidden');
+                trackA.classList.add('hidden');
+                
+                // Active State for B
+                btnB.className = "bg-indigo-600 border-2 border-indigo-400 text-white font-bold py-4 px-4 rounded-2xl text-xs transition-all flex flex-col items-center text-center gap-2 shadow-[0_0_15px_rgba(99,102,241,0.4)] scale-105";
+                btnA.className = "bg-slate-800 border border-slate-700 text-slate-400 font-bold py-4 px-4 rounded-2xl text-xs transition-all flex flex-col items-center text-center gap-2 opacity-50";
+            }
+        }
+
+        function toggleStatementsModal(shouldShow) {
+            const modal = document.getElementById('statements-modal');
+            if (shouldShow) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function resetEntirePortal() {
+            const sections = ['step-2', 'step-3', 'step-4', 'step-5', 'step-6', 'step-7'];
+            sections.forEach(id => document.getElementById(id).classList.add('hidden'));
+            
+            // Reset Track choices
+            document.getElementById('track-a-content').classList.add('hidden');
+            document.getElementById('track-b-content').classList.add('hidden');
+            
+            const btnClassReset = "bg-slate-700/50 hover:bg-slate-600 border border-slate-600 text-slate-200 font-bold py-4 px-4 rounded-2xl text-xs transition-all flex flex-col items-center text-center gap-2";
+            document.getElementById('btn-track-a').className = btnClassReset;
+            document.getElementById('btn-track-b').className = btnClassReset;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

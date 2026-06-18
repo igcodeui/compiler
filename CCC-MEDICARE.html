@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCM Benefits Review Script 🌸</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc; /* Slate 50 */
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+            border: 2px solid #1e293b;
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-sm font-semibold selection:bg-pink-500 selection:text-slate-900">
+
+    <header class="bg-slate-800/80 backdrop-blur-md border-b border-pink-400/30 shadow-lg sticky top-0 z-50">
+        <div class="max-w-[1600px] w-full mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-pink-400 text-slate-900 font-extrabold p-2.5 rounded-2xl text-xs tracking-wider shadow-[0_0_15px_rgba(244,114,182,0.4)]">🌸 CCM SCRIPT</div>
+                <h1 class="text-xl font-extrabold tracking-tight text-white hidden sm:block">Outbound Benefits Review (AHS)</h1>
+            </div>
+            <button onclick="resetEntirePortal()" class="bg-slate-700 hover:bg-slate-600 text-pink-300 font-extrabold py-2 px-4 rounded-xl text-xs tracking-wide transition-all shadow-md flex items-center gap-2 border border-pink-400/20">
+                ⟲ Start Over
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-[1600px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 xl:grid-cols-12 gap-6 pb-20">
+        
+        <div class="xl:col-span-7 space-y-8">
+            
+            <div id="step-1" class="bg-slate-800 border-2 border-pink-400/20 rounded-3xl p-6 md:p-8 shadow-xl space-y-5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 1</div>
+                
+                <h2 class="text-sm font-extrabold uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                    ✨ Opening & Verification
+                </h2>
+                
+                <div class="space-y-4 text-sm leading-relaxed">
+                    <p class="bg-slate-900/80 p-4 rounded-2xl border-l-4 border-l-pink-400 border-t border-r border-b border-slate-700/50 text-slate-200">
+                        <span class="text-pink-300 font-semibold">Agent:</span> Hi this is <span class="text-white font-bold border-b border-dashed border-pink-400/50">(_______)</span> with AHS, I am reaching out because I noticed you spoke to one of our agent’s, but for some reason it looks like we weren’t able to finish assisting you.
+                    </p>
+
+                    <p class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/50 text-slate-200">
+                        <span class="text-pink-300 font-semibold">Agent:</span> Now just to confirm..
+                    </p>
+
+                    <p class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/30 text-slate-300 italic text-xs">
+                        * Ask Name, DOB and Zip Code *
+                    </p>
+                </div>
+
+                <button onclick="revealSection('step-2')" class="w-full bg-pink-500 hover:bg-pink-400 text-white font-extrabold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(244,114,182,0.3)] text-xs uppercase tracking-wider flex justify-center items-center gap-2 mt-4">
+                    Next: Qualification Parameters ➔
+                </button>
+            </div>
+
+            <div id="step-2" class="hidden animate-fadeIn bg-slate-800 border-2 border-purple-400/20 rounded-3xl p-6 md:p-8 shadow-xl space-y-5 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-purple-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 2</div>
+                
+                <h2 class="text-sm font-extrabold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+                    🩺 Qualification Review
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="bg-slate-900/60 p-5 rounded-2xl border border-slate-700/50">
+                        <p class="text-sm text-slate-200 mb-3 font-bold">Do you have Medicare Parts A and B?</p>
+                        <div class="flex gap-3">
+                            <button onclick="handleQual('q1', true)" id="btn-q1-yes" class="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all">YES (Required)</button>
+                            <button onclick="handleQual('q1', false)" id="btn-q1-no" class="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all">NO (DQ)</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-5 rounded-2xl border border-slate-700/50">
+                        <p class="text-sm text-slate-200 mb-3 font-bold">Do you have Tricare?</p>
+                        <div class="flex gap-3">
+                            <button onclick="handleQual('q2', true)" id="btn-q2-yes" class="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all">YES (DQ)</button>
+                            <button onclick="handleQual('q2', false)" id="btn-q2-no" class="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all">NO (Required)</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-5 rounded-2xl border border-slate-700/50">
+                        <p class="text-sm text-slate-200 mb-3 font-bold">Do you make your own healthcare Decisions?</p>
+                        <div class="flex gap-3">
+                            <button onclick="handleQual('q3', true)" id="btn-q3-yes" class="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all">YES (Required)</button>
+                            <button onclick="handleQual('q3', false)" id="btn-q3-no" class="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all">NO (DQ)</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-5 rounded-2xl border border-slate-700/50">
+                        <p class="text-sm text-slate-200 mb-3 font-bold">Do you live in a nursing home/Assisted living Facility?</p>
+                        <div class="flex gap-3">
+                            <button onclick="handleQual('q4', true)" id="btn-q4-yes" class="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all">YES (DQ)</button>
+                            <button onclick="handleQual('q4', false)" id="btn-q4-no" class="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all">NO (Required)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="dq-message" class="hidden mt-6 bg-rose-900/30 border-2 border-rose-500/50 rounded-2xl p-6 text-center animate-fadeIn shadow-[0_0_15px_rgba(244,63,94,0.2)]">
+                    <span class="text-rose-400 font-extrabold text-xs uppercase tracking-widest block mb-3">🛑 Disqualified - End Call</span>
+                    <p class="text-slate-200 text-sm leading-relaxed font-bold">
+                        <span class="text-rose-300 font-extrabold">Agent:</span> "Thank you for letting me know. I will notate your account regarding this matter. Thank you for taking my call and have a wonderful day."
+                    </p>
+                </div>
+
+                <button id="btn-next-step-3" onclick="revealSection('step-3')" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-extrabold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] text-xs uppercase tracking-wider flex justify-center items-center gap-2 mt-4">
+                    Next: Transfer Handoff ➔
+                </button>
+            </div>
+
+            <div id="step-3" class="hidden animate-fadeIn grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="bg-slate-800 border-2 border-indigo-400/40 rounded-3xl p-6 shadow-xl space-y-4 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Final Step</div>
+                    
+                    <h2 class="text-sm font-extrabold uppercase tracking-wider text-indigo-400 flex items-center gap-2">
+                        📞 Transfer Handoff
+                    </h2>
+
+                    <p class="text-sm text-slate-200 bg-slate-900 p-5 rounded-2xl border border-slate-700 leading-relaxed shadow-inner font-bold">
+                        <span class="text-indigo-300 font-extrabold">Agent:</span> Please hang tight while I get an agent on the line to assist you.
+                    </p>
+
+                </div>
+
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-6 shadow-xl flex flex-col">
+                    <div class="flex items-center gap-3 mb-4 border-b border-slate-700 pb-3">
+                        <div class="w-10 h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center text-lg shadow-inner">
+                            👤
+                        </div>
+                        <div>
+                            <h3 class="text-white font-bold text-sm">Client Information</h3>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-widest block">AHS Re-Verify System Match</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 text-xs flex-1">
+                        <div class="flex justify-between items-center bg-slate-800/50 p-2 rounded-lg border border-slate-700/50">
+                            <span class="text-slate-400 font-bold">Medicare A & B</span>
+                            <span class="text-emerald-400 font-extrabold bg-slate-700 px-2 py-0.5 rounded">YES Match</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-800/50 p-2 rounded-lg border border-slate-700/50">
+                            <span class="text-slate-400 font-bold">Tricare Exclusion</span>
+                            <span class="text-emerald-400 font-extrabold bg-slate-700 px-2 py-0.5 rounded">NO Tricare</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-800/50 p-2 rounded-lg border border-slate-700/50">
+                            <span class="text-slate-400 font-bold">Own Decisions</span>
+                            <span class="text-emerald-400 font-extrabold bg-slate-700 px-2 py-0.5 rounded">YES</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-slate-700 flex gap-2">
+                        <button class="flex-1 bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold py-2 rounded-xl transition-colors border border-slate-600">
+                            🏷️ Tags
+                        </button>
+                        <button class="flex-1 bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 text-xs font-bold py-2 rounded-xl transition-colors border border-pink-500/30">
+                            📝 Note
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="hidden xl:block xl:col-span-5 bg-slate-800/80 backdrop-blur-md border border-pink-400/20 rounded-3xl p-5 shadow-xl sticky top-24 max-h-[85vh] overflow-y-auto custom-scrollbar space-y-5">
+            
+            <div class="border-b border-slate-700 pb-3 flex items-center gap-2">
+                <span class="text-xl">🚀</span>
+                <h2 class="font-extrabold text-white tracking-wide text-sm uppercase">Live Agent Assistance</h2>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 items-start">
+                
+                <div class="space-y-3">
+                    <span class="font-extrabold text-amber-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">⭐ FE Positioning</span>
+                    <div class="space-y-2 text-[11px] text-slate-300 font-medium leading-relaxed">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“The biggest mistake most families make is waiting until health changes or rates increase.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“Final expense coverage is designed to protect your loved ones from financial stress during an already difficult time.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“Most people aren’t looking for millions of dollars — they just want dignity, peace of mind, and to make sure their family is okay.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“Even a small policy can make a huge difference for a family.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“The goal is protection that actually fits your budget long term.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“A policy only works if it stays affordable.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“We shop multiple companies because no one carrier is best for everyone.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“A lot of people are surprised they qualify for more than they expected.”</div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“The licensed specialist’s job is to help you understand your options — not pressure you.”</div>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <span class="font-extrabold text-rose-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">🛡️ Rebuttals</span>
+                    <div class="space-y-2 text-[11px] text-slate-300 font-medium">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
+                            <span class="text-[10px] font-extrabold text-rose-400 uppercase block mb-1">If skeptical:</span>
+                            <p class="italic text-slate-200 font-medium">“That’s fair — this is exactly why we review everything carefully before recommending anything.”</p>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
+                            <span class="text-[10px] font-extrabold text-rose-400 uppercase block mb-1">If worried about cost:</span>
+                            <p class="italic text-slate-200 font-medium">“We’re not trying to create another bill — the goal is to find something comfortable and sustainable.”</p>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
+                            <span class="text-[10px] font-extrabold text-rose-400 uppercase block mb-1">If “I already talked to someone”:</span>
+                            <p class="italic text-slate-200 font-medium">“Absolutely, and this is simply a second review to make sure nothing was missed and that you’re getting the best value available.”</p>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
+                            <span class="text-[10px] font-extrabold text-rose-400 uppercase block mb-1">If “I need to think about it”:</span>
+                            <p class="italic text-slate-200 font-medium">“Of course — most people do. That’s why we at least make sure you have accurate information and real numbers first.”</p>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
+                            <span class="text-[10px] font-extrabold text-rose-400 uppercase block mb-1">If older lead:</span>
+                            <p class="italic text-slate-200 font-medium">“A lot of people requested information months ago and life just got busy. We’re simply following up to see what still makes sense for you today.”</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <div class="fixed bottom-6 right-6 z-50 xl:hidden">
+        <button onclick="toggleStatementsModal(true)" class="bg-pink-500 hover:bg-pink-400 text-white font-extrabold py-3.5 px-5 rounded-full shadow-[0_0_20px_rgba(244,114,182,0.4)] text-xs tracking-wider uppercase transition-all flex items-center gap-2 border border-pink-300">
+            📋 View Rebuttals & Info
+        </button>
+    </div>
+
+    <div id="statements-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border-2 border-pink-400/30 w-full max-w-[800px] max-h-[85vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+            
+            <div class="bg-slate-900 px-6 py-4 border-b border-slate-700 flex justify-between items-center">
+                <h3 class="text-white font-extrabold text-sm uppercase tracking-wide flex items-center gap-2">🚀 Live Agent Assistance</h3>
+                <button onclick="toggleStatementsModal(false)" class="bg-slate-800 hover:bg-rose-500 text-slate-300 hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold uppercase transition-colors border border-slate-600">✕ Close</button>
+            </div>
+
+            <div class="p-6 overflow-y-auto custom-scrollbar">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    
+                    <div class="space-y-3">
+                        <span class="font-extrabold text-amber-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">⭐ FE Positioning</span>
+                        <div class="space-y-2 text-xs text-slate-300 font-medium leading-relaxed">
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“The biggest mistake most families make is waiting until health changes or rates increase.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“Final expense coverage is designed to protect your loved ones from financial stress during an already difficult time.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“Most people aren’t looking for millions of dollars — they just want dignity, peace of mind, and to make sure their family is okay.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“Even a small policy can make a huge difference for a family.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“The goal is protection that actually fits your budget long term.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“A policy only works if it stays affordable.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“We shop multiple companies because no one carrier is best for everyone.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“A lot of people are surprised they qualify for more than they expected.”</div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“The licensed specialist’s job is to help you understand your options — not pressure you.”</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <span class="font-extrabold text-rose-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">🛡️ Rebuttals</span>
+                        <div class="space-y-2 text-xs text-slate-300 font-medium">
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
+                                <span class="text-[10px] font-extrabold text-rose-400 uppercase block mb-1">If skeptical:</span>
+                                <p class="italic text-slate-200 font-medium">“That’s fair — this is exactly why we review everything carefully before recommending anything.”</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
+                                <span class="text-[10px] font-extrabold text-rose-400 uppercase block mb-1">If worried about cost:</span>
+                                <p class="italic text-slate-200 font-medium">“We’re not trying to create another bill — the goal is to find something comfortable and sustainable.”</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
+                                <span class="text-[10px] font-extrabold text-rose-400 uppercase block mb-1">If “I already talked to someone”:</span>
+                                <p class="italic text-slate-200 font-medium">“Absolutely, and this is simply a second review to make sure nothing was missed and that you’re getting the best value available.”</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
+                                <span class="text-[10px] font-extrabold text-rose-400 uppercase block mb-1">If “I need to think about it”:</span>
+                                <p class="italic text-slate-200 font-medium">“Of course — most people do. That’s why we at least make sure you have accurate information and real numbers first.”</p>
+                            </div>
+                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
+                                <span class="text-[10px] font-extrabold text-rose-400 uppercase block mb-1">If older lead:</span>
+                                <p class="italic text-slate-200 font-medium">“A lot of people requested information months ago and life just got busy. We’re simply following up to see what still makes sense for you today.”</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function revealSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.remove('hidden');
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 50);
+            }
+        }
+
+        // Expanded state data arrays tracking qualification rules
+        let answers = { q1: null, q2: null, q3: null, q4: null };
+
+        // Core validation event handler
+        function handleQual(questionId, isYes) {
+            answers[questionId] = isYes;
+            
+            const btnYes = document.getElementById(`btn-${questionId}-yes`);
+            const btnNo = document.getElementById(`btn-${questionId}-no`);
+            const defaultClass = "flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all";
+            
+            // Re-apply layout state metrics
+            btnYes.className = defaultClass;
+            btnNo.className = defaultClass;
+
+            // Q1: Medicare Parts A and B (YES is pass, NO is DQ)
+            if (questionId === 'q1') {
+                if (isYes) {
+                    btnYes.className = "flex-1 bg-emerald-600 border border-emerald-400 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] scale-[1.02]";
+                } else {
+                    btnNo.className = "flex-1 bg-rose-600 border border-rose-400 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(244,63,94,0.3)] scale-[1.02]";
+                }
+            }
+            
+            // Q2: Tricare (NO is pass, YES is DQ)
+            if (questionId === 'q2') {
+                if (isYes) {
+                    btnYes.className = "flex-1 bg-rose-600 border border-rose-400 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(244,63,94,0.3)] scale-[1.02]";
+                } else {
+                    btnNo.className = "flex-1 bg-emerald-600 border border-emerald-400 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] scale-[1.02]";
+                }
+            }
+
+            // Q3: Healthcare Decisions (YES is pass, NO is DQ)
+            if (questionId === 'q3') {
+                if (isYes) {
+                    btnYes.className = "flex-1 bg-emerald-600 border border-emerald-400 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] scale-[1.02]";
+                } else {
+                    btnNo.className = "flex-1 bg-rose-600 border border-rose-400 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(244,63,94,0.3)] scale-[1.02]";
+                }
+            }
+
+            // Q4: Nursing Home (NO is pass, YES is DQ)
+            if (questionId === 'q4') {
+                if (isYes) {
+                    btnYes.className = "flex-1 bg-rose-600 border border-rose-400 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(244,63,94,0.3)] scale-[1.02]";
+                } else {
+                    btnNo.className = "flex-1 bg-emerald-600 border border-emerald-400 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] scale-[1.02]";
+                }
+            }
+
+            evaluateDQStatus();
+        }
+
+        // Logic routing evaluation rule parameters
+        function evaluateDQStatus() {
+            const dqMessage = document.getElementById('dq-message');
+            const nextBtn = document.getElementById('btn-next-step-3');
+            const step3 = document.getElementById('step-3');
+
+            // Pass/Fail configuration evaluations
+            const isQ1DQ = answers.q1 === false; // If NO to Medicare
+            const isQ2DQ = answers.q2 === true;  // If YES to Tricare
+            const isQ3DQ = answers.q3 === false; // If NO to Decisions
+            const isQ4DQ = answers.q4 === true;  // If YES to Nursing Home
+
+            if (isQ1DQ || isQ2DQ || isQ3DQ || isQ4DQ) {
+                dqMessage.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+                step3.classList.add('hidden');
+            } else {
+                dqMessage.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+            }
+        }
+
+        function toggleStatementsModal(shouldShow) {
+            const modal = document.getElementById('statements-modal');
+            if (shouldShow) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function resetEntirePortal() {
+            const sections = ['step-2', 'step-3'];
+            sections.forEach(id => document.getElementById(id).classList.add('hidden'));
+            
+            answers = { q1: null, q2: null, q3: null, q4: null };
+
+            document.getElementById('dq-message').classList.add('hidden');
+            document.getElementById('btn-next-step-3').classList.remove('hidden');
+
+            const defaultBtnClass = "flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all";
+            const fields = ['q1', 'q2', 'q3', 'q4'];
+            fields.forEach(f => {
+                document.getElementById(`btn-${f}-yes`).className = defaultBtnClass;
+                document.getElementById(`btn-${f}-no`).className = defaultBtnClass;
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
