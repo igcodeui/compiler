@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS FE Transfer Script 🌸</title>
+    <title>Life Insurance Verification Script</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -39,7 +39,7 @@
         <div class="max-w-[1600px] w-full mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="bg-pink-400 text-slate-900 font-bold p-2.5 rounded-2xl text-xs tracking-wider shadow-[0_0_15px_rgba(244,114,182,0.4)]">🌸 SCRIPT</div>
-                <h1 class="text-xl font-bold tracking-tight text-white hidden sm:block">FE Transfer Script</h1>
+                <h1 class="text-xl font-bold tracking-tight text-white hidden sm:block">Life Insurance Alert Flow</h1>
             </div>
             <button onclick="resetEntirePortal()" class="bg-slate-700 hover:bg-slate-600 text-pink-300 font-bold py-2 px-4 rounded-xl text-xs tracking-wide transition-all shadow-md flex items-center gap-2 border border-pink-400/20">
                 ⟲ Start Over
@@ -49,6 +49,7 @@
 
     <main class="flex-1 max-w-[1600px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 xl:grid-cols-12 gap-6 pb-20">
         
+        <!-- LEFT CONTENT: FLOW STEPS -->
         <div class="xl:col-span-7 space-y-8">
             
             <!-- STEP 1 -->
@@ -56,17 +57,25 @@
                 <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 1</div>
                 
                 <h2 class="text-sm font-bold uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                    ✨ Opening & Verification
+                    ✨ Introduction
                 </h2>
                 
                 <div class="space-y-4 text-sm leading-relaxed">
                     <p class="bg-slate-900/80 p-5 rounded-2xl border-l-4 border-l-pink-400 border-t border-r border-b border-slate-700/50 text-slate-200 text-base">
-                        <span class="text-pink-300 font-semibold">Agent:</span> "Hi, this is <span class="text-white font-bold border-b border-dashed border-pink-400/50">______________</span>. I'm following up on a life insurance quote we put together for you a little while back. Am I speaking with the person who requested the quote?"
+                        <span class="text-pink-300 font-semibold">Agent:</span> "Hi, this is <span class="text-white font-bold border-b border-dashed border-pink-400/50">(Agent Name)</span>. Am I speaking with the owner of the number ending in <span class="text-white font-bold border-b border-dashed border-pink-400/50">(last 4 digits)</span>?"
+                    </p>
+
+                    <div class="bg-emerald-500/10 border border-emerald-500/30 p-3 rounded-xl flex items-center gap-2 mt-2 w-max">
+                        <span class="text-emerald-400 font-bold text-xs uppercase tracking-widest block">Customer: Yes.</span>
+                    </div>
+
+                    <p class="bg-slate-900/80 p-5 rounded-2xl border border-slate-700/50 text-slate-200 text-base mt-2">
+                        <span class="text-pink-300 font-semibold">Agent:</span> "Perfect, thank you for confirming. The reason for my call is that I received an alert regarding your life insurance coverage, and I just need a moment to verify some information and make sure everything is up to date."
                     </p>
                 </div>
 
                 <button onclick="revealSection('step-2')" class="w-full bg-pink-500 hover:bg-pink-400 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(244,114,182,0.3)] text-sm flex justify-center items-center gap-2 mt-4">
-                    Next: Customer Response ➔
+                    Next: The Fork in the Road ➔
                 </button>
             </div>
 
@@ -75,44 +84,78 @@
                 <div class="absolute top-0 right-0 bg-purple-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 2</div>
                 
                 <h2 class="text-sm font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
-                    🔀 Identity Check
+                    🔀 The Fork in the Road
                 </h2>
 
-                <p class="text-xs text-slate-400 mb-2">Are you speaking to the right person?</p>
+                <p class="text-xs text-slate-400 mb-2">How did the customer respond to the alert?</p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <button onclick="toggleTrack('A')" id="btn-track-a" class="bg-slate-700/50 hover:bg-slate-600 border border-slate-600 text-slate-200 font-bold py-4 px-4 rounded-2xl text-xs transition-all flex flex-col items-center text-center gap-2">
-                        <span class="text-lg">✅</span>
-                        <span>YES<br><span class="font-normal text-[10px] text-slate-400">Right person</span></span>
+                        <span class="text-lg">🤷</span>
+                        <span>TRACK A<br><span class="font-normal text-[10px] text-slate-400">"I don't have life insurance" / "My coverage is fine"</span></span>
                     </button>
                     <button onclick="toggleTrack('B')" id="btn-track-b" class="bg-slate-700/50 hover:bg-slate-600 border border-slate-600 text-slate-200 font-bold py-4 px-4 rounded-2xl text-xs transition-all flex flex-col items-center text-center gap-2">
-                        <span class="text-lg">❌</span>
-                        <span>NO<br><span class="font-normal text-[10px] text-slate-400">Wrong person / Not available</span></span>
+                        <span class="text-lg">🛡️</span>
+                        <span>TRACK B<br><span class="font-normal text-[10px] text-slate-400">"I already have a policy" / "I'm covered"</span></span>
                     </button>
                 </div>
 
+                <!-- TRACK A -->
                 <div id="track-a-content" class="hidden bg-slate-900/60 p-5 rounded-2xl border border-purple-400/40 space-y-4 animate-fadeIn mt-4">
-                    <span class="text-xs font-bold text-purple-300 uppercase tracking-wider block bg-purple-500/20 w-max px-3 py-1 rounded-lg">If YES</span>
-                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                        <p class="text-sm text-slate-200 leading-relaxed text-base">
-                            <span class="text-purple-300 font-semibold">Agent:</span> "Great. Our notes showed you just needed some time to review the details. Did you ever get a chance to get your policy in place?"
+                    <span class="text-xs font-bold text-purple-300 uppercase tracking-wider block bg-purple-500/20 w-max px-3 py-1 rounded-lg">TRACK A: No Coverage / Coverage is fine</span>
+                    
+                    <p class="text-sm text-slate-200 leading-relaxed text-base">
+                        <span class="text-purple-300 font-semibold">Agent:</span> "I understand. That's actually why the account was flagged. According to the information we received, there may not be any active life insurance coverage currently in place to help protect your family from final expenses or other unexpected costs."
+                    </p>
+                    <p class="text-sm text-slate-200 leading-relaxed text-base">
+                        "To make sure our records are accurate, let me ask you a couple of quick questions:"
+                    </p>
+
+                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-4">
+                        <p class="text-white flex items-start gap-3">
+                            <span class="text-purple-400 font-bold">a.</span> 
+                            <span>If a funeral costing around $10,000 were needed today, would you feel comfortable that the expenses are fully covered, or would additional protection be helpful?</span>
                         </p>
-                        <p class="text-xs text-slate-400 mt-3 italic">*If they have objections here, reference the Rebuttals sidebar.*</p>
+                        <p class="text-white flex items-start gap-3">
+                            <span class="text-purple-400 font-bold">b.</span> 
+                            <span>If something unexpected happened to you tomorrow, who would receive financial support or benefits on your behalf?</span>
+                        </p>
+                        <p class="text-white flex items-start gap-3">
+                            <span class="text-purple-400 font-bold">c.</span> 
+                            <span>Who would be responsible for handling final arrangements, and have you had a chance to discuss those plans with them?</span>
+                        </p>
                     </div>
                 </div>
 
+                <!-- TRACK B -->
                 <div id="track-b-content" class="hidden bg-slate-900/60 p-5 rounded-2xl border border-indigo-400/40 space-y-4 animate-fadeIn mt-4">
-                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider block bg-indigo-500/20 w-max px-3 py-1 rounded-lg">If WRONG PERSON / UNAVAILABLE</span>
+                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider block bg-indigo-500/20 w-max px-3 py-1 rounded-lg">TRACK B: Already Covered</span>
+                    
                     <p class="text-sm text-slate-200 leading-relaxed text-base">
-                        <span class="text-indigo-300 font-semibold">Agent:</span> "No problem — is there a better time to reach them?"
+                        <span class="text-indigo-300 font-semibold">Agent:</span> "That's great to hear. In fact, that's one of the reasons the account may have been flagged. Many policies were purchased years ago, and with rising funeral and end-of-life expenses, we're simply verifying whether the existing coverage is still meeting your needs."
                     </p>
-                    <div class="bg-rose-500/10 border border-rose-400/30 p-3 mt-3 rounded-xl text-center">
-                        <span class="text-rose-300 font-bold text-xs uppercase tracking-widest block">🛑 End the call.</span>
+                    <p class="text-sm text-slate-200 leading-relaxed text-base">
+                        "Let me ask a few quick questions:"
+                    </p>
+
+                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-4">
+                        <p class="text-white flex items-start gap-3">
+                            <span class="text-indigo-400 font-bold">a.</span> 
+                            <span>Do you feel your current coverage would comfortably cover a funeral costing approximately $10,000 today, while still providing support for your loved ones?</span>
+                        </p>
+                        <p class="text-white flex items-start gap-3">
+                            <span class="text-indigo-400 font-bold">b.</span> 
+                            <span>If something happened to you tomorrow, who would you most want your policy to protect?</span>
+                        </p>
+                        <p class="text-white flex items-start gap-3">
+                            <span class="text-indigo-400 font-bold">c.</span> 
+                            <span>Who would be responsible for handling your final arrangements, and have those plans been discussed with them?</span>
+                        </p>
                     </div>
                 </div>
 
                 <button onclick="revealSection('step-3')" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] text-sm flex justify-center items-center gap-2 mt-4">
-                    Next: Data Collection ➔
+                    Next: Information Gathering ➔
                 </button>
             </div>
 
@@ -121,32 +164,39 @@
                 <div class="absolute top-0 right-0 bg-sky-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 3</div>
                 
                 <h2 class="text-sm font-bold uppercase tracking-wider text-sky-400 flex items-center gap-2">
-                    📋 Data Collection
+                    📋 Information Gathering
                 </h2>
 
                 <div class="space-y-4 text-sm leading-relaxed">
                     <p class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/50 text-slate-200">
-                        <span class="text-sky-300 font-semibold">Agent:</span> "Ok sounds good. In order to see what you qualify for we just need some basic information."
+                        <span class="text-sky-300 font-semibold">Agent:</span> "Thank you. I've noted that information and updated your file. I just need to ask a few additional questions to determine whether there may be any benefits or options available that could be a good fit for you."
                     </p>
                     
-                    <div class="bg-slate-900/40 border border-slate-700 p-5 rounded-2xl space-y-3">
-                        <div class="flex items-center gap-3">
-                            <span class="bg-sky-500/20 text-sky-400 p-1.5 rounded-lg">👤</span>
-                            <span class="text-white font-medium">What is your full Name?</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="bg-sky-500/20 text-sky-400 p-1.5 rounded-lg">📅</span>
-                            <span class="text-white font-medium">What is your Date of Birth?</span>
-                        </div>
+                    <div class="bg-slate-900/40 border border-slate-700 p-5 rounded-2xl space-y-4">
                         <div class="flex items-center gap-3">
                             <span class="bg-sky-500/20 text-sky-400 p-1.5 rounded-lg">📍</span>
-                            <span class="text-white font-medium">What state are you located in and your zip code?</span>
+                            <span class="text-white font-medium">You're still residing in <span class="border-b border-dashed border-sky-400/50">(State)</span>, correct?</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="bg-sky-500/20 text-sky-400 p-1.5 rounded-lg">🎂</span>
+                            <span class="text-white font-medium">Great. And can you please confirm your current age?</span>
+                        </div>
+                    </div>
+
+                    <p class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/50 text-slate-200">
+                        <span class="text-sky-300 font-semibold">Agent:</span> "Thank you for confirming. Based on the information you've provided, it appears there may be some options available in your area that could be worth reviewing. The next step is to connect you with a licensed specialist who can go over the details and answer any questions you may have."
+                    </p>
+
+                    <div class="bg-slate-900/40 border border-slate-700 p-5 rounded-2xl">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-sky-500/20 text-sky-400 p-1.5 rounded-lg">👤</span>
+                            <span class="text-white font-medium">Before I transfer you, can you please confirm your first and last name?</span>
                         </div>
                     </div>
                 </div>
 
                 <button onclick="revealSection('step-4')" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-[0_0_20px_rgba(14,165,233,0.3)] text-sm flex justify-center items-center gap-2 mt-4">
-                    Next: Compliance & Transfer ➔
+                    Next: Compliance & Transfer Setup ➔
                 </button>
             </div>
 
@@ -159,30 +209,33 @@
                 </h2>
 
                 <p class="text-sm text-slate-200 bg-slate-900/80 p-4 rounded-2xl border border-slate-700/50 leading-relaxed mb-4">
-                    <span class="text-emerald-300 font-semibold">Agent:</span> "Ok perfect. Looks like you may qualify for some great options in your area."
+                    <span class="text-emerald-300 font-semibold">Agent:</span> "Thank you."
                 </p>
 
-                <p class="text-sm text-slate-200 bg-slate-900/80 p-4 rounded-2xl border-l-4 border-l-emerald-400 border-t border-r border-b border-slate-700/50 leading-relaxed">
-                    <span class="text-emerald-300 font-semibold">Agent:</span> "Before I connect you, I just need to confirm a few quick things for our records."
-                </p>
+                <div class="bg-emerald-900/10 border border-emerald-500/30 rounded-2xl p-5 space-y-5 my-4">
+                    <div class="space-y-2">
+                        <p class="text-white flex items-start gap-3">
+                            <span class="text-emerald-400 text-lg mt-0.5">1.</span>
+                            <span>This call is being recorded for quality assurance and compliance purposes. Do I have your permission to continue and transfer you to the licensed specialist?</span>
+                        </p>
+                        <span class="text-emerald-400 text-xs uppercase tracking-widest font-bold block ml-8 bg-emerald-500/20 w-max px-2 py-0.5 rounded">MUST HEAR YES</span>
+                    </div>
 
-                <div class="bg-emerald-900/10 border border-emerald-500/30 rounded-2xl p-5 space-y-4 my-4">
-                    <p class="text-white flex items-start gap-3">
-                        <span class="text-emerald-400 text-lg mt-0.5">1.</span>
-                        <span>First, you're okay with me transferring you to a licensed agent to go over the details — is that correct?</span>
-                    </p>
-                    <p class="text-white flex items-start gap-3">
-                        <span class="text-emerald-400 text-lg mt-0.5">2.</span>
-                        <span>This call is being recorded for quality and compliance purposes — are you alright with that?</span>
-                    </p>
-                    <p class="text-white flex items-start gap-3">
-                        <span class="text-emerald-400 text-lg mt-0.5">3.</span>
-                        <span>Can I confirm the best phone number to reach you is [number on file], in case we get disconnected? And you agree to us calling you back?</span>
-                    </p>
+                    <div class="space-y-2">
+                        <p class="text-white flex items-start gap-3">
+                            <span class="text-emerald-400 text-lg mt-0.5">2.</span>
+                            <span>Perfect. And in the event we get disconnected, is <span class="border-b border-dashed border-emerald-400/50">(phone number on file)</span> the best number for a callback?</span>
+                        </p>
+                        <span class="text-emerald-400 text-xs uppercase tracking-widest font-bold block ml-8 bg-emerald-500/20 w-max px-2 py-0.5 rounded">MUST HEAR YES</span>
+                    </div>
                 </div>
 
-                <div class="bg-rose-900/40 border-2 border-rose-500 rounded-2xl p-4 shadow-[0_0_15px_rgba(244,63,94,0.3)] text-center animate-pulse">
-                    <span class="text-white font-bold text-sm uppercase tracking-widest block">⚠️ MUST RECEIVE YES TO ALL ABOVE BEFORE TRANSFERRING</span>
+                <p class="text-sm text-slate-200 bg-slate-900/80 p-4 rounded-2xl border-l-4 border-l-emerald-400 border-t border-r border-b border-slate-700/50 leading-relaxed">
+                    <span class="text-emerald-300 font-semibold">Agent:</span> "Excellent. Thank you for your time today. I'll connect you with the licensed specialist now. Please hold for just a moment."
+                </p>
+
+                <div class="bg-rose-900/40 border-2 border-rose-500 rounded-2xl p-4 shadow-[0_0_15px_rgba(244,63,94,0.3)] text-center animate-pulse mt-6">
+                    <span class="text-white font-bold text-sm uppercase tracking-widest block">⚠️ DO NOT DISCONNECT UNTIL SPECIALIST ANSWERS</span>
                 </div>
 
                 <div class="mt-8 pt-6 border-t border-slate-700 flex gap-4">
@@ -195,75 +248,54 @@
         </div>
 
         <!-- RIGHT SIDEBAR REBUTTALS -->
-        <div class="hidden xl:block xl:col-span-5 bg-slate-800/80 backdrop-blur-md border border-pink-400/20 rounded-3xl p-5 shadow-xl sticky top-24 max-h-[85vh] overflow-y-auto custom-scrollbar space-y-5">
+        <div class="hidden xl:block xl:col-span-5 bg-slate-800/80 backdrop-blur-md border border-pink-400/20 rounded-3xl p-6 shadow-xl sticky top-24 max-h-[85vh] overflow-y-auto custom-scrollbar space-y-5">
             
             <div class="border-b border-slate-700 pb-3 flex items-center gap-2">
                 <span class="text-xl">🚀</span>
                 <h2 class="font-bold text-white tracking-wide text-sm uppercase">Live Agent Assistance</h2>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 items-start">
+            <div class="space-y-4">
+                <span class="font-bold text-rose-400 tracking-widest text-xs uppercase block border-b border-slate-700 pb-2">🛡️ Rebuttals & Objections</span>
                 
-                <div class="space-y-3">
-                    <span class="font-bold text-amber-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">⭐ FE Positioning</span>
-                    <div class="space-y-2 text-[11px] text-slate-300">
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“The biggest mistake most families make is waiting until health changes or rates increase.”</div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“Final expense coverage is designed to protect your loved ones from financial stress during an already difficult time.”</div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“Most people aren’t looking for millions of dollars — they just want dignity, peace of mind, and to make sure their family is okay.”</div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“Even a small policy can make a huge difference for a family.”</div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“The goal is protection that actually fits your budget long term.”</div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“A policy only works if it stays affordable.”</div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“We shop multiple companies because no one carrier is best for everyone.”</div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“A lot of people are surprised they qualify for more than they expected.”</div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-amber-400/30 transition-colors">“The licensed specialist’s job is to help you understand your options — not pressure you.”</div>
+                <div class="space-y-3 text-sm text-slate-300">
+                    
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700/50 hover:border-rose-400/30 transition-colors border-l-4 border-l-rose-500 shadow-md">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If "I already got covered":</span>
+                        <p class="italic text-slate-200 text-[13px] leading-relaxed">“That's great to hear — glad you're protected. Mind if I ask who you went with, just so I can update our file?” <span class="not-italic text-slate-400 text-xs block mt-2 pt-2 border-t border-slate-800/60">(If it's vague or they hesitate, it may be a brush-off; you can gently re-engage: "While I've got you, would it be worth a comparison to make sure you're not overpaying?")</span></p>
                     </div>
-                </div>
 
-                <div class="space-y-3">
-                    <span class="font-bold text-rose-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">🛡️ Rebuttals</span>
-                    <div class="space-y-2 text-[11px] text-slate-300">
-                        <!-- NEW REBUTTALS -->
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors border-l-2 border-l-rose-500">
-                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If "I already got covered":</span>
-                            <p class="italic text-slate-200">“That's great to hear — glad you're protected. Mind if I ask who you went with, just so I can update our file?” <span class="not-italic text-slate-400 text-[10px] block mt-1">(If it's vague or they hesitate, it may be a brush-off; you can gently re-engage: "While I've got you, would it be worth a comparison to make sure you're not overpaying?")</span></p>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors border-l-2 border-l-rose-500">
-                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If "Not yet / I forgot / I got busy":</span>
-                            <p class="italic text-slate-200">“Totally understand, that's exactly why I'm following up. Let me just confirm a few details are still accurate so I can give you an up-to-date number — this'll take about a minute.”</p>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors border-l-2 border-l-rose-500">
-                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If "Not interested":</span>
-                            <p class="italic text-slate-200">“Understood, I appreciate your time. I'll make a note. Have a good one.” <span class="not-italic text-slate-400 text-[10px] block mt-1">(If they ask to be removed, confirm you'll take them off the list.)</span></p>
-                        </div>
-                        
-                        <!-- ORIGINAL REBUTTALS -->
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors mt-4">
-                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If Declined OR "I Already Tried":</span>
-                            <p class="italic text-slate-200">“Yes I understand and I hear that 50% of the time, many people are surprised to learn that being declined by one carrier doesn't necessarily mean you're uninsurable and getting a guaranteed issue plan or simple issue plan will get you some life insurance history and we can ask that they shop plans and more coverage semi annually. By doing so you agree that you consent to be contacted if we can offer a lower rate or better benefits for the same type plan? That you had made an inquiry and during my call back from your initial inquiry, would you mind telling the agent your satisfactory rate?”</p>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
-                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If skeptical:</span>
-                            <p class="italic text-slate-200">“That’s fair — this is exactly why we review everything carefully before recommending anything.”</p>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
-                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If worried about cost:</span>
-                            <p class="italic text-slate-200">“We’re not trying to create another bill — the goal is to find something comfortable and sustainable.”</p>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
-                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If “I already talked to someone”:</span>
-                            <p class="italic text-slate-200">“Absolutely, and this is simply a second review to make sure nothing was missed and that you’re getting the best value available.”</p>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
-                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If “I need to think about it”:</span>
-                            <p class="italic text-slate-200">“Of course — most people do. That’s why we at least make sure you have accurate information and real numbers first.”</p>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 hover:border-rose-400/30 transition-colors">
-                            <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If older lead:</span>
-                            <p class="italic text-slate-200">“A lot of people requested information months ago and life just got busy. We’re simply following up to see what still makes sense for you today.”</p>
-                        </div>
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700/50 hover:border-rose-400/30 transition-colors border-l-4 border-l-rose-500 shadow-md">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If "Not yet / I forgot / I got busy":</span>
+                        <p class="italic text-slate-200 text-[13px] leading-relaxed">“Totally understand, that's exactly why I'm following up. Let me just confirm a few details are still accurate so I can give you an up-to-date number — this'll take about a minute.”</p>
                     </div>
-                </div>
 
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700/50 hover:border-rose-400/30 transition-colors border-l-4 border-l-rose-500 shadow-md">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If "Not interested":</span>
+                        <p class="italic text-slate-200 text-[13px] leading-relaxed">“Understood, I appreciate your time. I'll make a note. Have a good one.” <span class="not-italic text-slate-400 text-xs block mt-2 pt-2 border-t border-slate-800/60">(If they ask to be removed, confirm you'll take them off the list.)</span></p>
+                    </div>
+                    
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700/50 hover:border-rose-400/30 transition-colors shadow-md mt-4">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If Declined OR "I Already Tried":</span>
+                        <p class="italic text-slate-200 text-[13px] leading-relaxed">“Yes I understand and I hear that 50% of the time, many people are surprised to learn that being declined by one carrier doesn't necessarily mean you're uninsurable and getting a guaranteed issue plan or simple issue plan will get you some life insurance history and we can ask that they shop plans and more coverage semi annually. By doing so you agree that you consent to be contacted if we can offer a lower rate or better benefits for the same type plan? That you had made an inquiry and during my call back from your initial inquiry, would you mind telling the agent your satisfactory rate?”</p>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700/50 hover:border-rose-400/30 transition-colors shadow-md">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If skeptical:</span>
+                        <p class="italic text-slate-200 text-[13px] leading-relaxed">“That’s fair — this is exactly why we review everything carefully before recommending anything.”</p>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700/50 hover:border-rose-400/30 transition-colors shadow-md">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If worried about cost:</span>
+                        <p class="italic text-slate-200 text-[13px] leading-relaxed">“We’re not trying to create another bill — the goal is to find something comfortable and sustainable.”</p>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700/50 hover:border-rose-400/30 transition-colors shadow-md">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If “I already talked to someone”:</span>
+                        <p class="italic text-slate-200 text-[13px] leading-relaxed">“Absolutely, and this is simply a second review to make sure nothing was missed and that you’re getting the best value available.”</p>
+                    </div>
+
+                </div>
             </div>
         </div>
 
@@ -278,81 +310,45 @@
 
     <!-- MOBILE REBUTTALS MODAL -->
     <div id="statements-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-800 border-2 border-pink-400/30 w-full max-w-[800px] max-h-[85vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+        <div class="bg-slate-800 border-2 border-pink-400/30 w-full max-w-[700px] max-h-[85vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden">
             
             <div class="bg-slate-900 px-6 py-4 border-b border-slate-700 flex justify-between items-center">
                 <h3 class="text-white font-bold text-sm uppercase tracking-wide flex items-center gap-2">🚀 Live Agent Assistance</h3>
                 <button onclick="toggleStatementsModal(false)" class="bg-slate-800 hover:bg-rose-500 text-slate-300 hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold uppercase transition-colors border border-slate-600">✕ Close</button>
             </div>
 
-            <div class="p-6 overflow-y-auto custom-scrollbar">
+            <div class="p-6 overflow-y-auto custom-scrollbar space-y-4">
+                <span class="font-bold text-rose-400 tracking-widest text-xs uppercase block border-b border-slate-700 pb-2">🛡️ Rebuttals & Objections</span>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                <div class="space-y-3 text-xs text-slate-300">
                     
-                    <div class="space-y-3">
-                        <span class="font-bold text-amber-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">⭐ FE Positioning</span>
-                        <div class="space-y-2 text-xs text-slate-300">
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“The biggest mistake most families make is waiting until health changes or rates increase.”</div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“Final expense coverage is designed to protect your loved ones from financial stress during an already difficult time.”</div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“Most people aren’t looking for millions of dollars — they just want dignity, peace of mind, and to make sure their family is okay.”</div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“Even a small policy can make a huge difference for a family.”</div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“The goal is protection that actually fits your budget long term.”</div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“A policy only works if it stays affordable.”</div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“We shop multiple companies because no one carrier is best for everyone.”</div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“A lot of people are surprised they qualify for more than they expected.”</div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">“The licensed specialist’s job is to help you understand your options — not pressure you.”</div>
-                        </div>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 border-l-4 border-l-rose-500">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If "I already got covered":</span>
+                        <p class="italic text-slate-200">“That's great to hear — glad you're protected. Mind if I ask who you went with, just so I can update our file?” <span class="not-italic text-slate-400 text-[11px] block mt-2 pt-2 border-t border-slate-800/60">(If it's vague or they hesitate, it may be a brush-off; you can gently re-engage: "While I've got you, would it be worth a comparison to make sure you're not overpaying?")</span></p>
                     </div>
 
-                    <div class="space-y-3">
-                        <span class="font-bold text-rose-400 tracking-widest text-[10px] uppercase block border-b border-slate-700 pb-1">🛡️ Rebuttals</span>
-                        <div class="space-y-2 text-xs text-slate-300">
-                            <!-- NEW REBUTTALS -->
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 border-l-2 border-l-rose-500">
-                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If "I already got covered":</span>
-                                <p class="italic text-slate-200">“That's great to hear — glad you're protected. Mind if I ask who you went with, just so I can update our file?” <span class="not-italic text-slate-400 text-[10px] block mt-1">(If it's vague or they hesitate, it may be a brush-off; you can gently re-engage: "While I've got you, would it be worth a comparison to make sure you're not overpaying?")</span></p>
-                            </div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 border-l-2 border-l-rose-500">
-                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If "Not yet / I forgot / I got busy":</span>
-                                <p class="italic text-slate-200">“Totally understand, that's exactly why I'm following up. Let me just confirm a few details are still accurate so I can give you an up-to-date number — this'll take about a minute.”</p>
-                            </div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 border-l-2 border-l-rose-500">
-                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If "Not interested":</span>
-                                <p class="italic text-slate-200">“Understood, I appreciate your time. I'll make a note. Have a good one.” <span class="not-italic text-slate-400 text-[10px] block mt-1">(If they ask to be removed, confirm you'll take them off the list.)</span></p>
-                            </div>
-                            
-                            <!-- ORIGINAL REBUTTALS -->
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 mt-4">
-                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If Declined OR "I Already Tried":</span>
-                                <p class="italic text-slate-200">“Yes I understand and I hear that 50% of the time, many people are surprised to learn that being declined by one carrier doesn't necessarily mean you're uninsurable and getting a guaranteed issue plan or simple issue plan will get you some life insurance history and we can ask that they shop plans and more coverage semi annually. By doing so you agree that you consent to be contacted if we can offer a lower rate or better benefits for the same type plan? That you had made an inquiry and during my call back from your initial inquiry, would you mind telling the agent your satisfactory rate?”</p>
-                            </div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
-                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If skeptical:</span>
-                                <p class="italic text-slate-200">“That’s fair — this is exactly why we review everything carefully before recommending anything.”</p>
-                            </div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
-                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If worried about cost:</span>
-                                <p class="italic text-slate-200">“We’re not trying to create another bill — the goal is to find something comfortable and sustainable.”</p>
-                            </div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
-                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If “I already talked to someone”:</span>
-                                <p class="italic text-slate-200">“Absolutely, and this is simply a second review to make sure nothing was missed and that you’re getting the best value available.”</p>
-                            </div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
-                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If “I need to think about it”:</span>
-                                <p class="italic text-slate-200">“Of course — most people do. That’s why we at least make sure you have accurate information and real numbers first.”</p>
-                            </div>
-                            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50">
-                                <span class="text-[10px] font-bold text-rose-400 uppercase block mb-1">If older lead:</span>
-                                <p class="italic text-slate-200">“A lot of people requested information months ago and life just got busy. We’re simply following up to see what still makes sense for you today.”</p>
-                            </div>
-                        </div>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 border-l-4 border-l-rose-500">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If "Not yet / I forgot / I got busy":</span>
+                        <p class="italic text-slate-200">“Totally understand, that's exactly why I'm following up. Let me just confirm a few details are still accurate so I can give you an up-to-date number — this'll take about a minute.”</p>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 border-l-4 border-l-rose-500">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If "Not interested":</span>
+                        <p class="italic text-slate-200">“Understood, I appreciate your time. I'll make a note. Have a good one.” <span class="not-italic text-slate-400 text-[11px] block mt-2 pt-2 border-t border-slate-800/60">(If they ask to be removed, confirm you'll take them off the list.)</span></p>
+                    </div>
+                    
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 mt-4">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If Declined OR "I Already Tried":</span>
+                        <p class="italic text-slate-200">“Yes I understand and I hear that 50% of the time, many people are surprised to learn that being declined by one carrier doesn't necessarily mean you're uninsurable and getting a guaranteed issue plan or simple issue plan will get you some life insurance history and we can ask that they shop plans and more coverage semi annually. By doing so you agree that you consent to be contacted if we can offer a lower rate or better benefits for the same type plan? That you had made an inquiry and during my call back from your initial inquiry, would you mind telling the agent your satisfactory rate?”</p>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700/50">
+                        <span class="text-xs font-bold text-rose-400 uppercase block mb-1">If skeptical:</span>
+                        <p class="italic text-slate-200">“That’s fair — this is exactly why we review everything carefully before recommending anything.”</p>
                     </div>
 
                 </div>
-
             </div>
-
         </div>
     </div>
 
