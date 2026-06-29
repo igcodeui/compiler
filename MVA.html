@@ -526,6 +526,8 @@
                 <button onclick="showRebuttal(7)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Do I pay?</button>
                 <button onclick="showRebuttal(8)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What happens next?</button>
                 <button onclick="showRebuttal(9)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">⏱How long?</button>
+                <button onclick="showRebuttal(11)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What is this call about?</button>
+                <button onclick="showRebuttal(12)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What about my accident?</button>
 
                 <!-- Negative Rebuttals (Red) -->
                 <button onclick="showRebuttal(4)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">How did you get my #?</button>
@@ -807,7 +809,9 @@
             7: "<span class='theme-highlight font-semibold'>Agent:</span> There's no charge to speak with us. Any fee discussion would be directly between you and the attorney you choose. Attorneys typically work on a contingency basis — you pay nothing unless they win your case.",
             8: "<span class='theme-highlight font-semibold'>Agent:</span> That's entirely up to you. The attorney will walk you through their process and you can decide from there.",
             9: "<span class='theme-highlight font-semibold'>Agent:</span> Just a few minutes on my end — then you choose how you want to continue.",
-            10: "<span class='theme-highlight font-semibold'>Agent:</span> Completely fair concern. Both you and the firm have the right to end the agreement at any time — you're not permanently committed. For specific questions about the terms, the attorney will be the best person to walk you through those when you speak with them."
+            10: "<span class='theme-highlight font-semibold'>Agent:</span> Completely fair concern. Both you and the firm have the right to end the agreement at any time — you're not permanently committed. For specific questions about the terms, the attorney will be the best person to walk you through those when you speak with them.",
+            11: "<span class='theme-highlight font-semibold'>Agent:</span> This is about your most recent car accident, Mr/ Ms ( Client Name).",
+            12: "<span class='theme-highlight font-semibold'>Agent:</span> Well, I am (Name of the Agent) and I am calling to see if you get the assistance you need. Is somebody assisting you with your recent car accident?<br><br>YES/NO - Perfect, that is exactly the reason why I am calling you.<br><br>YES - So you are currently represented by an attorney right now, correct? (IF YES - [Shift to the DQ script - When we are already LIVE]) <br><br>No - Okay no worries, you are not represented by an attorny yet, correct?(IF YES - Proceed with the script.)"
         };
 
         function showRebuttal(id) {
