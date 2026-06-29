@@ -54,11 +54,24 @@
             <div id="step-1" class="bg-slate-800 border-2 border-pink-400/20 rounded-3xl p-6 md:p-8 shadow-xl space-y-5 relative overflow-hidden">
                 <div class="absolute top-0 right-0 bg-pink-500 text-white text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider">Step 1</div>
                 
-                <h2 class="text-sm font-extrabold uppercase tracking-wider text-pink-400 flex items-center gap-2">
-                    ✨ Opening & Verification
-                </h2>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-700/50 pb-4">
+                    <h2 class="text-sm font-extrabold uppercase tracking-wider text-pink-400 flex items-center gap-2">
+                        ✨ Opening & Verification
+                    </h2>
+                    
+                    <!-- Script Selection Toggle -->
+                    <div class="flex gap-2 bg-slate-900/80 p-1.5 rounded-xl border border-slate-700/50">
+                        <button onclick="toggleScript('no-name')" id="btn-script-no-name" class="flex-1 bg-pink-500 text-white font-extrabold py-2 px-4 rounded-lg text-xs transition-all shadow-[0_0_15px_rgba(244,114,182,0.3)]">
+                            Without Name
+                        </button>
+                        <button onclick="toggleScript('with-name')" id="btn-script-with-name" class="flex-1 bg-transparent hover:bg-slate-700 text-slate-400 font-extrabold py-2 px-4 rounded-lg text-xs transition-all">
+                            With Name
+                        </button>
+                    </div>
+                </div>
                 
-                <div class="space-y-4 text-sm leading-relaxed">
+                <!-- SCRIPT OPTION 1: WITHOUT NAME (Original) -->
+                <div id="script-content-no-name" class="space-y-4 text-sm leading-relaxed animate-fadeIn">
                     <p class="bg-slate-900/80 p-4 rounded-2xl border-l-4 border-l-pink-400 border-t border-r border-b border-slate-700/50 text-slate-200">
                         <span class="text-pink-300 font-semibold">Agent:</span> Hi this is <span class="text-white font-bold border-b border-dashed border-pink-400/50">(_______)</span> with AHS, I am reaching out because I noticed you spoke to one of our agent’s, but for some reason it looks like we weren’t able to finish assisting you.
                     </p>
@@ -69,6 +82,48 @@
 
                     <p class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/30 text-slate-300 italic text-xs">
                         * Ask Name, DOB and Zip Code *
+                    </p>
+                </div>
+
+                <!-- SCRIPT OPTION 2: WITH NAME (New Addition) -->
+                <div id="script-content-with-name" class="hidden space-y-4 text-sm leading-relaxed animate-fadeIn">
+                    <p class="bg-slate-900/80 p-4 rounded-2xl border-l-4 border-l-pink-400 border-t border-r border-b border-slate-700/50 text-slate-200">
+                        <span class="text-pink-300 font-semibold">Agent:</span> Hi <span class="text-white font-bold border-b border-dashed border-pink-400/50">(_______)</span> this is <span class="text-white font-bold border-b border-dashed border-pink-400/50">(_______)</span> with AHS, we received notice of your interest in learning about potential additional benefits to your medicare, before I get you over to an agent..
+                    </p>
+
+                    <p class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/30 text-slate-300 italic text-xs text-center">
+                        (Benefits depend on their area, income level, and health. Don’t mention any specific benefits unless they object.)
+                    </p>
+
+                    <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700/50">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-300 font-medium">
+                            <ul class="space-y-2 list-disc pl-5 marker:text-pink-400">
+                                <li>Routine eye exams</li>
+                                <li>Eyeglasses and contacts allowance</li>
+                                <li>Routine dental cleanings</li>
+                                <li>Fillings and X-rays</li>
+                                <li>Dentures and crowns coverage</li>
+                                <li>Hearing exams and fittings</li>
+                                <li>Hearing aid allowances</li>
+                            </ul>
+                            <ul class="space-y-2 list-disc pl-5 marker:text-pink-400">
+                                <li>Gym membership discounts</li>
+                                <li>Wellness class access</li>
+                                <li>OTC health item credits</li>
+                                <li>24/7 nurse hotline</li>
+                                <li>Post-hospital meal delivery</li>
+                                <li>Medical transportation coverage</li>
+                                <li>Chronic condition support</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <p class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/30 text-slate-300 italic text-xs text-center">
+                        (If they start to ask any additional questions, let them know your Licensed Agent will be answering all of their questions and continue..)
+                    </p>
+
+                    <p class="bg-slate-700/30 p-3 rounded-xl border border-slate-600/30 text-rose-300 italic text-xs font-bold text-center">
+                        * Ask Name, DOB and Zip Code * (If over 80 disconnect)
                     </p>
                 </div>
 
@@ -94,7 +149,7 @@
                     </div>
 
                     <div class="bg-slate-900/60 p-5 rounded-2xl border border-slate-700/50">
-                        <p class="text-sm text-slate-200 mb-3 font-bold">Do you have Tricare?</p>
+                        <p class="text-sm text-slate-200 mb-3 font-bold">Do you have Tricare or a Retirement Plan?</p>
                         <div class="flex gap-3">
                             <button onclick="handleQual('q2', true)" id="btn-q2-yes" class="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all">YES (DQ)</button>
                             <button onclick="handleQual('q2', false)" id="btn-q2-no" class="flex-1 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-extrabold py-2 px-4 rounded-xl text-xs transition-all">NO (Required)</button>
@@ -140,7 +195,7 @@
                     </h2>
 
                     <p class="text-sm text-slate-200 bg-slate-900 p-5 rounded-2xl border border-slate-700 leading-relaxed shadow-inner font-bold">
-                        <span class="text-indigo-300 font-extrabold">Agent:</span> Please hang tight while I get an agent on the line to assist you.
+                        <span class="text-indigo-300 font-extrabold">Agent:</span> Please hold on the line while I get an agent on the line to assist you.
                     </p>
 
                 </div>
@@ -304,6 +359,29 @@
     </div>
 
     <script>
+        // Toggle Function for Script Selector in Step 1
+        function toggleScript(type) {
+            const noNameScript = document.getElementById('script-content-no-name');
+            const withNameScript = document.getElementById('script-content-with-name');
+            const btnNoName = document.getElementById('btn-script-no-name');
+            const btnWithName = document.getElementById('btn-script-with-name');
+
+            const activeClass = "flex-1 bg-pink-500 text-white font-extrabold py-2 px-4 rounded-lg text-xs transition-all shadow-[0_0_15px_rgba(244,114,182,0.3)]";
+            const inactiveClass = "flex-1 bg-transparent hover:bg-slate-700 text-slate-400 font-extrabold py-2 px-4 rounded-lg text-xs transition-all";
+
+            if (type === 'no-name') {
+                noNameScript.classList.remove('hidden');
+                withNameScript.classList.add('hidden');
+                btnNoName.className = activeClass;
+                btnWithName.className = inactiveClass;
+            } else {
+                noNameScript.classList.add('hidden');
+                withNameScript.classList.remove('hidden');
+                btnNoName.className = inactiveClass;
+                btnWithName.className = activeClass;
+            }
+        }
+
         function revealSection(id) {
             const element = document.getElementById(id);
             if (element) {
@@ -414,6 +492,9 @@
                 document.getElementById(`btn-${f}-yes`).className = defaultBtnClass;
                 document.getElementById(`btn-${f}-no`).className = defaultBtnClass;
             });
+
+            // Reset script toggle to default
+            toggleScript('no-name');
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
