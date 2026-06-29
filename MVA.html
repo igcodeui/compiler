@@ -534,6 +534,8 @@
                 <button onclick="showRebuttal(5)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Is this a scam?</button>
                 <button onclick="showRebuttal(6)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Are you a lawyer?</button>
                 <button onclick="showRebuttal(10)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Is this binding?</button>
+                <button onclick="showRebuttal(13)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Disqualified</button>
+
             </div>
 
             <!-- Rebuttal Display Screen -->
@@ -811,7 +813,8 @@
             9: "<span class='theme-highlight font-semibold'>Agent:</span> Just a few minutes on my end — then you choose how you want to continue.",
             10: "<span class='theme-highlight font-semibold'>Agent:</span> Completely fair concern. Both you and the firm have the right to end the agreement at any time — you're not permanently committed. For specific questions about the terms, the attorney will be the best person to walk you through those when you speak with them.",
             11: "<span class='theme-highlight font-semibold'>Agent:</span> This is about your most recent car accident, Mr/ Ms ( Client Name).",
-            12: "<span class='theme-highlight font-semibold'>Agent:</span> Well, I am (Name of the Agent) and I am calling to see if you get the assistance you need. Is somebody assisting you with your recent car accident?<br><br>YES/NO - Perfect, that is exactly the reason why I am calling you.<br><br>YES - So you are currently represented by an attorney right now, correct? (IF YES - [Shift to the DQ script - When we are already LIVE]) <br><br>No - Okay no worries, you are not represented by an attorny yet, correct?(IF YES - Proceed with the script.)"
+            12: "<span class='theme-highlight font-semibold'>Agent:</span> Well, I am (Name of the Agent) and I am calling to see if you get the assistance you need. Is somebody assisting you with your recent car accident?<br><br>YES/NO - Perfect, that is exactly the reason why I am calling you.<br><br>YES - So you are currently represented by an attorney right now, correct? (IF YES - [Shift to the DQ script - When we are already LIVE]) <br><br>No - Okay no worries, you are not represented by an attorny yet, correct?(IF YES - Proceed with the script.)",
+            13: "<span class='theme-highlight font-semibold'>Agent:</span> Ok, I understand. Based on what you've shared, this particular program may not be the right fit for you... but that doesn't mean you're without options.<br><br>You're always welcome to get a second opinion elsewhere. Take care."
         };
 
         function showRebuttal(id) {
