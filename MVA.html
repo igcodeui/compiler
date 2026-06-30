@@ -528,6 +528,7 @@
                 <button onclick="showRebuttal(9)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">⏱How long?</button>
                 <button onclick="showRebuttal(11)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What is this call about?</button>
                 <button onclick="showRebuttal(12)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What about my accident?</button>
+                <button onclick="showRebuttal(14)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">When was that accident?</button>
 
                 <!-- Negative Rebuttals (Red) -->
                 <button onclick="showRebuttal(4)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">How did you get my #?</button>
@@ -535,6 +536,7 @@
                 <button onclick="showRebuttal(6)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Are you a lawyer?</button>
                 <button onclick="showRebuttal(10)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Is this binding?</button>
                 <button onclick="showRebuttal(13)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Disqualified</button>
+                <button onclick="showRebuttal(15)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Why would I need one? Why would I need an attorney?</button>
 
             </div>
 
@@ -814,7 +816,9 @@
             10: "<span class='theme-highlight font-semibold'>Agent:</span> Completely fair concern. Both you and the firm have the right to end the agreement at any time — you're not permanently committed. For specific questions about the terms, the attorney will be the best person to walk you through those when you speak with them.",
             11: "<span class='theme-highlight font-semibold'>Agent:</span> This is about your most recent car accident, Mr/ Ms ( Client Name).",
             12: "<span class='theme-highlight font-semibold'>Agent:</span> Well, I am (Name of the Agent) and I am calling to see if you get the assistance you need. Is somebody assisting you with your recent car accident?<br><br>YES/NO - Perfect, that is exactly the reason why I am calling you.<br><br>YES - So you are currently represented by an attorney right now, correct? (IF YES - [Shift to the DQ script - When we are already LIVE]) <br><br>No - Okay no worries, you are not represented by an attorny yet, correct?(IF YES - Proceed with the script.)",
-            13: "<span class='theme-highlight font-semibold'>Agent:</span> Ok, I understand. Based on what you've shared, this particular program may not be the right fit for you... but that doesn't mean you're without options.<br><br>You're always welcome to get a second opinion elsewhere. Take care."
+            13: "<span class='theme-highlight font-semibold'>Agent:</span> Ok, I understand. Based on what you've shared, this particular program may not be the right fit for you... but that doesn't mean you're without options.<br><br>You're always welcome to get a second opinion elsewhere. Take care.",
+            14: "<span class='theme-highlight font-semibold'>Agent:</span> I don't have the exact information of when did your accident happen. I am calling a list of people who had car accidents within at least 2 years and haven't gotten any legal assistance yet. Are you currently being represented by a lawyer?",
+            15: "<span class='theme-highlight font-semibold'>Agent:</span> A lawyer can help you navigate through the legal process. The process can be tedious and definitely time consuming if you will do it yourself. So you are currently not being represented by a lawyer, correct?"
         };
 
         function showRebuttal(id) {
