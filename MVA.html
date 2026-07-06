@@ -9,208 +9,94 @@
     <style>
         /* CSS VARIABLE THEME SCHEME ENGINE */
         :root, [data-theme="apple"] {
-            --bg-main: #000000;
-            --text-main: #F5F5F7;
-            --text-muted: #8E8E93;
-            --panel-bg: rgba(28, 28, 30, 0.75);
-            --panel-border: rgba(255, 255, 255, 0.1);
-            --inner-bg: #2C2C2E;
-            --accent: #0A84FF;
-            --accent-hover: #007AFF;
-            --accent-text: #ffffff;
-            --highlight: #FF9F0A;
-            --success-bg: #32D74B;
-            --success-text: #000000;
-            --danger-bg: #FF453A;
-            --danger-text: #ffffff;
-            --pops-bg: #ffe600;
-            --pops-text: #000000;
-            --radius: 24px;
-            --radius-sm: 12px;
-            --border-style: solid;
-            --shadow: 0 10px 30px rgba(0,0,0,0.6);
-            --glass-blur: blur(20px);
-            --font-layout: 'Poppins', sans-serif;
-            --font-headings: 'Poppins', sans-serif;
+            --bg-main: #000000; --text-main: #F5F5F7; --text-muted: #8E8E93;
+            --panel-bg: rgba(28, 28, 30, 0.75); --panel-border: rgba(255, 255, 255, 0.1); --inner-bg: #2C2C2E;
+            --accent: #0A84FF; --accent-hover: #007AFF; --accent-text: #ffffff;
+            --highlight: #FF9F0A; --success-bg: #32D74B; --success-text: #000000;
+            --danger-bg: #FF453A; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
+            --radius: 24px; --radius-sm: 12px; --border-style: solid;
+            --shadow: 0 10px 30px rgba(0,0,0,0.6); --glass-blur: blur(20px);
+            --font-layout: 'Poppins', sans-serif; --font-headings: 'Poppins', sans-serif;
         }
 
         [data-theme="dark"] {
-            --bg-main: #0f172a;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --panel-bg: #1e293b;
-            --panel-border: rgba(255, 255, 255, 0.08);
-            --inner-bg: #334155;
-            --accent: #6366f1;
-            --accent-hover: #4f46e5;
-            --accent-text: #ffffff;
-            --highlight: #fbbf24;
-            --success-bg: #22c55e;
-            --success-text: #ffffff;
-            --danger-bg: #ef4444;
-            --danger-text: #ffffff;
-            --pops-bg: #ffe600;
-            --pops-text: #000000;
-            --radius: 16px;
-            --radius-sm: 8px;
-            --border-style: solid;
-            --shadow: 0 10px 25px rgba(0,0,0,0.3);
-            --glass-blur: none;
-            --font-layout: 'Poppins', sans-serif;
-            --font-headings: 'Poppins', sans-serif;
+            --bg-main: #0f172a; --text-main: #f8fafc; --text-muted: #94a3b8;
+            --panel-bg: #1e293b; --panel-border: rgba(255, 255, 255, 0.08); --inner-bg: #334155;
+            --accent: #6366f1; --accent-hover: #4f46e5; --accent-text: #ffffff;
+            --highlight: #fbbf24; --success-bg: #22c55e; --success-text: #ffffff;
+            --danger-bg: #ef4444; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
+            --radius: 16px; --radius-sm: 8px; --border-style: solid;
+            --shadow: 0 10px 25px rgba(0,0,0,0.3); --glass-blur: none;
+            --font-layout: 'Poppins', sans-serif; --font-headings: 'Poppins', sans-serif;
         }
 
         [data-theme="light"] {
-            --bg-main: #f1f5f9;
-            --text-main: #0f172a;
-            --text-muted: #475569;
-            --panel-bg: #ffffff;
-            --panel-border: #cbd5e1;
-            --inner-bg: #f8fafc;
-            --accent: #2563eb;
-            --accent-hover: #1d4ed8;
-            --accent-text: #ffffff;
-            --highlight: #b45309;
-            --success-bg: #16a34a;
-            --success-text: #ffffff;
-            --danger-bg: #dc2626;
-            --danger-text: #ffffff;
-            --pops-bg: #ffe600;
-            --pops-text: #000000;
-            --radius: 16px;
-            --radius-sm: 8px;
-            --border-style: solid;
-            --shadow: 0 4px 12px rgba(0,0,0,0.05);
-            --glass-blur: none;
-            --font-layout: 'Poppins', sans-serif;
-            --font-headings: 'Poppins', sans-serif;
+            --bg-main: #f1f5f9; --text-main: #0f172a; --text-muted: #475569;
+            --panel-bg: #ffffff; --panel-border: #cbd5e1; --inner-bg: #f8fafc;
+            --accent: #2563eb; --accent-hover: #1d4ed8; --accent-text: #ffffff;
+            --highlight: #b45309; --success-bg: #16a34a; --success-text: #ffffff;
+            --danger-bg: #dc2626; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
+            --radius: 16px; --radius-sm: 8px; --border-style: solid;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05); --glass-blur: none;
+            --font-layout: 'Poppins', sans-serif; --font-headings: 'Poppins', sans-serif;
         }
 
         [data-theme="game"] {
-            --bg-main: #091428;
-            --text-main: #f0e6d2;
-            --text-muted: #a39a88;
-            --panel-bg: #1e2836;
-            --panel-border: #c89b3c;
-            --inner-bg: #060c18;
-            --accent: #c89b3c;
-            --accent-hover: #f0e6d2;
-            --accent-text: #091428;
-            --highlight: #0ac8b9;
-            --success-bg: #005a82;
-            --success-text: #f0e6d2;
-            --danger-bg: #cd1e25;
-            --danger-text: #ffffff;
-            --pops-bg: #ffe600;
-            --pops-text: #000000;
-            --radius: 4px;
-            --radius-sm: 2px;
-            --border-style: solid;
-            --shadow: 0 0 20px rgba(200, 155, 60, 0.15);
-            --glass-blur: none;
-            --font-layout: 'Poppins', sans-serif;
-            --font-headings: 'Cinzel', serif;
+            --bg-main: #091428; --text-main: #f0e6d2; --text-muted: #a39a88;
+            --panel-bg: #1e2836; --panel-border: #c89b3c; --inner-bg: #060c18;
+            --accent: #c89b3c; --accent-hover: #f0e6d2; --accent-text: #091428;
+            --highlight: #0ac8b9; --success-bg: #005a82; --success-text: #f0e6d2;
+            --danger-bg: #cd1e25; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
+            --radius: 4px; --radius-sm: 2px; --border-style: solid;
+            --shadow: 0 0 20px rgba(200, 155, 60, 0.15); --glass-blur: none;
+            --font-layout: 'Poppins', sans-serif; --font-headings: 'Cinzel', serif;
         }
 
         [data-theme="glitch"] {
-            --bg-main: #050505;
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --panel-bg: #0a0a0a;
-            --panel-border: #222222;
-            --inner-bg: #111111;
-            --accent: #d4ff00;
-            --accent-hover: #bce600;
-            --accent-text: #000000;
-            --highlight: #ff00ea;
-            --success-bg: #d4ff00;
-            --success-text: #000000;
-            --danger-bg: #ff00ea;
-            --danger-text: #ffffff;
-            --pops-bg: #ffe600;
-            --pops-text: #000000;
-            --radius: 0px;
-            --radius-sm: 0px;
-            --border-style: solid;
-            --shadow: none;
-            --glass-blur: none;
-            --font-layout: 'Poppins', sans-serif;
-            --font-headings: 'Oswald', sans-serif;
+            --bg-main: #050505; --text-main: #ffffff; --text-muted: #888888;
+            --panel-bg: #0a0a0a; --panel-border: #222222; --inner-bg: #111111;
+            --accent: #d4ff00; --accent-hover: #bce600; --accent-text: #000000;
+            --highlight: #ff00ea; --success-bg: #d4ff00; --success-text: #000000;
+            --danger-bg: #ff00ea; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
+            --radius: 0px; --radius-sm: 0px; --border-style: solid;
+            --shadow: none; --glass-blur: none;
+            --font-layout: 'Poppins', sans-serif; --font-headings: 'Oswald', sans-serif;
         }
 
         [data-theme="explore"] {
-            --bg-main: #9ad3d5;
-            --text-main: #000000;
-            --text-muted: #4a3e35;
-            --panel-bg: #f2ead3;
-            --panel-border: #5a3c1e;
-            --inner-bg: #e5dcc0;
-            --accent: #c87038;
-            --accent-hover: #d98147;
-            --accent-text: #ffffff;
-            --highlight: #3c5a24;
-            --success-bg: #5c8038;
-            --success-text: #ffffff;
-            --danger-bg: #a34832;
-            --danger-text: #ffffff;
-            --pops-bg: #ffe600;
-            --pops-text: #000000;
-            --radius: 16px;
-            --radius-sm: 8px;
-            --border-style: solid;
-            --shadow: 4px 4px 0px rgba(90, 60, 30, 0.15);
-            --glass-blur: none;
-            --font-layout: 'Nunito', sans-serif;
-            --font-headings: 'Nunito', sans-serif;
+            --bg-main: #9ad3d5; --text-main: #000000; --text-muted: #4a3e35;
+            --panel-bg: #f2ead3; --panel-border: #5a3c1e; --inner-bg: #e5dcc0;
+            --accent: #c87038; --accent-hover: #d98147; --accent-text: #ffffff;
+            --highlight: #3c5a24; --success-bg: #5c8038; --success-text: #ffffff;
+            --danger-bg: #a34832; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
+            --radius: 16px; --radius-sm: 8px; --border-style: solid;
+            --shadow: 4px 4px 0px rgba(90, 60, 30, 0.15); --glass-blur: none;
+            --font-layout: 'Nunito', sans-serif; --font-headings: 'Nunito', sans-serif;
         }
 
         [data-theme="bus"] {
-            --bg-main: #1e1e24; 
-            --text-main: #f5f5f5;
-            --text-muted: #999999;
-            --panel-bg: #2b2b36;
-            --panel-border: #ffcc00; 
-            --inner-bg: #22222a;
-            --accent: #ffcc00; 
-            --accent-hover: #e6b800;
-            --accent-text: #111111; 
-            --highlight: #ffcc00;
-            --success-bg: #28a745; 
-            --success-text: #ffffff;
-            --danger-bg: #dc3545; 
-            --danger-text: #ffffff;
-            --pops-bg: #ffe600;
-            --pops-text: #000000;
-            --radius: 8px;
-            --radius-sm: 4px;
-            --border-style: dashed;
-            --shadow: 0 10px 20px rgba(0,0,0,0.4);
-            --glass-blur: none;
-            --font-layout: 'Poppins', sans-serif;
-            --font-headings: 'Poppins', sans-serif;
+            --bg-main: #1e1e24; --text-main: #f5f5f5; --text-muted: #999999;
+            --panel-bg: #2b2b36; --panel-border: #ffcc00; --inner-bg: #22222a;
+            --accent: #ffcc00; --accent-hover: #e6b800; --accent-text: #111111;
+            --highlight: #ffcc00; --success-bg: #28a745; --success-text: #ffffff;
+            --danger-bg: #dc3545; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
+            --radius: 8px; --radius-sm: 4px; --border-style: dashed;
+            --shadow: 0 10px 20px rgba(0,0,0,0.4); --glass-blur: none;
+            --font-layout: 'Poppins', sans-serif; --font-headings: 'Poppins', sans-serif;
         }
 
-        [data-theme="bus"] .custom-btn-bg,
-        [data-theme="bus"] .theme-btn-accent,
-        [data-theme="bus"] .theme-btn-success,
-        [data-theme="bus"] .theme-btn-danger,
-        [data-theme="bus"] .custom-btn-bg-red,
-        [data-theme="bus"] .theme-btn-neutral {
-            position: relative;
-            background-color: var(--accent) !important;
-            border: 2px solid #000000 !important;
-            border-radius: 4px 16px 4px 4px !important;
-            text-transform: uppercase;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            overflow: visible !important;
-            color: var(--accent-text) !important;
+        [data-theme="bus"] .custom-btn-bg, [data-theme="bus"] .theme-btn-accent,
+        [data-theme="bus"] .theme-btn-success, [data-theme="bus"] .theme-btn-danger,
+        [data-theme="bus"] .custom-btn-bg-red, [data-theme="bus"] .theme-btn-neutral {
+            position: relative; background-color: var(--accent) !important; border: 2px solid #000000 !important;
+            border-radius: 4px 16px 4px 4px !important; text-transform: uppercase; font-weight: 800;
+            letter-spacing: 0.5px; overflow: visible !important; color: var(--accent-text) !important;
         }
 
         [data-theme="bus"] .theme-btn-success { background-color: var(--success-bg) !important; color: var(--success-text) !important; }
         [data-theme="bus"] .theme-btn-danger, [data-theme="bus"] .custom-btn-bg-red { background-color: var(--danger-bg) !important; color: var(--danger-text) !important; }
 
-        body { font-family: var(--font-layout); background-color: var(--bg-main); color: var(--text-main); scroll-behavior: smooth; }
+        body { font-family: var(--font-layout); background-color: var(--bg-main); color: var(--text-main); scroll-behavior: smooth; overflow: hidden; }
         h1, h2, h3, .heading-font { font-family: var(--font-headings); }
         .theme-panel { background-color: var(--panel-bg); border: 1px var(--border-style) var(--panel-border); border-radius: var(--radius); box-shadow: var(--shadow); transition: all 0.25s ease; }
         .theme-inner-card { background-color: var(--inner-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-sm); }
@@ -220,13 +106,15 @@
         .theme-btn-neutral { background-color: var(--text-muted); color: #fff; border-radius: var(--radius-sm); padding: 0.75rem 1.5rem; text-align: center; }
         .theme-text-muted { color: var(--text-muted); }
         .theme-highlight { color: var(--highlight); }
-        .sticky-offset { top: 72px; }
+        .sticky-offset { top: 0; }
+        
+        /* Utility classes for smooth split screen */
+        .workspace-transition { transition: width 0.4s ease-in-out; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col text-[14px]">
+<body class="h-screen flex flex-col text-[14px]">
 
-    <!-- MAIN NAVBAR -->
-    <header id="main-header" class="theme-panel sticky top-0 z-50 rounded-none border-t-0 border-x-0 bg-opacity-90 backdrop-blur-md h-[72px]">
+    <header id="main-header" class="theme-panel z-50 rounded-none border-t-0 border-x-0 bg-opacity-90 backdrop-blur-md h-[72px] shrink-0">
         <div class="max-w-[1000px] w-full mx-auto px-6 h-full flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-4">
                 <div class="theme-btn-accent font-bold py-1 px-3 text-xs tracking-wide uppercase">MVA INTAKE</div>
@@ -245,235 +133,236 @@
         </div>
     </header>
 
-    <!-- STICKY REBUTTALS BAR -->
-    <div class="sticky sticky-offset z-40 bg-[var(--bg-main)] shadow-xl transition-colors duration-250 border-b border-[var(--panel-border)]">
-        <div class="max-w-[1000px] w-full mx-auto px-4 py-3 space-y-3">
-            <span class="font-semibold theme-text-muted uppercase tracking-wider text-[11px] block heading-font">🛡️ Quick Rebuttals</span>
+    <div class="flex flex-1 w-full h-[calc(100vh-72px)] overflow-hidden">
+        
+        <div id="script-workspace" class="w-full h-full overflow-y-auto workspace-transition relative pb-24 bg-[var(--bg-main)]">
             
-            <div class="flex flex-wrap gap-2">
-                <button onclick="showRebuttal(1)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Early Legal Q.</button>
-                <button onclick="showRebuttal(2)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Mid-Call Q.</button>
-                <button onclick="showRebuttal(3)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Who is this?</button>
-                <button onclick="showRebuttal(7)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Do I pay?</button>
-                <button onclick="showRebuttal(8)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What happens next?</button>
-                <button onclick="showRebuttal(9)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">⏱How long?</button>
-                <button onclick="showRebuttal(11)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What is this call about?</button>
-                <button onclick="showRebuttal(12)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What about my accident?</button>
-                <button onclick="showRebuttal(14)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">When was that accident?</button>
+            <div class="sticky sticky-offset z-40 bg-[var(--bg-main)] shadow-xl transition-colors duration-250 border-b border-[var(--panel-border)]">
+                <div class="max-w-[1000px] w-full mx-auto px-4 py-3 space-y-3">
+                    <span class="font-semibold theme-text-muted uppercase tracking-wider text-[11px] block heading-font">🛡️ Quick Rebuttals</span>
+                    
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="showRebuttal(1)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Early Legal Q.</button>
+                        <button onclick="showRebuttal(2)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Mid-Call Q.</button>
+                        <button onclick="showRebuttal(3)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Who is this?</button>
+                        <button onclick="showRebuttal(7)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Do I pay?</button>
+                        <button onclick="showRebuttal(8)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What happens next?</button>
+                        <button onclick="showRebuttal(9)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">⏱How long?</button>
+                        <button onclick="showRebuttal(11)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What is this call about?</button>
+                        <button onclick="showRebuttal(12)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What about my accident?</button>
+                        <button onclick="showRebuttal(14)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">When was that accident?</button>
 
-                <button onclick="showRebuttal(4)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">How did you get my #?</button>
-                <button onclick="showRebuttal(5)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Is this a scam?</button>
-                <button onclick="showRebuttal(6)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Are you a lawyer?</button>
-                <button onclick="showRebuttal(10)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Is this binding?</button>
-                <button onclick="showRebuttal(13)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Disqualified</button>
-                <button onclick="showRebuttal(15)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Why would I need one?</button>
-                <button onclick="window.open('https://live.tcpatech.com/678765d914fc2', '_blank')" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">
-    TCPA LINK
-</button>
-            </div>
+                        <button onclick="showRebuttal(4)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">How did you get my #?</button>
+                        <button onclick="showRebuttal(5)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Is this a scam?</button>
+                        <button onclick="showRebuttal(6)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Are you a lawyer?</button>
+                        <button onclick="showRebuttal(10)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Is this binding?</button>
+                        <button onclick="showRebuttal(13)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Disqualified</button>
+                        <button onclick="showRebuttal(15)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Why would I need one?</button>
+                        
+                        <button onclick="openIframe()" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border-2 border-white">
+                            TCPA LINK
+                        </button>
+                    </div>
 
-            <div id="rebuttal-display-container" class="hidden">
-                <div class="theme-inner-card p-4 border-l-4 border-[var(--accent)] flex items-start gap-3 relative">
-                    <button onclick="closeRebuttal()" class="absolute top-2 right-2 text-xs theme-text-muted hover:text-[var(--text-main)]">✖ Close</button>
-                    <span class="text-xl">💡</span>
-                    <p id="rebuttal-display-text" class="text-sm leading-relaxed"></p>
+                    <div id="rebuttal-display-container" class="hidden">
+                        <div class="theme-inner-card p-4 border-l-4 border-[var(--accent)] flex items-start gap-3 relative">
+                            <button onclick="closeRebuttal()" class="absolute top-2 right-2 text-xs theme-text-muted hover:text-[var(--text-main)]">✖ Close</button>
+                            <span class="text-xl">💡</span>
+                            <p id="rebuttal-display-text" class="text-sm leading-relaxed"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <main class="max-w-[1000px] w-full mx-auto p-4 sm:p-6">
+                <div class="space-y-6">
+
+                    <div id="call-initiation" class="theme-panel p-6 space-y-5">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q1</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> Hi, this is (Agent Name). Am I speaking with (Client Name)?<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Great! Can you hear me okay?<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Perfect. I'm just following up regarding your recent car accident. I wanted to check in and make sure everything has been moving along the way it should. <strong class="text-[var(--accent)]">Were you completely satisfied with the assistance you received and the way your claim has been handled so far?</strong>
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button onclick="goToStep('satisfaction-yes', 'call-initiation')" class="custom-btn-bg theme-btn-success font-medium shadow-md">YES (Satisfied)</button>
+                            <button onclick="goToStep('satisfaction-no', 'call-initiation')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">NO (Not Satisfied)</button>
+                        </div>
+                    </div>
+
+                    <div id="step-satisfaction-yes" class="hidden theme-panel p-6 space-y-5">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q2 (Satisfied Path)</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> That's great to hear. The reason for my call is simply to make sure you're receiving every benefit and resource available to you. <strong class="text-[var(--accent)]">Just to confirm, are you currently being represented by an attorney?</strong>
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button onclick="goToStep('represented-funding', 'step-satisfaction-yes')" class="theme-btn-neutral font-medium shadow-md">YES (Represented) -> Legal Funding</button>
+                            <button onclick="goToStep('not-represented', 'step-satisfaction-yes')" class="theme-btn-neutral font-medium shadow-md">NO (Not Represented) -> Attorney Lead</button>
+                        </div>
+                    </div>
+
+                    <div id="step-satisfaction-no" class="hidden theme-panel p-6 space-y-5">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q2 (Unsatisfied Path)</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear that. That's exactly why we're reaching out today. There may be options available to help improve your experience and potentially move your claim forward more efficiently. <strong class="text-[var(--accent)]">Just to confirm, are you currently being represented by an Attorney?</strong>
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button onclick="goToStep('represented-funding', 'step-satisfaction-no')" class="theme-btn-neutral font-medium shadow-md">YES (Represented) -> Legal Funding</button>
+                            <button onclick="goToStep('not-represented', 'step-satisfaction-no')" class="theme-btn-neutral font-medium shadow-md">NO (Not Represented) -> Attorney Lead</button>
+                        </div>
+                    </div>
+
+                    <div id="step-represented-funding" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--accent)]">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Funding Qualification</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> Great! Thank you for confirming. Since your case is still pending, you may be eligible to apply for legal funding to help while you wait for your claim to be resolved. There is no application fee, no obligation and the qualification process takes less than 2 mins. Ok?<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Before we continue, I just need to verify your identity. I'll send a one-time verification text message to (phone number). Standard message and data rates may apply.<br><br>
+                            
+                            <strong>Submit here:</strong> <a href="javascript:void(0)" onclick="openIframe()" class="text-blue-400 underline font-bold">Open TCPA Form ➔</a><br><br>
+                            
+                            <span class="theme-highlight font-semibold">Agent:</span> I've just sent the verification code. Whenever you're ready, could you please read me the 4 digit code you received?
+                        </p>
+                        <div class="grid grid-cols-1 gap-3">
+                            <button onclick="goToStep('represented-details', 'step-represented-funding')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">Identity Verified - Proceed to Questions</button>
+                        </div>
+                    </div>
+
+                    <div id="step-represented-details" class="hidden theme-panel p-6 space-y-5">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Attorney Details for Funding</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> Thank you! Your identity has been verified, and we can move forward.<br><br>
+                            a. Has your case already settled? <strong>(Must be NO)</strong><br>
+                            b. Have you applied for legal funding before? <strong>(Must be NO)</strong><br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Perfect. I just need a few details about your attorney.<br>
+                            a. What is the best phone number for your Attorney?<br>
+                            b. What is your Attorney's email address?<br>
+                            c. Can you please confirm your Attorney's full name?<br>
+                            d. Which law firm is your attorney with?<br>
+                            e. Approximately how much funding are you looking to apply for while your case is pending?
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button onclick="goToStep('represented-closing', 'step-represented-details')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">Submit Application</button>
+                            <button onclick="triggerDispo('step-represented-details')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Failed Qualification (Dispo)</button>
+                        </div>
+                    </div>
+
+                    <div id="step-represented-closing" class="hidden theme-panel p-6 space-y-5">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Funding Wrap-Up</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> Excellent. I've updated your information and submitted it for review.<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> A member of our team will contact you with an update as soon as your application has been reviewed. Thank you for your time, and have a wonderful day.
+                        </p>
+                    </div>
+
+                    <div id="step-not-represented" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--highlight)]">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Options - Verification</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> Ok, not a problem at all. To see what assistance may be available, I just need to verify a few details. Once we're done, I'll connect you with one of our experienced motor vehicle attorneys, who can review your situation and explain your legal options in detail. Let's get started.<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> I have you phone number (dailer info)<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> You are still in (City and State dialer info) with a zip code of (zip code dialer info)<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> To verify your identity, whenever you are ready kindly provide your date of birth. Perfect, now we can move forward.
+                        </p>
+                        <div class="grid grid-cols-1 gap-3">
+                            <button onclick="goToStep('accident-info-1', 'step-not-represented')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">Identity Verified - Proceed</button>
+                        </div>
+                    </div>
+
+                    <div id="step-accident-info-1" class="hidden theme-panel p-6 space-y-5">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Accident Information (Part 1)</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> 1. Can you please confirm the date of your accident and which state did it happen? (If doesn't know exact date, ask roughly when)<br><br>If its over 2 Years - Exit Sciript<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> 2. Can you briefly tell me what happened? Did they hit you on the rear end or head on?<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> 3. Who was at fault for the accident?
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button onclick="goToStep('accident-info-2', 'step-accident-info-1')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">Not At Fault & Under 2 Yrs</button>
+                            <button onclick="triggerDispo('step-accident-info-1')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">At Fault OR > 2 Yrs (Exit)</button>
+                        </div>
+                    </div>
+
+                    <div id="step-accident-info-2" class="hidden theme-panel p-6 space-y-5">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Accident Information (Part 2)</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> I understand. Unfortunately, accidents like these happen too often.<br><br>
+                            4. Was the vehicle involved in the accident your personal vehicle, or was it a commercial or company vehicle? (any is ok)<br>
+                            5. At the time of the accident, were you the driver, or were you riding as a passenger? (any is ok)<br>
+                            6. Was a police report filed for the accident? <strong>(Must be YES)</strong><br>
+                            - Great, thank you! Do you happen to have the police report number? If you have it available, please provide it whenever you are ready. If you don't have it ready right now, it's okay. I will just note that in your file.<br>
+                            7. Do you know if the other driver had insurance? <strong>(Must be YES)</strong><br>
+                            8. Do you have UM/UIM coverage on your own policy? <strong>(Must be YES)</strong>
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button onclick="goToStep('medical-info-1', 'step-accident-info-2')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">Police Report & Ins. Confirmed</button>
+                            <button onclick="triggerDispo('step-accident-info-2')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Missing Report/Ins. (Exit)</button>
+                        </div>
+                    </div>
+
+                    <div id="step-medical-info-1" class="hidden theme-panel p-6 space-y-5">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Medical Treatment Qualification</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> I have a few more questions to determine your eligibility.<br><br>
+                            1. Were you physically injured in the accident? <strong>(INJURED = Continue / NOT INJURED = Exit Script)</strong><br>
+                            - I am sorry you went through that.<br>
+                            2. Can you briefly describe the injuries you sustained?<br>
+                            3. Did you receive medical treatment shortly after the accident, such as visiting an emergency room, urgent care, or another medical provider within 30 days? <strong>(Must be YES)</strong><br>
+                            4. On a scale of 1-10, where 1 means very little and 10 represents the worst pain imaginable, how would you rate the pain you've experienced since the accident or the pain you're currently experiencing?<br>
+                            5. Has a doctor recommended surgery for injuries, have you already had surgery, or do you expect that you may need surgery as part of your treatment?<br>
+                            6. When was the last time you had a medical visit related to the accident? <strong>(Must be within the past 3 months)</strong><br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Perfect, Thank you for answering those questions.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button onclick="goToStep('closing', 'step-medical-info-1')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">Medically Qualified</button>
+                            <button onclick="triggerDispo('step-medical-info-1')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified (Exit)</button>
+                        </div>
+                    </div>
+
+                    <div id="step-closing" class="hidden theme-panel p-6 space-y-5">
+                        <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Review & Retainer Sent</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> Everything you've shared indicates that your information is ready for review. I'm going to prepare your file now so we can connect you with one of our motor vehicle accident attorney, who will review your case, answer your questions, and discuss the options that may be available to you.<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> I am sending the document to your email now for your review and signature. Document sent. Kindly check your email.
+                        </p>
+                        <div class="grid grid-cols-1 gap-3">
+                            <button onclick="goToStep('warm-transfer', 'step-closing')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-lg">Document Signed - Prepare Handoff</button>
+                        </div>
+                    </div>
+
+                    <div id="step-warm-transfer" class="hidden theme-panel p-6 space-y-5 border-[var(--accent)] border-opacity-50 relative overflow-hidden">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] relative heading-font">When Retainer is Signed / Hand Off Script</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed relative">
+                            <span class="theme-highlight font-semibold">Agent:</span> Perfect, I just received confirmation that you've signed the document. Thank you for taking care of that.<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> The next step is to connect you with one of our motor vehicle accident attorneys, who will review your case, discuss your situation in detail, and answer any questions you may have. Please stay on the line while I transfer your call. It will just take a brief moment.<br><br>
+                            <strong>(When transferring to Attorney)</strong><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Hi there, This is (Agent Name) with Car Accident Payout. I have (Client Name) on the line- they just signed your retainer.<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> (Client Name)'s phone number is (phone number) and their email address is (email address). Can you please confirm you received the signed document?<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Please take it from here. Thank you so much. Have a great day!
+                        </p>
+                    </div>
+
+                    <div id="step-dispo" class="hidden relative theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--danger-bg)]">
+                        <button onclick="goBackFromDispo()" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--danger-bg)] block pr-24 heading-font">EXIT SCRIPT</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> Based on what you've shared, this particular program may not be the right fit for you. But that doesn't mean you are without options.<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> You are always welcome to get second opinion elsewhere. Have a great day!
+                        </p>
+                    </div>
+
+                </div>
+            </main>
         </div>
+
+        <div id="iframe-workspace" class="w-0 hidden h-full bg-[var(--inner-bg)] border-l border-[var(--panel-border)] workspace-transition relative shadow-[inset_10px_0_20px_rgba(0,0,0,0.3)]">
+            <div class="absolute top-0 left-0 w-full h-[40px] bg-[var(--panel-bg)] border-b border-[var(--panel-border)] flex justify-between items-center px-4 z-10">
+                <span class="text-xs font-bold uppercase tracking-wider theme-text-muted">TCPA Tech Portal</span>
+                <button onclick="closeIframe()" class="custom-btn-bg-red theme-btn-danger py-1 px-3 text-xs font-bold rounded shadow hover:scale-95 transition-transform">
+                    CLOSE PANEL ✖
+                </button>
+            </div>
+            <iframe src="https://live.tcpatech.com/678765d914fc2" class="w-full h-full border-0 pt-[40px]"></iframe>
+        </div>
+
     </div>
-
-    <!-- MAIN SCRIPT AREA -->
-    <main class="flex-1 max-w-[1000px] w-full mx-auto p-4 sm:p-6 pb-24">
-        <div class="space-y-6">
-
-            <!-- STEP 1: SATISFACTION QUESTION -->
-            <div id="call-initiation" class="theme-panel p-6 space-y-5">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q1</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> Hi, this is (Agent Name). Am I speaking with (Client Name)?<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> Great! Can you hear me okay?<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> Perfect. I'm just following up regarding your recent car accident. I wanted to check in and make sure everything has been moving along the way it should. <strong class="text-[var(--accent)]">Were you completely satisfied with the assistance you received and the way your claim has been handled so far?</strong>
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <button onclick="goToStep('satisfaction-yes', 'call-initiation')" class="custom-btn-bg theme-btn-success font-medium shadow-md">
-                        YES (Satisfied)
-                    </button>
-                    <button onclick="goToStep('satisfaction-no', 'call-initiation')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">
-                        NO (Not Satisfied)
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 2A: SATISFIED -> ASK REPRESENTATION -->
-            <div id="step-satisfaction-yes" class="hidden theme-panel p-6 space-y-5">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q2 (Satisfied Path)</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> That's great to hear. The reason for my call is simply to make sure you're receiving every benefit and resource available to you. <strong class="text-[var(--accent)]">Just to confirm, are you currently being represented by an attorney?</strong>
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <button onclick="goToStep('represented-funding', 'step-satisfaction-yes')" class="theme-btn-neutral font-medium shadow-md">
-                        YES (Represented) -> Legal Funding
-                    </button>
-                    <button onclick="goToStep('not-represented', 'step-satisfaction-yes')" class="theme-btn-neutral font-medium shadow-md">
-                        NO (Not Represented) -> Attorney Lead
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 2B: NOT SATISFIED -> ASK REPRESENTATION -->
-            <div id="step-satisfaction-no" class="hidden theme-panel p-6 space-y-5">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q2 (Unsatisfied Path)</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear that. That's exactly why we're reaching out today. There may be options available to help improve your experience and potentially move your claim forward more efficiently. <strong class="text-[var(--accent)]">Just to confirm, are you currently being represented by an Attorney?</strong>
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <button onclick="goToStep('represented-funding', 'step-satisfaction-no')" class="theme-btn-neutral font-medium shadow-md">
-                        YES (Represented) -> Legal Funding
-                    </button>
-                    <button onclick="goToStep('not-represented', 'step-satisfaction-no')" class="theme-btn-neutral font-medium shadow-md">
-                        NO (Not Represented) -> Attorney Lead
-                    </button>
-                </div>
-            </div>
-
-            <!-- PATH 1: REPRESENTED / LEGAL FUNDING -->
-            <div id="step-represented-funding" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--accent)]">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Funding Qualification</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> Great! Thank you for confirming. Since your case is still pending, you may be eligible to apply for legal funding to help while you wait for your claim to be resolved. There is no application fee, no obligation and the qualification process takes less than 2 mins. Ok?<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> Before we continue, I just need to verify your identity. I'll send a one-time verification text message to (phone number). Standard message and data rates may apply.<br><br>
-                    <strong>Submit here:</strong> <a href="https://live.tcpatech.com/678765d914fc2" target="_blank" class="text-blue-400 underline">https://live.tcpatech.com/678765d914fc2</a><br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> I've just sent the verification code. Whenever you're ready, could you please read me the 4 digit code you received?
-                </p>
-                <div class="grid grid-cols-1 gap-3">
-                    <button onclick="goToStep('represented-details', 'step-represented-funding')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">Identity Verified - Proceed to Questions</button>
-                </div>
-            </div>
-
-            <div id="step-represented-details" class="hidden theme-panel p-6 space-y-5">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Attorney Details for Funding</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> Thank you! Your identity has been verified, and we can move forward.<br><br>
-                    a. Has your case already settled? <strong>(Must be NO)</strong><br>
-                    b. Have you applied for legal funding before? <strong>(Must be NO)</strong><br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> Perfect. I just need a few details about your attorney.<br>
-                    a. What is the best phone number for your Attorney?<br>
-                    b. What is your Attorney's email address?<br>
-                    c. Can you please confirm your Attorney's full name?<br>
-                    d. Which law firm is your attorney with?<br>
-                    e. Approximately how much funding are you looking to apply for while your case is pending?
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <button onclick="goToStep('represented-closing', 'step-represented-details')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">Submit Application</button>
-                    <button onclick="triggerDispo('step-represented-details')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Failed Qualification (Dispo)</button>
-                </div>
-            </div>
-
-            <div id="step-represented-closing" class="hidden theme-panel p-6 space-y-5">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Funding Wrap-Up</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> Excellent. I've updated your information and submitted it for review.<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> A member of our team will contact you with an update as soon as your application has been reviewed. Thank you for your time, and have a wonderful day.
-                </p>
-            </div>
-
-            <!-- PATH 2: NOT REPRESENTED / ATTORNEY LEAD -->
-            <div id="step-not-represented" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--highlight)]">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Options - Verification</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> Ok, not a problem at all. To see what assistance may be available, I just need to verify a few details. Once we're done, I'll connect you with one of our experienced motor vehicle attorneys, who can review your situation and explain your legal options in detail. Let's get started.<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> I have you phone number (dailer info)<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> You are still in (City and State dialer info) with a zip code of (zip code dialer info)<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> To verify your identity, whenever you are ready kindly provide your date of birth. Perfect, now we can move forward.
-                </p>
-                <div class="grid grid-cols-1 gap-3">
-                    <button onclick="goToStep('accident-info-1', 'step-not-represented')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">Identity Verified - Proceed</button>
-                </div>
-            </div>
-
-            <div id="step-accident-info-1" class="hidden theme-panel p-6 space-y-5">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Accident Information (Part 1)</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> 1. Can you please confirm the date of your accident and which state did it happen? (If doesn't know exact date, ask roughly when)<br><br>If its over 2 Years - Exit Sciript<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> 2. Can you briefly tell me what happened? Did they hit you on the rear end or head on?<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> 3. Who was at fault for the accident?
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <button onclick="goToStep('accident-info-2', 'step-accident-info-1')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">Not At Fault & Under 2 Yrs</button>
-                    <button onclick="triggerDispo('step-accident-info-1')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">At Fault OR > 2 Yrs (Exit)</button>
-                </div>
-            </div>
-
-            <div id="step-accident-info-2" class="hidden theme-panel p-6 space-y-5">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Accident Information (Part 2)</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> I understand. Unfortunately, accidents like these happen too often.<br><br>
-                    4. Was the vehicle involved in the accident your personal vehicle, or was it a commercial or company vehicle? (any is ok)<br>
-                    5. At the time of the accident, were you the driver, or were you riding as a passenger? (any is ok)<br>
-                    6. Was a police report filed for the accident? <strong>(Must be YES)</strong><br>
-                    - Great, thank you! Do you happen to have the police report number? If you have it available, please provide it whenever you are ready. If you don't have it ready right now, it's okay. I will just note that in your file.<br>
-                    7. Do you know if the other driver had insurance? <strong>(Must be YES)</strong><br>
-                    8. Do you have UM/UIM coverage on your own policy? <strong>(Must be YES)</strong>
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <button onclick="goToStep('medical-info-1', 'step-accident-info-2')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">Police Report & Ins. Confirmed</button>
-                    <button onclick="triggerDispo('step-accident-info-2')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Missing Report/Ins. (Exit)</button>
-                </div>
-            </div>
-
-            <div id="step-medical-info-1" class="hidden theme-panel p-6 space-y-5">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Medical Treatment Qualification</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> I have a few more questions to determine your eligibility.<br><br>
-                    1. Were you physically injured in the accident? <strong>(INJURED = Continue / NOT INJURED = Exit Script)</strong><br>
-                    - I am sorry you went through that.<br>
-                    2. Can you briefly describe the injuries you sustained?<br>
-                    3. Did you receive medical treatment shortly after the accident, such as visiting an emergency room, urgent care, or another medical provider within 30 days? <strong>(Must be YES)</strong><br>
-                    4. On a scale of 1-10, where 1 means very little and 10 represents the worst pain imaginable, how would you rate the pain you've experienced since the accident or the pain you're currently experiencing?<br>
-                    5. Has a doctor recommended surgery for injuries, have you already had surgery, or do you expect that you may need surgery as part of your treatment?<br>
-                    6. When was the last time you had a medical visit related to the accident? <strong>(Must be within the past 3 months)</strong><br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> Perfect, Thank you for answering those questions.
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <button onclick="goToStep('closing', 'step-medical-info-1')" class="custom-btn-bg theme-btn-success font-semibold shadow-md">Medically Qualified</button>
-                    <button onclick="triggerDispo('step-medical-info-1')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified (Exit)</button>
-                </div>
-            </div>
-
-            <div id="step-closing" class="hidden theme-panel p-6 space-y-5">
-                <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Review & Retainer Sent</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> Everything you've shared indicates that your information is ready for review. I'm going to prepare your file now so we can connect you with one of our motor vehicle accident attorney, who will review your case, answer your questions, and discuss the options that may be available to you.<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> I am sending the document to your email now for your review and signature. Document sent. Kindly check your email.
-                </p>
-                <div class="grid grid-cols-1 gap-3">
-                    <button onclick="goToStep('warm-transfer', 'step-closing')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-lg">Document Signed - Prepare Handoff</button>
-                </div>
-            </div>
-
-            <div id="step-warm-transfer" class="hidden theme-panel p-6 space-y-5 border-[var(--accent)] border-opacity-50 relative overflow-hidden">
-                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] relative heading-font">When Retainer is Signed / Hand Off Script</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed relative">
-                    <span class="theme-highlight font-semibold">Agent:</span> Perfect, I just received confirmation that you've signed the document. Thank you for taking care of that.<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> The next step is to connect you with one of our motor vehicle accident attorneys, who will review your case, discuss your situation in detail, and answer any questions you may have. Please stay on the line while I transfer your call. It will just take a brief moment.<br><br>
-                    <strong>(When transferring to Attorney)</strong><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> Hi there, This is (Agent Name) with Car Accident Payout. I have (Client Name) on the line- they just signed your retainer.<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> (Client Name)'s phone number is (phone number) and their email address is (email address). Can you please confirm you received the signed document?<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> Please take it from here. Thank you so much. Have a great day!
-                </p>
-            </div>
-
-            <div id="step-dispo" class="hidden relative theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--danger-bg)]">
-                <button onclick="goBackFromDispo()" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--danger-bg)] block pr-24 heading-font">EXIT SCRIPT</span>
-                <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span> Based on what you've shared, this particular program may not be the right fit for you. But that doesn't mean you are without options.<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span> You are always welcome to get second opinion elsewhere. Have a great day!
-                </p>
-            </div>
-
-        </div>
-    </main>
 
     <script>
         let previousStepId = null; 
@@ -495,6 +384,34 @@
             14: "<span class='theme-highlight font-semibold'>Agent:</span> I don't have the exact information of when did your accident happen. I am calling a list of people who had car accidents within at least 2 years and haven't gotten any legal assistance yet. Are you currently being represented by a lawyer?",
             15: "<span class='theme-highlight font-semibold'>Agent:</span> A lawyer can help you navigate through the legal process. The process can be tedious and definitely time consuming if you will do it yourself. So you are currently not being represented by a lawyer, correct?"
         };
+
+        // ====== NEW SPLIT-SCREEN IFRAME FUNCTIONS ====== //
+        function openIframe() {
+            const leftPanel = document.getElementById('script-workspace');
+            const rightPanel = document.getElementById('iframe-workspace');
+
+            // Squeeze left panel to 50%
+            leftPanel.classList.remove('w-full');
+            leftPanel.classList.add('w-1/2');
+
+            // Open right panel to 50%
+            rightPanel.classList.remove('w-0', 'hidden');
+            rightPanel.classList.add('w-1/2', 'block');
+        }
+
+        function closeIframe() {
+            const leftPanel = document.getElementById('script-workspace');
+            const rightPanel = document.getElementById('iframe-workspace');
+
+            // Expand left panel back to 100%
+            leftPanel.classList.remove('w-1/2');
+            leftPanel.classList.add('w-full');
+
+            // Hide right panel
+            rightPanel.classList.remove('w-1/2', 'block');
+            rightPanel.classList.add('w-0', 'hidden');
+        }
+        // ================================================ //
 
         function showRebuttal(id) {
             document.getElementById('rebuttal-display-text').innerHTML = rebuttalsData[id];
@@ -522,6 +439,7 @@
             const element = document.getElementById(stepId.startsWith('step-') ? stepId : 'step-' + stepId);
             if (element) {
                 element.classList.remove('hidden');
+                // Scroll specifically inside the left workspace now
                 setTimeout(() => { element.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
             }
         }
@@ -563,7 +481,8 @@
             previousStepId = null;
             document.getElementById('call-initiation').classList.remove('hidden');
             closeRebuttal();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            closeIframe(); // Close the split screen on reset
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
