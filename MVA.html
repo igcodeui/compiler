@@ -598,8 +598,15 @@
             <div id="path-outbound" class="hidden theme-panel p-6 space-y-5">
                 <span class="text-xs font-semibold theme-text-muted uppercase tracking-wider block heading-font">1B — Outbound (You Call Them)</span>
                 <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                    <span class="theme-highlight font-semibold">Agent:</span>Hi, may I speak with (Client Name)? This is (Your Name) from Car Accident Payout. Can you hear me okay?<br><br>
-                    <span class="theme-highlight font-semibold">Agent:</span>I'm calling regarding you recent vehicle accident. I just wanted to check if you've been assisted by someone ? <br><br>YES/NO - Perfect. This is the reason why I'm calling you.
+                    <span class="theme-highlight font-semibold">Agent:</span>Hi, this is <strong>(Agent Name)</strong>Am I speaking with <strong>(Client Name)?</strong><br>
+                    <span class="theme-highlight font-semibold">Agent:</span>Great! Can you hear me okay?<br>
+                    <span class="theme-highlight font-semibold">Agent:</span>Perfect. I'm just following up regarding your recent car accident. I wanted to check in and make sure everything has been moving along the way it should. Were you completely satisfied with the assistance you received and the way your claim has been handled so far?<br><br>
+
+                    <strong>IF YES:</strong><br>That's great to hear. The reason for my call is simply to make sure you're receiving every benefit and resource available to you. Just to confirm, are you currently being represented by an attorney?
+(If represented, transition to the funding qualification script.)<br><br>
+                    <strong>IF NO: </strong>I'm sorry to hear that. That's exactly why we're reaching out today. There may be options available to help improve your experience and potentially move your claim forward more efficiently.
+To see what assistance may be available, I just need to verify a few details. Once we've done that, I'll connect you with one of our experienced motor vehicle claims attorneys, who can review your situation in detail and explain your options.
+Let's start with the basics. What was the date of your accident?
                 </p>
                 <div class="grid grid-cols-1 gap-3">
                     <button onclick="goToStep(1, 'path-outbound')" class="custom-btn-bg w-full theme-btn-accent font-medium shadow-md">
