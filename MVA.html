@@ -7,12 +7,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cinzel:wght@600;700&family=Oswald:wght@500;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
     <style>
+
+        /*CSS FOR BASE CLASSES*/
+        
         /* CSS VARIABLE THEME SCHEME ENGINE */
         :root, [data-theme="apple"] {
             --bg-main: #000000; --text-main: #F5F5F7; --text-muted: #8E8E93;
             --panel-bg: rgba(28, 28, 30, 0.75); --panel-border: rgba(255, 255, 255, 0.1); --inner-bg: #2C2C2E;
             --accent: #0A84FF; --accent-hover: #007AFF; --accent-text: #ffffff;
-            --highlight: #FF9F0A; --success-bg: #32D74B; --success-text: #000000;
+            --tcpa-bg: #5E5CE6; --tcpa-text: #ffffff; /* Indigo */
+            --oa-bg: #FF375F; --oa-text: #ffffff;
+            --highlight: #FF9F0A; --highlight-text: #ffffff; --success-bg: #32D74B; --success-text: #000000;
             --danger-bg: #FF453A; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
             --radius: 24px; --radius-sm: 12px; --border-style: solid;
             --shadow: 0 10px 30px rgba(0,0,0,0.6); --glass-blur: blur(20px);
@@ -22,8 +27,10 @@
         [data-theme="dark"] {
             --bg-main: #0f172a; --text-main: #f8fafc; --text-muted: #94a3b8;
             --panel-bg: #1e293b; --panel-border: rgba(255, 255, 255, 0.08); --inner-bg: #334155;
+            --tcpa-bg: #d946ef; --tcpa-text: #ffffff; /* Fuchsia */
+            --oa-bg: #06b6d4; --oa-text: #ffffff;
             --accent: #6366f1; --accent-hover: #4f46e5; --accent-text: #ffffff;
-            --highlight: #fbbf24; --success-bg: #22c55e; --success-text: #ffffff;
+            --highlight: #fbbf24; --highlight-text: #000000; --success-bg: #22c55e; --success-text: #ffffff;
             --danger-bg: #ef4444; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
             --radius: 16px; --radius-sm: 8px; --border-style: solid;
             --shadow: 0 10px 25px rgba(0,0,0,0.3); --glass-blur: none;
@@ -34,7 +41,10 @@
             --bg-main: #f1f5f9; --text-main: #0f172a; --text-muted: #475569;
             --panel-bg: #ffffff; --panel-border: #cbd5e1; --inner-bg: #f8fafc;
             --accent: #2563eb; --accent-hover: #1d4ed8; --accent-text: #ffffff;
-            --highlight: #b45309; --success-bg: #16a34a; --success-text: #ffffff;
+            /* Add inside [data-theme="light"] */
+--tcpa-bg: #8b5cf6; --tcpa-text: #ffffff; /* Violet */
+--oa-bg: #0ea5e9; --oa-text: #ffffff; /* Sky Blue */
+            --highlight: #b45309; --highlight-text: #ffffff; --success-bg: #16a34a; --success-text: #ffffff;
             --danger-bg: #dc2626; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
             --radius: 16px; --radius-sm: 8px; --border-style: solid;
             --shadow: 0 4px 12px rgba(0,0,0,0.05); --glass-blur: none;
@@ -45,7 +55,10 @@
             --bg-main: #091428; --text-main: #f0e6d2; --text-muted: #a39a88;
             --panel-bg: #1e2836; --panel-border: #c89b3c; --inner-bg: #060c18;
             --accent: #c89b3c; --accent-hover: #f0e6d2; --accent-text: #091428;
-            --highlight: #0ac8b9; --success-bg: #005a82; --success-text: #f0e6d2;
+            /* Add inside [data-theme="game"] */
+--tcpa-bg: #5a1820; --tcpa-text: #f0e6d2; /* Deep Crimson */
+--oa-bg: #084c61; --oa-text: #f0e6d2; /* Deep Teal */
+            --highlight: #0ac8b9; --highlight-text: #000000; --success-bg: #005a82; --success-text: #f0e6d2;
             --danger-bg: #cd1e25; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
             --radius: 4px; --radius-sm: 2px; --border-style: solid;
             --shadow: 0 0 20px rgba(200, 155, 60, 0.15); --glass-blur: none;
@@ -56,7 +69,10 @@
             --bg-main: #050505; --text-main: #ffffff; --text-muted: #888888;
             --panel-bg: #0a0a0a; --panel-border: #222222; --inner-bg: #111111;
             --accent: #d4ff00; --accent-hover: #bce600; --accent-text: #000000;
-            --highlight: #ff00ea; --success-bg: #d4ff00; --success-text: #000000;
+            /* Add inside [data-theme="glitch"] */
+--tcpa-bg: #00ffff; --tcpa-text: #000000; /* Neon Cyan */
+--oa-bg: #ff5500; --oa-text: #ffffff; /* Neon Orange */
+            --highlight: #ff00ea; --highlight-text: #ffffff; --success-bg: #d4ff00; --success-text: #000000;
             --danger-bg: #ff00ea; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
             --radius: 0px; --radius-sm: 0px; --border-style: solid;
             --shadow: none; --glass-blur: none;
@@ -67,7 +83,10 @@
             --bg-main: #9ad3d5; --text-main: #000000; --text-muted: #4a3e35;
             --panel-bg: #f2ead3; --panel-border: #5a3c1e; --inner-bg: #e5dcc0;
             --accent: #c87038; --accent-hover: #d98147; --accent-text: #ffffff;
-            --highlight: #3c5a24; --success-bg: #5c8038; --success-text: #ffffff;
+            /* Add inside [data-theme="explore"] */
+--tcpa-bg: #2d4a22; --tcpa-text: #ffffff; /* Deep Pine */
+--oa-bg: #8b4513; --oa-text: #ffffff; /* Saddle Brown */
+            --highlight: #3c5a24; --highlight-text: #ffffff; --success-bg: #5c8038; --success-text: #ffffff;
             --danger-bg: #a34832; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
             --radius: 16px; --radius-sm: 8px; --border-style: solid;
             --shadow: 4px 4px 0px rgba(90, 60, 30, 0.15); --glass-blur: none;
@@ -77,32 +96,41 @@
         [data-theme="bus"] {
             --bg-main: #1e1e24; --text-main: #f5f5f5; --text-muted: #999999;
             --panel-bg: #2b2b36; --panel-border: #ffcc00; --inner-bg: #22222a;
+            /* Add inside [data-theme="bus"] */
+--tcpa-bg: #000000; --tcpa-text: #ffcc00; /* Reverse Black/Yellow */
+--oa-bg: #ffffff; --oa-text: #000000; /* Crisp White/Black */
             --accent: #ffcc00; --accent-hover: #e6b800; --accent-text: #111111;
-            --highlight: #ffcc00; --success-bg: #28a745; --success-text: #ffffff;
+            --highlight: #ffcc00; --highlight-text: #111111; --success-bg: #28a745; --success-text: #ffffff;
             --danger-bg: #dc3545; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
             --radius: 8px; --radius-sm: 4px; --border-style: dashed;
             --shadow: 0 10px 20px rgba(0,0,0,0.4); --glass-blur: none;
             --font-layout: 'Poppins', sans-serif; --font-headings: 'Poppins', sans-serif;
         }
 
-        [data-theme="bus"] .custom-btn-bg, [data-theme="bus"] .theme-btn-accent,
-        [data-theme="bus"] .theme-btn-success, [data-theme="bus"] .theme-btn-danger,
-        [data-theme="bus"] .custom-btn-bg-red, [data-theme="bus"] .theme-btn-neutral {
-            position: relative; background-color: var(--accent) !important; border: 2px solid #000000 !important;
-            border-radius: 4px 16px 4px 4px !important; text-transform: uppercase; font-weight: 800;
-            letter-spacing: 0.5px; overflow: visible !important; color: var(--accent-text) !important;
-        }
+[data-theme="bus"] .custom-btn-bg, [data-theme="bus"] .theme-btn-accent,
+[data-theme="bus"] .theme-btn-success, [data-theme="bus"] .theme-btn-danger,
+[data-theme="bus"] .custom-btn-bg-red, [data-theme="bus"] .theme-btn-neutral,
+[data-theme="bus"] .theme-btn-highlight, [data-theme="bus"] .theme-btn-tcpa, 
+[data-theme="bus"] .theme-btn-oa {
+    position: relative; background-color: var(--accent) !important; border: 2px solid #000000 !important;
+    border-radius: 4px 16px 4px 4px !important; text-transform: uppercase; font-weight: 800;
+    letter-spacing: 0.5px; overflow: visible !important; color: var(--accent-text) !important;
+}
 
-        [data-theme="bus"] .theme-btn-success { background-color: var(--success-bg) !important; color: var(--success-text) !important; }
-        [data-theme="bus"] .theme-btn-danger, [data-theme="bus"] .custom-btn-bg-red { background-color: var(--danger-bg) !important; color: var(--danger-text) !important; }
+/* Force the unique colors for the Bus theme */
+[data-theme="bus"] .theme-btn-tcpa { background-color: var(--tcpa-bg) !important; color: var(--tcpa-text) !important; }
+[data-theme="bus"] .theme-btn-oa { background-color: var(--oa-bg) !important; color: var(--oa-text) !important; }
 
         body { font-family: var(--font-layout); background-color: var(--bg-main); color: var(--text-main); scroll-behavior: smooth; overflow: hidden; }
         h1, h2, h3, .heading-font { font-family: var(--font-headings); }
         .theme-panel { background-color: var(--panel-bg); border: 1px var(--border-style) var(--panel-border); border-radius: var(--radius); box-shadow: var(--shadow); transition: all 0.25s ease; }
         .theme-inner-card { background-color: var(--inner-bg); border: 1px solid var(--panel-border); border-radius: var(--radius-sm); }
         .theme-btn-accent { background-color: var(--accent); color: var(--accent-text); border-radius: var(--radius-sm); padding: 0.75rem 1.5rem; text-align: center;}
+        .theme-btn-tcpa { background-color: var(--tcpa-bg); color: var(--tcpa-text); border-radius: var(--radius-sm); padding: 0.75rem 1.5rem; text-align: center; }
+        .theme-btn-oa { background-color: var(--oa-bg); color: var(--oa-text); border-radius: var(--radius-sm); padding: 0.75rem 1.5rem; text-align: center; }
         .theme-btn-success { background-color: var(--success-bg); color: var(--success-text); border-radius: var(--radius-sm); padding: 0.75rem 1.5rem; text-align: center;}
         .theme-btn-danger { background-color: var(--danger-bg); color: var(--danger-text); border-radius: var(--radius-sm); padding: 0.75rem 1.5rem; text-align: center;}
+        .theme-btn-highlight { background-color: var(--highlight); color: var(--highlight-text); border-radius: var(--radius-sm); padding: 0.75rem 1.5rem; text-align: center;}
         .theme-btn-neutral { background-color: var(--text-muted); color: #fff; border-radius: var(--radius-sm); padding: 0.75rem 1.5rem; text-align: center; }
         .theme-text-muted { color: var(--text-muted); }
         .theme-highlight { color: var(--highlight); }
@@ -114,6 +142,7 @@
 </head>
 <body class="h-screen flex flex-col text-[14px]">
 
+    <!-- MAIN NAVBAR (Always Full Width) -->
     <header id="main-header" class="theme-panel z-50 rounded-none border-t-0 border-x-0 bg-opacity-90 backdrop-blur-md h-[72px] shrink-0">
         <div class="max-w-[1000px] w-full mx-auto px-6 h-full flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-4">
@@ -133,13 +162,18 @@
         </div>
     </header>
 
+    <!-- WORKSPACE CONTAINER (Holds Script & Iframe Side-by-Side) -->
     <div class="flex flex-1 w-full h-[calc(100vh-72px)] overflow-hidden">
         
+        <!-- LEFT PANEL: MAIN SCRIPT AREA -->
         <div id="script-workspace" class="w-full h-full overflow-y-auto workspace-transition relative pb-24 bg-[var(--bg-main)]">
             
+            <!-- STICKY REBUTTALS BAR -->
             <div class="sticky sticky-offset z-40 bg-[var(--bg-main)] shadow-xl transition-colors duration-250 border-b border-[var(--panel-border)]">
                 <div class="max-w-[1000px] w-full mx-auto px-4 py-3 space-y-3">
-                    <span class="font-semibold theme-text-muted uppercase tracking-wider text-[11px] block heading-font">🛡️ Quick Rebuttals</span>
+                    <div class="flex justify-between items-center">
+                        <span class="font-semibold theme-text-muted uppercase tracking-wider text-[11px] block heading-font">🛡️ Quick Rebuttals</span>
+                    </div>
                     
                     <div class="flex flex-wrap gap-2">
                         <button onclick="showRebuttal(1)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Early Legal Q.</button>
@@ -159,9 +193,14 @@
                         <button onclick="showRebuttal(13)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Disqualified</button>
                         <button onclick="showRebuttal(15)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Why would I need one?</button>
                         
-                        <button onclick="openIframe()" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border-2 border-white">
-                            TCPA LINK
-                        </button>
+                        <!-- DYNAMIC IFRAME BUTTONS (DISTINCT COLORS) -->
+<!-- DYNAMIC IFRAME BUTTONS (DISTINCT COLORS) -->
+<button onclick="openIframe('https://live.tcpatech.com/678765d914fc2', 'TCPA Tech Portal')" class="theme-btn-tcpa px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+    TCPA LINK
+</button>
+<button onclick="openIframe('https://cases.caraccidentpayout.com/oa', 'OA Car Accident Payout')" class="theme-btn-oa px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+    OA LINK
+</button>
                     </div>
 
                     <div id="rebuttal-display-container" class="hidden">
@@ -174,9 +213,11 @@
                 </div>
             </div>
 
+            <!-- SCRIPT CONTENT -->
             <main class="max-w-[1000px] w-full mx-auto p-4 sm:p-6">
                 <div class="space-y-6">
 
+                    <!-- STEP 1: SATISFACTION QUESTION -->
                     <div id="call-initiation" class="theme-panel p-6 space-y-5">
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q1</span>
                         <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
@@ -190,6 +231,7 @@
                         </div>
                     </div>
 
+                    <!-- STEP 2A: SATISFIED -> ASK REPRESENTATION -->
                     <div id="step-satisfaction-yes" class="hidden theme-panel p-6 space-y-5">
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q2 (Satisfied Path)</span>
                         <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
@@ -201,6 +243,7 @@
                         </div>
                     </div>
 
+                    <!-- STEP 2B: NOT SATISFIED -> ASK REPRESENTATION -->
                     <div id="step-satisfaction-no" class="hidden theme-panel p-6 space-y-5">
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q2 (Unsatisfied Path)</span>
                         <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
@@ -212,13 +255,15 @@
                         </div>
                     </div>
 
+                    <!-- PATH 1: REPRESENTED / LEGAL FUNDING -->
                     <div id="step-represented-funding" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--accent)]">
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Funding Qualification</span>
                         <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
                             <span class="theme-highlight font-semibold">Agent:</span> Great! Thank you for confirming. Since your case is still pending, you may be eligible to apply for legal funding to help while you wait for your claim to be resolved. There is no application fee, no obligation and the qualification process takes less than 2 mins. Ok?<br><br>
                             <span class="theme-highlight font-semibold">Agent:</span> Before we continue, I just need to verify your identity. I'll send a one-time verification text message to (phone number). Standard message and data rates may apply.<br><br>
                             
-                            <strong>Submit here:</strong> <a href="javascript:void(0)" onclick="openIframe()" class="text-blue-400 underline font-bold">Open TCPA Form ➔</a><br><br>
+                            <!-- DYNAMIC IN-TEXT LINK -->
+                            <strong>Submit here:</strong> <a href="javascript:void(0)" onclick="openIframe('https://live.tcpatech.com/678765d914fc2', 'TCPA Tech Portal')" class="text-blue-400 underline font-bold">Open TCPA Form ➔</a><br><br>
                             
                             <span class="theme-highlight font-semibold">Agent:</span> I've just sent the verification code. Whenever you're ready, could you please read me the 4 digit code you received?
                         </p>
@@ -254,6 +299,7 @@
                         </p>
                     </div>
 
+                    <!-- PATH 2: NOT REPRESENTED / ATTORNEY LEAD -->
                     <div id="step-not-represented" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--highlight)]">
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Options - Verification</span>
                         <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
@@ -352,14 +398,17 @@
             </main>
         </div>
 
+        <!-- RIGHT PANEL: EXTERNAL SITE (IFRAME) -->
         <div id="iframe-workspace" class="w-0 hidden h-full bg-[var(--inner-bg)] border-l border-[var(--panel-border)] workspace-transition relative shadow-[inset_10px_0_20px_rgba(0,0,0,0.3)]">
+            <!-- Header/Controls for Iframe -->
             <div class="absolute top-0 left-0 w-full h-[40px] bg-[var(--panel-bg)] border-b border-[var(--panel-border)] flex justify-between items-center px-4 z-10">
-                <span class="text-xs font-bold uppercase tracking-wider theme-text-muted">TCPA Tech Portal</span>
-                <button onclick="closeIframe()" class="custom-btn-bg-red theme-btn-danger py-1 px-3 text-xs font-bold rounded shadow hover:scale-95 transition-transform">
+                <span id="iframe-title" class="text-xs font-bold uppercase tracking-wider theme-text-muted">External Portal</span>
+                <button onclick="closeIframe()" class="custom-btn-bg-red theme-btn-danger py-1 px-3 text-[10px] font-bold rounded shadow hover:scale-95 transition-transform">
                     CLOSE PANEL ✖
                 </button>
             </div>
-            <iframe src="https://live.tcpatech.com/678765d914fc2" class="w-full h-full border-0 pt-[40px]"></iframe>
+            <!-- The embedded website -->
+            <iframe id="dynamic-iframe" src="" class="w-full h-full border-0 pt-[40px]"></iframe>
         </div>
 
     </div>
@@ -385,10 +434,20 @@
             15: "<span class='theme-highlight font-semibold'>Agent:</span> A lawyer can help you navigate through the legal process. The process can be tedious and definitely time consuming if you will do it yourself. So you are currently not being represented by a lawyer, correct?"
         };
 
-        // ====== NEW SPLIT-SCREEN IFRAME FUNCTIONS ====== //
-        function openIframe() {
+        // ====== DYNAMIC SPLIT-SCREEN IFRAME ENGINE ====== //
+        function openIframe(url, titleText) {
             const leftPanel = document.getElementById('script-workspace');
             const rightPanel = document.getElementById('iframe-workspace');
+            const iframe = document.getElementById('dynamic-iframe');
+            const title = document.getElementById('iframe-title');
+
+            // Set the URL and Title based on what button was clicked
+            if (iframe.src !== url) {
+                iframe.src = url;
+            }
+            if (titleText) {
+                title.innerText = titleText;
+            }
 
             // Squeeze left panel to 50%
             leftPanel.classList.remove('w-full');
@@ -439,7 +498,6 @@
             const element = document.getElementById(stepId.startsWith('step-') ? stepId : 'step-' + stepId);
             if (element) {
                 element.classList.remove('hidden');
-                // Scroll specifically inside the left workspace now
                 setTimeout(() => { element.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
             }
         }
@@ -481,7 +539,7 @@
             previousStepId = null;
             document.getElementById('call-initiation').classList.remove('hidden');
             closeRebuttal();
-            closeIframe(); // Close the split screen on reset
+            closeIframe(); 
             document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
