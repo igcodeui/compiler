@@ -746,10 +746,10 @@
             const treatment = document.getElementById('sum-treatment').value || '(on-going treatment)';
             const surgery = document.getElementById('sum-surgery').value;
 
-            let summaryText = `Case description\nOn ${date}, client got hit (${type}) in ${city}, ${state}. Transported to ER, diagnosed with ${injury}. Currently undergoing${treatment}. At fault driver has insurance. Seeking legal representation\n\nTreatment details\nClient sustained and being treated for ${injury} with ongoing symptoms of ${symptoms}. Currently receiving ${treatment} treatment.`;
+            let summaryText = `Case description\nOn ${date}, client got hit ${type} in ${city}, ${state}. Transported to ER, diagnosed with ${injury}. Currently undergoing ${treatment}. At fault driver has insurance. Seeking legal representation\n\nInjury Description\nClient sustained and being treated for ${injury} with ongoing symptoms of ${symptoms}. Currently receiving ${treatment} treatment.`;
 
             if (surgery) { 
-                summaryText += ` (${surgery})`; 
+                summaryText += ` ${surgery}`; 
             }
 
             const outputArea = document.getElementById('summary-output');
