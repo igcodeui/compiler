@@ -15,7 +15,7 @@
             --highlight: #FF9F0A; --highlight-text: #ffffff; --success-bg: #32D74B; --success-text: #000000;
             --danger-bg: #FF453A; --danger-text: #ffffff; --pops-bg: #ffe600; --pops-text: #000000;
             --tcpa-bg: #5E5CE6; --tcpa-text: #ffffff; 
-            --oa-bg: #06b6d4; --oa-text: #ffffff;
+            --oa-bg: #FF375F; --oa-text: #ffffff;
             --zoho-bg: #30D158; --zoho-text: #000000; /* Apple Green */
             --radius: 24px; --radius-sm: 12px; --border-style: solid;
             --shadow: 0 10px 30px rgba(0,0,0,0.6); --glass-blur: blur(20px);
@@ -187,7 +187,7 @@
                         <button onclick="showRebuttal(5)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Scam?</button>
                         <button onclick="showRebuttal(6)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Lawyer?</button>
                         <button onclick="showRebuttal(10)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Binding?</button>
-                        <button onclick="showRebuttal(13)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Disqualified</button>
+                        <button onclick="showRebuttal(13)" class="custom-btn-bg-red theme-btn-danger font-medium shadow-sm transition-transform active:scale-95">Disqualified</button>
                         <button onclick="showRebuttal(15)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Why need one?</button>
                         
                         <button onclick="openIframe('https://live.tcpatech.com/678765d914fc2', 'TCPA Tech Portal')" class="theme-btn-tcpa px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
@@ -428,33 +428,32 @@
 
     </div>
 
-    <!-- PERSISTENT FLOATING CASE SUMMARY GENERATOR BUBBLE -->
-    <div id="summary-bubble-container" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <!-- PERSISTENT FLOATING CASE SUMMARY GENERATOR BUBBLE (UPDATED FOR MAC ACCELERATION) -->
+    <div id="summary-bubble-container" class="fixed bottom-6 right-6 z-[9999] flex flex-col items-end" style="transform: translateZ(0); -webkit-transform: translateZ(0); isolation: isolate;">
         <!-- Minimized Floating Button Badge -->
         <button id="summary-bubble-trigger" onclick="toggleSummaryWidget(true)" class="theme-btn-accent shadow-2xl font-bold flex items-center gap-2 px-4 py-3 text-xs tracking-wider uppercase active:scale-95 transition-transform border border-white/20">
             📋 Case Summary Generator
         </button>
 
         <!-- Maximized Form Widget Dashboard Container -->
-        <div id="summary-bubble-widget" class="hidden theme-panel w-[400px] max-h-[75vh] flex flex-col overflow-hidden border border-[var(--panel-border)] shadow-2xl rounded-lg">
+        <div id="summary-bubble-widget" class="hidden theme-panel w-[360px] max-h-[580px] flex flex-col overflow-hidden border border-[var(--panel-border)] shadow-2xl">
             <!-- Widget Header Layout Area -->
-            <div class="p-4 border-b border-[var(--panel-border)] flex justify-between items-center shrink-0">
-                <span class="text-sm font-bold uppercase tracking-wide text-[var(--oa-bg)] heading-font">CASE SUMMARY GENERATOR</span>
-                <button onclick="toggleSummaryWidget(false)" class="theme-text-muted hover:text-white font-bold text-lg px-2 transition-colors">✖</button>
+            <div class="p-3 bg-[var(--inner-bg)] border-b border-[var(--panel-border)] flex justify-between items-center shrink-0">
+                <span class="text-xs font-bold uppercase tracking-wide text-[var(--accent)] heading-font">📋 Case Summary Engine</span>
+                <button onclick="toggleSummaryWidget(false)" class="theme-inner-card hover:bg-[var(--panel-bg)] font-semibold text-xs px-2.5 py-1 transition-colors">Minimize ➖</button>
             </div>
 
             <!-- Content Workspace Scroll Box wrapper -->
             <div class="p-4 space-y-4 overflow-y-auto flex-1 text-xs">
                 <!-- Data Fields Entry Form Layout matrix -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="col-span-2 sm:col-span-1">
+                <div class="space-y-2.5">
+                    <div>
                         <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Date of Accident</label>
-                        <input type="text" id="sum-date" placeholder="e.g., Oct 12, 2023" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
+                        <input type="text" id="sum-date" placeholder="e.g. October 12, 2025" oninput="updateLiveSummaryText()" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
                     </div>
-                    <div class="col-span-2 sm:col-span-1">
+                    <div>
                         <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Accident Type</label>
-                        <select id="sum-type" class="theme-inner-card w-full p-2 text-xs text-inherit focus:outline-none focus:border-[var(--accent)] cursor-pointer">
-                            <option value="" disabled selected>Select Type...</option>
+                        <select id="sum-type" onchange="updateLiveSummaryText()" class="theme-inner-card w-full p-2 text-xs text-inherit focus:outline-none focus:border-[var(--accent)] cursor-pointer">
                             <option value="Rear-end">Rear-end</option>
                             <option value="T-bone">T-bone</option>
                             <option value="Head-on">Head-on</option>
@@ -462,45 +461,42 @@
                             <option value="Others">Others</option>
                         </select>
                     </div>
-                    <div class="col-span-2 sm:col-span-1">
-                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">City</label>
-                        <input type="text" id="sum-city" placeholder="e.g., Houston" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
+                    <div>
+                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Location (City, State)</label>
+                        <input type="text" id="sum-location" placeholder="e.g. Dallas, TX" oninput="updateLiveSummaryText()" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
                     </div>
-                    <div class="col-span-2 sm:col-span-1">
-                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">State</label>
-                        <input type="text" id="sum-state" placeholder="e.g., TX" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
+                    <div>
+                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Injuries Diagnosed at ER</label>
+                        <input type="text" id="sum-injury" placeholder="e.g. severe whiplash and concussion" oninput="updateLiveSummaryText()" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
                     </div>
-                    <div class="col-span-2">
-                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Injury / Diagnosis</label>
-                        <input type="text" id="sum-injury" placeholder="e.g., whiplash" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
+                    <div>
+                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Ongoing Treatment</label>
+                        <input type="text" id="sum-treatment" placeholder="e.g. physical therapy and pain management" oninput="updateLiveSummaryText()" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
                     </div>
-                    <div class="col-span-2">
-                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Ongoing Symptoms</label>
-                        <input type="text" id="sum-symptoms" placeholder="e.g., headaches, back pain" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
+                    <div>
+                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Injuries with Ongoing Symptoms</label>
+                        <input type="text" id="sum-symptoms" placeholder="e.g. herniated discs with chronic headaches" oninput="updateLiveSummaryText()" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
                     </div>
-                    <div class="col-span-2 sm:col-span-1">
-                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Treatment</label>
-                        <input type="text" id="sum-treatment" placeholder="e.g., PT, pain management" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
+                    <div>
+                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Current Therapies Received</label>
+                        <input type="text" id="sum-therapies" placeholder="e.g. PT and chiropractic adjustments" oninput="updateLiveSummaryText()" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
                     </div>
-                    <div class="col-span-2 sm:col-span-1">
-                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Surgery</label>
-                        <select id="sum-surgery" class="theme-inner-card w-full p-2 text-xs text-inherit focus:outline-none focus:border-[var(--accent)] cursor-pointer">
-                            <option value="">No Surgery</option>
-                            <option value="Had surgery.">Had surgery.</option>
-                            <option value="Expected to have surgery.">Expected to have surgery.</option>
-                        </select>
+                    <div>
+                        <label class="block theme-text-muted font-bold mb-1 uppercase tracking-wide text-[10px]">Surgery Status (If Applicable)</label>
+                        <input type="text" id="sum-surgery" placeholder="e.g. Expected to have back surgery next month" oninput="updateLiveSummaryText()" class="theme-inner-card w-full p-2 text-xs focus:outline-none focus:border-[var(--accent)] transition-colors">
                     </div>
+                </div>
+
+                <!-- Preview Field Workspace -->
+                <div class="space-y-1">
+                    <label class="block theme-text-muted font-bold uppercase tracking-wide text-[10px]">Live Document Preview</label>
+                    <textarea id="sum-output" readonly rows="7" class="theme-inner-card w-full p-2.5 text-[11px] leading-relaxed resize-none focus:outline-none text-opacity-90 select-all"></textarea>
                 </div>
 
                 <!-- Action buttons block -->
-                <button onclick="generateAndCopySummary()" class="theme-btn-oa w-full font-bold uppercase py-2.5 text-xs tracking-wider shadow active:scale-95 transition-transform mt-2">
-                    Generate & Copy Summary
+                <button onclick="copyGeneratedSummaryToClipboard()" class="theme-btn-success w-full font-bold uppercase py-2 text-xs tracking-wider shadow active:scale-95 transition-transform">
+                    📋 Copy Case Summary
                 </button>
-
-                <!-- Preview Field Workspace -->
-                <div class="space-y-1 mt-4">
-                    <textarea id="summary-output" readonly rows="4" placeholder="Output will appear here..." class="theme-inner-card w-full p-2.5 text-[11px] leading-relaxed resize-none focus:outline-none text-opacity-90 select-all"></textarea>
-                </div>
             </div>
         </div>
     </div>
@@ -675,6 +671,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('mva-portal-theme') || 'explore';
             changeActiveTheme(savedTheme);
+            updateLiveSummaryText();
         });
 
         function goToStep(stepId, currentTrackId) {
@@ -744,31 +741,35 @@
             }
         }
 
-        function generateAndCopySummary() {
-            const date = document.getElementById('sum-date').value || '(date of accident)';
-            const type = document.getElementById('sum-type').value || '(accident type)';
-            const city = document.getElementById('sum-city').value || '(City)';
-            const state = document.getElementById('sum-state').value || '(State)';
-            const injury = document.getElementById('sum-injury').value || '(injury)';
-            const symptoms = document.getElementById('sum-symptoms').value || '(symptoms)';
-            const treatment = document.getElementById('sum-treatment').value || '(on-going treatment)';
-            const surgery = document.getElementById('sum-surgery').value;
-
-            let summaryText = `Case description\nOn ${date}, client got hit (${type}) in ${city}, ${state}. Transported to ER, diagnosed with ${injury}. Currently undergoing${treatment}. At fault driver has insurance. Seeking legal representation\n\nTreatment details\nClient sustained and being treated for ${injury} with ongoing symptoms of ${symptoms}. Currently receiving ${treatment} treatment.`;
-
-            if (surgery) { 
-                summaryText += ` (${surgery})`; 
+        // Fix layout tracking on dynamic inputs
+        function updateLiveSummaryText() {
+            const dateVal = document.getElementById('sum-date').value || '( date of accident)';
+            const typeVal = document.getElementById('sum-type').value || '( accident type)';
+            const locationVal = document.getElementById('sum-location').value || '(City) State)';
+            const injuryVal = document.getElementById('sum-injury').value || '( injury)';
+            const treatmentVal = document.getElementById('sum-treatment').value || '( on-going treatment e.g pain management treatment, PT , etc. )';
+            const symptomsVal = document.getElementById('sum-symptoms').value || '(Injury with ongoing symptoms of (eg headaches, pains)';
+            const therapiesVal = document.getElementById('sum-therapies').value || '( PT, pain management)';
+            
+            let surgeryVal = document.getElementById('sum-surgery').value;
+            if (surgeryVal.trim() !== "") {
+                surgeryVal = " " + surgeryVal.trim();
+            } else {
+                surgeryVal = " .(Had or Expected to have surgery. only if applicable.)";
             }
 
-            const outputArea = document.getElementById('summary-output');
-            outputArea.value = summaryText;
+            const outputText = `Case description\nOn ${dateVal}, client got hit ${typeVal} in ${locationVal}. Transported to ER, diagnosed with ${injuryVal}. Currently undergoing ${treatmentVal}. At fault driver has insurance. Seeking legal representation\n\nTreatment details\nClient sustained and being treated for ${symptomsVal}. Currently receiving ${therapiesVal} treatment${surgeryVal}`;
 
-            navigator.clipboard.writeText(summaryText).then(() => {
-                alert('Case summary generated and copied to clipboard!');
-            }).catch(err => {
-                console.error("Failed to copy text: ", err);
-                alert("Summary generated! (Please manually copy the text block)");
-            });
+            document.getElementById('sum-output').value = outputText;
+        }
+
+        function copyGeneratedSummaryToClipboard() {
+            const outputArea = document.getElementById('sum-output');
+            outputArea.select();
+            outputArea.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(outputArea.value);
+            
+            alert('Case summary successfully copied to clipboard!');
         }
     </script>
 </body>
