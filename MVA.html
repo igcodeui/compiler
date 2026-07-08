@@ -648,23 +648,23 @@
 
         const buyersData = [
             {
-                name: "Legal Matrix Engine A", transferType: "Live Transfer", hours: "24/7", allowedStates: ["AZ", "NV", "NM", "WA"], isExcluded: () => false, priority: "",
+                name: "Lerner & Rowe", transferType: "Live Transfer", hours: "24/7", allowedStates: ["AZ", "NV", "NM", "WA"], isExcluded: () => false, priority: "",
                 criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps over 30 days", fault: "Not at fault", injury: "Injured", defendant: "Insured or UIM", attorney: "Not represented", other: "Willing to treat within 1 year" }
             },
             {
-                name: "Legal Matrix Engine B", transferType: "Live Transfer", hours: "11-7 EST", allowedStates: ["AZ", "CA", "IA", "MT", "NV", "ND", "UT", "WY"], isExcluded: () => false, priority: "Direct to attorney line.",
+                name: "The Advocates", transferType: "Live Transfer", hours: "11-7 EST", allowedStates: ["AZ", "CA", "IA", "MT", "NV", "ND", "UT", "WY"], isExcluded: () => false, priority: "Direct to attorney line.",
                 criteria: { doi: "Within 12 months", treatment: "Within 30 days (continuous)", fault: "Not at fault", injury: "Injured", defendant: "Insured or UM", attorney: "None prior or current", other: "Property damage over $1,500 preferred" }
             },
             {
-                name: "Legal Matrix Engine C", transferType: "Live Transfer", hours: "11-11 EST", allowedStates: ["CA", "TX"], isExcluded: () => false, priority: "First Priority in TX",
+                name: "Beverly Law", transferType: "Live Transfer", hours: "11-11 EST", allowedStates: ["CA", "TX"], isExcluded: () => false, priority: "First Priority in TX",
                 criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps over 30 days", fault: "Not at fault", injury: "Injured and treated", defendant: "Insured or UM", attorney: "None prior or current", other: "Willing to continue treatment; proof required" }
             },
             {
-                name: "Legal Matrix Engine D", transferType: "Live Transfer", hours: "24/7", allowedStates: ["AL", "GA", "TX"], isExcluded: () => false, priority: "First priority in GA & AL",
+                name: "Turnbull", transferType: "Live Transfer", hours: "24/7", allowedStates: ["AL", "GA", "TX"], isExcluded: () => false, priority: "First priority in GA & AL",
                 criteria: { doi: "Within 12 months", treatment: "Within 30 days, gaps up to 60 days allowed", fault: "Not at fault", injury: "Injured", defendant: "Insured or UM", attorney: "None", other: "Willing to treat within 1 year; proof of accident required" }
             },
             {
-                name: "Legal Matrix Engine E", transferType: "Live Transfer", hours: "24/7", allowedStates: [], isExcluded: (stateCode) => ["DE", "AK", "HI", "CT", "CA", "VA", "MI", "NJ", "NY", "FL", "PA", "LA", "TX", "CO"].includes(stateCode), priority: "First priority in allowed states",
+                name: "Monge & Associates", transferType: "Live Transfer", hours: "24/7", allowedStates: [], isExcluded: (stateCode) => ["DE", "AK", "HI", "CT", "CA", "VA", "MI", "NJ", "NY", "FL", "PA", "LA", "TX", "CO"].includes(stateCode), priority: "First priority in allowed states",
                 criteria: { doi: "At least 6 months before SOL", treatment: "Within 7-10 days, follow up within 14 days", fault: "Not at fault (partially okay if serious)", injury: "Injured", defendant: "Insured or UIM", attorney: "No current attorney", other: "Car must be damaged (basketball size dent or $3000+). Evaluates DUI cases." }
             }
         ];
