@@ -169,6 +169,7 @@
                     <option value="dark">Dark Theme</option>
                     <option value="light">Light Theme</option>
                 </select>
+                <button id="mode-toggle-btn" onclick="toggleMode()" class="theme-inner-card border-[var(--accent)] text-[var(--accent)] hover:bg-opacity-80 font-bold py-1.5 px-4 text-xs flex items-center gap-2">📞 Start Inbound</button>
                 <button onclick="resetEntirePortal()" class="theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-4 text-xs flex items-center gap-2">⟲ Reset Flow</button>
             </div>
         </div>
@@ -251,7 +252,99 @@
 
                 <div class="space-y-6">
 
-                    <!-- CALL INITIATION -->
+                    <div id="inbound-step-intro" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Introduction & Client Info</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> Thank you for holding. This is (Agent Name) with Car Accident Payout. How are you today?<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> I understand you're calling about a car accident. Is that correct? <strong>(Must be Yes.)</strong><br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear you've been through that. I'll gather a few details to better understand your situation and see what assistance may be available. Once we're finished, I'll connect you with one of our experienced motor vehicle accident attorneys, who can review your case, explain your legal options, and answer any questions you have.<br><br>
+                            <strong class="text-[var(--accent)]">CLIENT INFO</strong><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> First, can you tell me which state you currently live in?<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Great, thank you. To make sure I have everything accurate, I'll just verify a few details with you.<br>
+                            • I have your phone number as (Dialer Number). Is that still the best number to reach you?<br>
+                            • May I have your first and last name, please?<br>
+                            • And what's the best email address for you?<br>
+                            • Lastly, just to verify your identity, may I have your date of birth?<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Thank you. Now, did the accident happen in (State)?<br>
+                            <em>If Yes:</em> Perfect. What is your home address<br>
+                            <em>If No:</em> No problem at all. What is your home address?
+                        </p>
+                        <div class="grid grid-cols-1 gap-4">
+                            <button onclick="goToStep('inbound-step-case', 'inbound-step-intro')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Client Verified - Proceed to Case Description</button>
+                        </div>
+                    </div>
+
+                    <div id="inbound-step-case" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
+                        <button onclick="goBackToPreviousStep('inbound-step-case')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Case Description</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> Thank you. Now I'd like to get a better understanding of what happened.<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Could you briefly walk me through the accident? For example, was it a rear-end collision, head-on, or were multiple vehicles involved? <em>(Listen actively. Acknowledge their response.)</em> I'm sorry you had to experience that.<br><br>
+                            • When did the accident occur?<br>
+                            • Was the vehicle involved your personal vehicle, or was it a company or commercial vehicle?<br>
+                            • At the time of the accident, were you driving or were you a passenger?<br>
+                            • Do you have any passenger during the accident?<br>
+                            • And based on what happened, who was determined to be at fault—you or the other driver? <strong class="text-[var(--danger-bg)]">(Must qualify: Other driver at fault.)</strong><br>
+                            • Was a police report filed for the accident? <strong class="text-[var(--danger-bg)]">(Must be Yes.)</strong><br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> That's helpful. If you happen to have the police report number available, I'd be happy to add it to your file. If not, that's completely okay, I can simply note that it's unavailable at the moment.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button onclick="goToStep('inbound-step-medical', 'inbound-step-case')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Qualified (Other Driver Fault & Report Filed)</button>
+                            <button onclick="triggerDispo('inbound-step-case')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified (At Fault / No Report)</button>
+                        </div>
+                    </div>
+
+                    <div id="inbound-step-medical" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
+                        <button onclick="goBackToPreviousStep('inbound-step-medical')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Treatment & Insurance Details</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <strong class="text-[var(--accent)]">TREATMENT DETAILS</strong><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Now, were you physically injured in the accident? I'm sorry to hear that.<br><br>
+                            • Can you briefly describe the injuries you've experienced?<br>
+                            • Did you receive medical treatment within 30 days of the accident, such as an emergency room visit, urgent care, or another healthcare provider?<br>
+                            • When was your most recent medical visit related to these injuries?<br>
+                            • What symptoms are you still experiencing, and what treatment or therapy are you currently receiving?<br>
+                            • Do you already have another doctor's appointment scheduled?<br>
+                            • On a scale from 1 to 10, where 1 is very little pain and 10 is the worst pain imaginable, how would you rate the pain you've experienced since the accident or what you're feeling today?<br><br>
+                            <strong class="text-[var(--accent)]">INSURANCE DETAILS</strong><br>
+                            • Do you know if the other driver has auto insurance? <strong class="text-[var(--danger-bg)]">(Must be Yes.)</strong><br>
+                            • Do you happen to have uninsured or underinsured motorist coverage on your own insurance policy?<br><br>
+                            <strong class="text-[var(--accent)]">SURGERY REQUIREMENT</strong><br>
+                            • Has any doctor recommended surgery, have you already had surgery, or is surgery something they believe you may need as part of your treatment?
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button onclick="goToStep('inbound-step-docs', 'inbound-step-medical')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Medically Qualified & Insured</button>
+                            <button onclick="triggerDispo('inbound-step-medical')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Uninsured</button>
+                        </div>
+                    </div>
+
+                    <div id="inbound-step-docs" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
+                        <button onclick="goBackToPreviousStep('inbound-step-docs')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Pre-Transfer & Document Signing</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
+                            <span class="theme-highlight font-semibold">Agent:</span> Thank you for sharing all of that with me. Based on everything you've told me, your information appears ready for attorney review. The next step is to prepare your file and connect you with one of our experienced motor vehicle accident attorneys. They'll review your situation in detail, discuss your legal options, and answer any questions you have.<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Before I transfer you, I'll send a document to your email. Please let me know once you receive it. Take your time opening it, and let me know when it's on your screen.<br><br>
+                            <strong class="text-[var(--accent)]">Guiding the Client Through the Document</strong><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> At the top of the document, you'll see the Terms and Conditions. Please review them and click Agree to continue. Feel free to go through the document, you will see it's just a standard agreement. This is not legally binding yet. You can change your mind anytime while speaking to the Attorney.<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Now you can scroll down a little- you should see a green box to sign. Go ahead and click it. A small window will appear where you'll enter your name, initials, and signature. In the lower-left corner, check the box that says Fill out all fields, then click OK. Once everything is completed, click Finish at the top of the document. Perfect.
+                        </p>
+                        <div class="grid grid-cols-1 gap-4">
+                            <button onclick="goToStep('inbound-step-transfer', 'inbound-step-docs')" class="custom-btn-bg theme-btn-accent font-medium shadow-md">Document Signed - Proceed to Transfer</button>
+                        </div>
+                    </div>
+
+                    <div id="inbound-step-transfer" class="hidden theme-panel p-6 space-y-5 border-[var(--oa-bg)] border-opacity-50 relative overflow-hidden">
+                        <button onclick="goBackToPreviousStep('inbound-step-transfer')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] relative heading-font">Inbound - Final Step and Transfer</span>
+                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed relative">
+                            <span class="theme-highlight font-semibold">Agent:</span> I just received confirmation that your document has been completed. Thank you for taking care of that.<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> The final step is connecting you with one of our motor vehicle accident attorneys. They'll review everything you've shared, discuss your case in greater detail, and answer any questions you may have. Please stay on the line while I bring them into the call. It'll only take a moment.<br><br>
+                            <strong class="text-[var(--accent)]">Attorney Warm Transfer</strong><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Hi, this is (Agent Name) with Car Accident Payout. I have (Client Name) on the line. They have completed and signed the intake document. Their phone number is (Phone Number), and their email address is (Email Address).<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Can you please confirm you've received the signed document? Perfect. I'll let you take it from here. Thank you both, and have a great day.
+                        </p>
+                    </div>
+
                     <div id="call-initiation" class="theme-panel p-6 space-y-5">
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q1</span>
                         <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
@@ -265,7 +358,6 @@
                         </div>
                     </div>
 
-                    <!-- SATISFACTION YES -->
                     <div id="step-satisfaction-yes" class="hidden theme-panel p-6 space-y-5">
                         <button onclick="goBackToPreviousStep('step-satisfaction-yes')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q2 (Satisfied Path)</span>
@@ -278,7 +370,6 @@
                         </div>
                     </div>
 
-                    <!-- SATISFACTION NO -->
                     <div id="step-satisfaction-no" class="hidden theme-panel p-6 space-y-5">
                         <button onclick="goBackToPreviousStep('step-satisfaction-no')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q2 (Unsatisfied Path)</span>
@@ -291,8 +382,6 @@
                         </div>
                     </div>
 
-                    <!-- ================= SSDI FLOW TRACK ================= -->
-                    <!-- SSDI 1: INTRO PITCH -->
                     <div id="step-ssdi-intro" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-ssdi-intro')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Program Transition</span>
@@ -309,7 +398,6 @@
                         </div>
                     </div>
 
-                    <!-- SSDI 2: IDENTITY VERIFICATION -->
                     <div id="step-ssdi-verify" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-ssdi-verify')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Identity Verification</span>
@@ -325,7 +413,6 @@
                         </div>
                     </div>
 
-                    <!-- SSDI 3: CONFIRM BASIC INFORMATION -->
                     <div id="step-ssdi-basic" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-ssdi-basic')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Profile Confirmation</span>
@@ -340,7 +427,6 @@
                         </div>
                     </div>
 
-                    <!-- SSDI 4: ACCIDENT INFORMATION -->
                     <div id="step-ssdi-accident" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-ssdi-accident')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Incident Diagnostics</span>
@@ -359,7 +445,6 @@
                         </div>
                     </div>
 
-                    <!-- SSDI 5: ELIGIBILITY CRITERIA -->
                     <div id="step-ssdi-eligibility" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-ssdi-eligibility')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Qualification Parameters</span>
@@ -376,7 +461,6 @@
                         </div>
                     </div>
 
-                    <!-- SSDI 6: WARM TRANSFER EXECUTED -->
                     <div id="step-ssdi-transfer" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-ssdi-transfer')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Warm Transfer Execution</span>
@@ -387,9 +471,6 @@
                             <span class="theme-highlight font-semibold">Agent:</span> Please stay on the line while I connect you. The transfer will only take a brief moment.
                         </div>
                     </div>
-                    <!-- =================================================== -->
-
-                    <!-- LEGAL FUNDING QUALIFICATION -->
                     <div id="step-represented-funding" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-represented-funding')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Funding Qualification</span>
@@ -404,7 +485,6 @@
                         </div>
                     </div>
 
-                    <!-- ATTORNEY DETAILS FOR FUNDING -->
                     <div id="step-represented-details" class="hidden theme-panel p-6 space-y-5">
                         <button onclick="goBackToPreviousStep('step-represented-details')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Attorney Details for Funding</span>
@@ -425,7 +505,6 @@
                         </div>
                     </div>
 
-                    <!-- FUNDING WRAP-UP -->
                     <div id="step-represented-closing" class="hidden theme-panel p-6 space-y-5">
                         <button onclick="goBackToPreviousStep('step-represented-closing')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Funding Wrap-Up</span>
@@ -435,7 +514,6 @@
                         </p>
                     </div>
 
-                    <!-- NOT REPRESENTED VERIFICATION -->
                     <div id="step-not-represented" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--highlight)]">
                         <button onclick="goBackToPreviousStep('step-not-represented')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Options - Verification</span>
@@ -451,7 +529,6 @@
                         </div>
                     </div>
 
-                    <!-- ACCIDENT INFO PART 1 -->
                     <div id="step-accident-info-1" class="hidden theme-panel p-6 space-y-5">
                         <button onclick="goBackToPreviousStep('step-accident-info-1')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Accident Information (Part 1)</span>
@@ -466,7 +543,6 @@
                         </div>
                     </div>
 
-                    <!-- ACCIDENT INFO PART 2 -->
                     <div id="step-accident-info-2" class="hidden theme-panel p-6 space-y-5">
                         <button onclick="goBackToPreviousStep('step-accident-info-2')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Accident Information (Part 2)</span>
@@ -485,7 +561,6 @@
                         </div>
                     </div>
 
-                    <!-- MEDICAL INFO 1 -->
                     <div id="step-medical-info-1" class="hidden theme-panel p-6 space-y-5">
                         <button onclick="goBackToPreviousStep('step-medical-info-1')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Medical Treatment Qualification</span>
@@ -506,7 +581,6 @@
                         </div>
                     </div>
 
-                    <!-- CLOSING -->
                     <div id="step-closing" class="hidden theme-panel p-6 space-y-5">
                         <button onclick="goBackToPreviousStep('step-closing')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Review & Retainer Sent</span>
@@ -519,7 +593,6 @@
                         </div>
                     </div>
 
-                    <!-- WARM TRANSFER -->
                     <div id="step-warm-transfer" class="hidden theme-panel p-6 space-y-5 border-[var(--accent)] border-opacity-50 relative overflow-hidden">
                         <button onclick="goBackToPreviousStep('step-warm-transfer')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] relative heading-font">When Retainer is Signed / Hand Off Script</span>
@@ -533,7 +606,6 @@
                         </p>
                     </div>
 
-                    <!-- DISPO CARD -->
                     <div id="step-dispo" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--danger-bg)]">
                         <button onclick="goBackToPreviousStep('step-dispo')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--danger-bg)] block pr-24 heading-font">EXIT SCRIPT</span>
@@ -547,7 +619,6 @@
             </main>
         </div>
 
-        <!-- SPLIT PANEL ENGINE FOR EXTERNAL PORTALS -->
         <div id="iframe-workspace" class="w-0 hidden h-full bg-[var(--inner-bg)] border-l border-[var(--panel-border)] workspace-transition relative shadow-[inset_10px_0_20px_rgba(0,0,0,0.3)]">
             <div class="absolute top-0 left-0 w-full h-[40px] bg-[var(--panel-bg)] border-b border-[var(--panel-border)] flex justify-between items-center px-4 z-10">
                 <span id="iframe-title" class="text-xs font-bold uppercase tracking-wider theme-text-muted">External Portal</span>
@@ -560,7 +631,6 @@
 
     </div>
 
-    <!-- FLOATING CASE SUMMARY GENERATOR WIDGET -->
     <div id="summary-bubble-container" class="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[9999] flex flex-col items-end max-w-[calc(100vw-2rem)] sm:max-w-none">
         <button id="summary-bubble-trigger" onclick="toggleSummaryWidget(true)" class="theme-btn-accent shadow-2xl font-bold flex items-center gap-2 px-4 py-3 text-xs tracking-wider uppercase active:scale-95 transition-transform border border-white/20 whitespace-nowrap">
             📋 Case Summary Generator
@@ -742,6 +812,7 @@
 
         // ======= WORKFLOW ROUTING ENGINE WITH HISTORY STACK =======
         let stepHistory = []; 
+        let currentMode = 'outbound'; // Global state to track active mode
         
         const rebuttalsData = {
             1: "<span class='theme-highlight font-semibold'>Agent:</span> That's a great question — I'm not an attorney and I can't give legal advice, but that's exactly why I'd love to try to connect you with one. I just need a little more information from you first.",
@@ -806,6 +877,43 @@
             changeActiveTheme(savedTheme);
         });
 
+        // ======= MODE TOGGLE LOGIC =======
+        function toggleMode() {
+            const modeBtn = document.getElementById('mode-toggle-btn');
+            
+            if (currentMode === 'outbound') {
+                currentMode = 'inbound';
+                modeBtn.innerHTML = '📞 Start Outbound';
+                startInboundFlow();
+            } else {
+                currentMode = 'outbound';
+                modeBtn.innerHTML = '📞 Start Inbound';
+                startOutboundFlow();
+            }
+        }
+
+        function startInboundFlow() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = '';
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('inbound-step-intro').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startOutboundFlow() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = '';
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('call-initiation').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         function goToStep(stepId, currentTrackId) {
             if (currentTrackId) { 
                 stepHistory.push(currentTrackId); 
@@ -844,11 +952,14 @@
 
         function hideAllSteps() {
             const steps = [
+                // Outbound Steps
                 'call-initiation', 'step-satisfaction-yes', 'step-satisfaction-no', 'step-represented-funding', 
                 'step-represented-details', 'step-represented-closing', 'step-not-represented', 
                 'step-accident-info-1', 'step-accident-info-2', 'step-medical-info-1', 
                 'step-closing', 'step-warm-transfer', 'step-dispo', 
-                'step-ssdi-intro', 'step-ssdi-verify', 'step-ssdi-basic', 'step-ssdi-accident', 'step-ssdi-eligibility', 'step-ssdi-transfer'
+                'step-ssdi-intro', 'step-ssdi-verify', 'step-ssdi-basic', 'step-ssdi-accident', 'step-ssdi-eligibility', 'step-ssdi-transfer',
+                // Inbound Steps
+                'inbound-step-intro', 'inbound-step-case', 'inbound-step-medical', 'inbound-step-docs', 'inbound-step-transfer'
             ];
             steps.forEach(s => {
                 const el = document.getElementById(s);
@@ -857,14 +968,12 @@
         }
 
         function resetEntirePortal() {
-            hideAllSteps();
-            stepHistory = [];
-            document.getElementById('stateSearch').value = '';
-            document.getElementById('matrixOutputArea').classList.add('hidden');
-            document.getElementById('call-initiation').classList.remove('hidden');
-            closeRebuttal();
-            closeIframe(); 
-            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+            // Checks currentMode and resets the correct active script flow
+            if (currentMode === 'inbound') {
+                startInboundFlow();
+            } else {
+                startOutboundFlow();
+            }
         }
 
         // ======= CASE SUMMARY GENERATOR LOGIC ENGINE =======
