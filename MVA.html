@@ -160,8 +160,8 @@
                 <div class="theme-btn-accent font-bold py-1 px-3 text-xs tracking-wide uppercase">MVA INTAKE</div>
                 <h1 class="text-lg font-semibold tracking-tight hidden sm:block heading-font">Motor Vehicle Accident Engine</h1>
             </div>
-            <div class="flex flex-wrap items-center gap-4">
-                <select id="global-theme-menu" onchange="changeActiveTheme(this.value)" class="theme-inner-card text-inherit border border-opacity-20 text-xs px-3 py-1.5 focus:outline-none cursor-pointer font-semibold">
+            <div class="flex flex-wrap items-center gap-3">
+                <select id="global-theme-menu" onchange="changeActiveTheme(this.value)" class="theme-inner-card text-inherit border border-opacity-20 text-xs px-2 py-1.5 focus:outline-none cursor-pointer font-semibold">
                     <option value="apple">Basic Theme</option>
                     <option value="explore">Beige Theme</option>
                     <option value="bus">Bus Theme</option>
@@ -169,8 +169,11 @@
                     <option value="dark">Dark Theme</option>
                     <option value="light">Light Theme</option>
                 </select>
-                <button id="mode-toggle-btn" onclick="toggleMode()" class="theme-inner-card border-[var(--accent)] text-[var(--accent)] hover:bg-opacity-80 font-bold py-1.5 px-4 text-xs flex items-center gap-2">📞 Start Inbound</button>
-                <button onclick="resetEntirePortal()" class="theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-4 text-xs flex items-center gap-2">⟲ Reset Flow</button>
+                <button onclick="goToSSDI()" class="theme-inner-card border-[var(--highlight)] text-[var(--highlight)] hover:bg-[var(--highlight)] hover:text-white transition-colors font-bold py-1.5 px-3 text-xs flex items-center gap-1 shadow-md">
+                    🏥 SSDI Script
+                </button>
+                <button id="mode-toggle-btn" onclick="toggleMode()" class="theme-inner-card border-[var(--accent)] text-[var(--accent)] hover:bg-opacity-80 font-bold py-1.5 px-3 text-xs flex items-center gap-1">📞 Start Inbound</button>
+                <button onclick="resetEntirePortal()" class="theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs flex items-center gap-1">⟲ Reset</button>
             </div>
         </div>
     </header>
@@ -213,6 +216,9 @@
                         <button onclick="window.open('https://sign.zoho.com', '_blank')" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             ZOHO SIGN
                         </button>
+                        <button onclick="goToSSDI()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+                            SSDI
+                        </button>
                     </div>
 
                     <div id="rebuttal-display-container" class="hidden">
@@ -252,7 +258,6 @@
 
                 <div class="space-y-6">
 
-                    <!-- INBOUND INTRO -->
                     <div id="inbound-step-intro" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Introduction & Client Info</span>
                         <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
@@ -260,7 +265,7 @@
                             <span class="theme-highlight font-semibold">Agent:</span> I understand you're calling about a car accident. Is that correct? <strong>(Must be Yes.)</strong><br><br>
                             <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear you've been through that. I'll gather a few details to better understand your situation and see what assistance may be available. Once we're finished, I'll connect you with one of our experienced motor vehicle accident attorneys, who can review your case, explain your legal options, and answer any questions you have.<br><br>
                             <strong class="text-[var(--accent)]">CLIENT INFO</strong><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> First, can you tell me which state you currently live in?<br><br>
+                            <span class="theme-highlight font-semibold">Agent:</span> Can you tell me which state you currently live in? Are you currently represented by an attorney?<br>
                             <span class="theme-highlight font-semibold">Agent:</span> Great, thank you. To make sure I have everything accurate, I'll just verify a few details with you.<br>
                             • I have your phone number as (Dialer Number). Is that still the best number to reach you?<br>
                             • May I have your first and last name, please?<br>
@@ -275,7 +280,6 @@
                         </div>
                     </div>
 
-                    <!-- INBOUND CASE -->
                     <div id="inbound-step-case" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
                         <button onclick="goBackToPreviousStep('inbound-step-case')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Case Description</span>
@@ -296,7 +300,6 @@
                         </div>
                     </div>
 
-                    <!-- INBOUND MEDICAL -->
                     <div id="inbound-step-medical" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
                         <button onclick="goBackToPreviousStep('inbound-step-medical')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Treatment & Insurance Details</span>
@@ -321,7 +324,6 @@
                         </div>
                     </div>
 
-                    <!-- INBOUND DOCS -->
                     <div id="inbound-step-docs" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
                         <button onclick="goBackToPreviousStep('inbound-step-docs')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Pre-Transfer & Document Signing</span>
@@ -337,7 +339,6 @@
                         </div>
                     </div>
 
-                    <!-- INBOUND TRANSFER -->
                     <div id="inbound-step-transfer" class="hidden theme-panel p-6 space-y-5 border-[var(--oa-bg)] border-opacity-50 relative overflow-hidden">
                         <button onclick="goBackToPreviousStep('inbound-step-transfer')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] relative heading-font">Inbound - Final Step and Transfer</span>
@@ -350,7 +351,6 @@
                         </p>
                     </div>
 
-                    <!-- OUTBOUND INTRO -->
                     <div id="call-initiation" class="theme-panel p-6 space-y-5">
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q1</span>
                         <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
@@ -372,7 +372,7 @@
                         </p>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <button onclick="goToStep('step-not-represented', 'step-satisfaction-yes')" class="theme-btn-neutral font-medium shadow-md">NO (Not Represented) -> Attorney Lead</button>
-                            <button onclick="goToStep('step-ssdi-intro', 'step-satisfaction-yes')" class="theme-btn-neutral font-medium shadow-md">NO (Not Represented) SSDI NQ</button>
+                            <button onclick="goToStep('step-ssdi-full', 'step-satisfaction-yes')" class="theme-btn-neutral font-medium shadow-md">NO (Not Represented) SSDI NQ</button>
                         </div>
                     </div>
 
@@ -384,102 +384,56 @@
                         </p>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <button onclick="goToStep('step-not-represented', 'step-satisfaction-no')" class="theme-btn-neutral font-medium shadow-md">NO (Not Represented) -> Attorney Lead</button>
-                            <button onclick="goToStep('step-ssdi-intro', 'step-satisfaction-yes')" class="theme-btn-neutral font-medium shadow-md">NO (Not Represented) SSDI NQ</button>
+                            <button onclick="goToStep('step-ssdi-full', 'step-satisfaction-yes')" class="theme-btn-neutral font-medium shadow-md">NO (Not Represented) SSDI NQ</button>
                         </div>
                     </div>
 
-                    <!-- SSDI TRACK -->
-                    <div id="step-ssdi-intro" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
-                        <button onclick="goBackToPreviousStep('step-ssdi-intro')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Program Transition</span>
-                        <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                            <span class="theme-highlight font-semibold">Agent:</span> That's completely okay. Since your motor vehicle case is still pending, there's another option that may be able to help in the meantime.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Based on what you've shared, you may qualify for Social Security Disability benefits if your injuries are preventing you from working.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> These benefits are separate from your motor vehicle claim and could provide financial support while your accident case is still being resolved.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> What I'd like to do is verify a few details first. If everything looks good, I'll connect you with one of our licensed specialists.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> They'll review your situation, explain your options, and guide you through the process so you can better understand what benefits may be available to you. Does that sound okay?
+                    <div id="step-ssdi-full" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
+                        <button onclick="goBackToPreviousStep('step-ssdi-full')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">SSDI Track - Intro</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> That's completely okay. Since your motor vehicle case is still pending, there's another option that may be able to help in the meantime.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Based on what you've shared, you may qualify for Social Security Disability benefits if your injuries are preventing you from working.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> These benefits are separate from your motor vehicle claim and could provide financial support while your accident case is still being resolved.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> What I'd like to do is verify a few details first. If everything looks good, I'll connect you with one of our licensed specialists. They'll review your situation, explain your options, and guide you through the process so you can better understand what benefits may be available to you. Does that sound okay?
+                            </div>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <button onclick="goToStep('step-ssdi-verify', 'step-ssdi-intro')" class="custom-btn-bg theme-btn-success font-medium shadow-md">YES (Proceed to Verification)</button>
-                            <button onclick="triggerDispo('step-ssdi-intro')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">NO (Decline / Exit)</button>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Accident Information</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                1. Were you physically injured in the accident? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
+                                2. Do you have any on going treatment? Even not related to the accident?
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">SSDI Eligibility Questions</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                1. Based on your doctor's expectations, do you believe you'll be unable to work for at least one year? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
+                                2. Have you worked for at least five of the last ten years? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
+                                3. Have you ever applied for Social Security Disability benefits before? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
+                                4. Are you currently receiving any Social Security Disability benefits? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
+                                5. Are you currently represented by an attorney for a Social Security Disability claim? <strong class="text-[var(--danger-bg)]">(Must be No)</strong>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Transfer</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Excellent. Based on everything you've shared today, your information appears ready for review. The next step is for one of our SSDI licensed specialists to take a closer look at your case.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> They'll answer your questions, explain the benefits you may qualify for, and discuss the options available based on your situation.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Please stay on the line while I connect you. The transfer will only take a brief moment.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('step-ssdi-full')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
                         </div>
                     </div>
 
-                    <div id="step-ssdi-verify" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
-                        <button onclick="goBackToPreviousStep('step-ssdi-verify')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Identity Verification</span>
-                        <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                            <span class="theme-highlight font-semibold">Agent:</span> For me to continue with the call, I just need to verify your identity for security purposes.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> I'll send a one-time verification code to (phone number). Standard message and data rates may apply.<br><br>
-                            <strong>Submit here:</strong> <a href="javascript:void(0)" onclick="openIframe('https://live.tcpatech.com/678765d914fc2', 'TCPA Tech Portal')" class="text-blue-400 underline font-bold">Open TCPA Form ➔</a><br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> I've just sent the code. Whenever you're ready, could you please read me the 4-digit code you received?<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Perfect. Thank you. Your identity has been verified, and we can move forward.
-                        </div>
-                        <div class="grid grid-cols-1 gap-3">
-                            <button onclick="goToStep('step-ssdi-basic', 'step-ssdi-verify')" class="custom-btn-bg theme-btn-accent font-medium shadow-md">Identity Confirmed - Continue</button>
-                        </div>
-                    </div>
-
-                    <div id="step-ssdi-basic" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
-                        <button onclick="goBackToPreviousStep('step-ssdi-basic')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Profile Confirmation</span>
-                        <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                            <span class="theme-highlight font-semibold">Agent:</span> I have your phone number as (dialer info).<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> I also have you living in (City, State) with ZIP code (ZIP code). Is that still correct?<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> And can you please confirm your age for me?<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Great, thank you.
-                        </div>
-                        <div class="grid grid-cols-1 gap-3">
-                            <button onclick="goToStep('step-ssdi-accident', 'step-ssdi-basic')" class="custom-btn-bg theme-btn-accent font-medium shadow-md">Profile Confirmed - Continue</button>
-                        </div>
-                    </div>
-
-                    <div id="step-ssdi-accident" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
-                        <button onclick="goBackToPreviousStep('step-ssdi-accident')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Incident Diagnostics</span>
-                        <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                            <span class="theme-highlight font-semibold">Agent:</span> I'd like to ask a few questions about your accident.<br><br>
-                            1. Can you confirm the date of your accident and the state where it happened?<br>
-                            2. Were you physically injured in the accident? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
-                            3. Could you briefly describe the injuries you sustained?<br>
-                            4. Did you receive medical treatment shortly after the accident?<br>
-                            5. Are you still receiving treatment from a doctor? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Thank you. I just have a few more questions to see whether you may qualify.
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <button onclick="goToStep('step-ssdi-eligibility', 'step-ssdi-accident')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Qualified Accident Details</button>
-                            <button onclick="triggerDispo('step-ssdi-accident')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Disqualified / Missing Info</button>
-                        </div>
-                    </div>
-
-                    <div id="step-ssdi-eligibility" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
-                        <button onclick="goBackToPreviousStep('step-ssdi-eligibility')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Qualification Parameters</span>
-                        <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                            1. Based on your doctor's expectations, do you believe you'll be unable to work for at least one year? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
-                            2. Have you worked for at least five of the last ten years? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
-                            3. Have you ever applied for Social Security Disability benefits before? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
-                            4. Are you currently receiving any Social Security Disability benefits? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
-                            5. Are you currently represented by an attorney for a Social Security Disability claim? <strong class="text-[var(--danger-bg)]">(Must be No)</strong>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <button onclick="goToStep('step-ssdi-transfer', 'step-ssdi-eligibility')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Meets SSDI Criteria</button>
-                            <button onclick="triggerDispo('step-ssdi-eligibility')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Does Not Meet Criteria</button>
-                        </div>
-                    </div>
-
-                    <div id="step-ssdi-transfer" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
-                        <button onclick="goBackToPreviousStep('step-ssdi-transfer')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Warm Transfer Execution</span>
-                        <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                            <span class="theme-highlight font-semibold">Agent:</span> Excellent. Based on everything you've shared today, your information appears ready for review.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> The next step is for one of our SSDI licensed specialists to take a closer look at your case.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> They'll answer your questions, explain the benefits you may qualify for, and discuss the options available based on your situation.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Please stay on the line while I connect you. The transfer will only take a brief moment.
-                        </div>
-                    </div>
-
-                    <!-- REPRESENTED PATH -->
                     <div id="step-represented-funding" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-represented-funding')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Funding Qualification</span>
@@ -523,7 +477,6 @@
                         </p>
                     </div>
 
-                    <!-- MVA ATTORNEY TRACK -->
                     <div id="step-not-represented" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--highlight)]">
                         <button onclick="goBackToPreviousStep('step-not-represented')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Options - Verification</span>
@@ -941,6 +894,17 @@
             document.getElementById('call-initiation').classList.remove('hidden');
             document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
         }
+        
+        function goToSSDI() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = '';
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('step-ssdi-full').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         function goToStep(stepId, currentTrackId) {
             if (currentTrackId) { 
@@ -985,7 +949,7 @@
                 'step-represented-details', 'step-represented-closing', 'step-not-represented', 
                 'step-accident-info-1', 'step-accident-info-2', 'step-medical-info-1', 
                 'step-closing', 'step-warm-transfer', 'step-dispo', 
-                'step-ssdi-intro', 'step-ssdi-verify', 'step-ssdi-basic', 'step-ssdi-accident', 'step-ssdi-eligibility', 'step-ssdi-transfer',
+                'step-ssdi-full', // The new single page SSDI flow
                 // Inbound Steps
                 'inbound-step-intro', 'inbound-step-case', 'inbound-step-medical', 'inbound-step-docs', 'inbound-step-transfer'
             ];
