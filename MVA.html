@@ -252,6 +252,7 @@
 
                 <div class="space-y-6">
 
+                    <!-- INBOUND INTRO -->
                     <div id="inbound-step-intro" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Introduction & Client Info</span>
                         <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
@@ -274,6 +275,7 @@
                         </div>
                     </div>
 
+                    <!-- INBOUND CASE -->
                     <div id="inbound-step-case" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
                         <button onclick="goBackToPreviousStep('inbound-step-case')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Case Description</span>
@@ -294,6 +296,7 @@
                         </div>
                     </div>
 
+                    <!-- INBOUND MEDICAL -->
                     <div id="inbound-step-medical" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
                         <button onclick="goBackToPreviousStep('inbound-step-medical')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Treatment & Insurance Details</span>
@@ -318,6 +321,7 @@
                         </div>
                     </div>
 
+                    <!-- INBOUND DOCS -->
                     <div id="inbound-step-docs" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
                         <button onclick="goBackToPreviousStep('inbound-step-docs')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Pre-Transfer & Document Signing</span>
@@ -333,6 +337,7 @@
                         </div>
                     </div>
 
+                    <!-- INBOUND TRANSFER -->
                     <div id="inbound-step-transfer" class="hidden theme-panel p-6 space-y-5 border-[var(--oa-bg)] border-opacity-50 relative overflow-hidden">
                         <button onclick="goBackToPreviousStep('inbound-step-transfer')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] relative heading-font">Inbound - Final Step and Transfer</span>
@@ -345,6 +350,7 @@
                         </p>
                     </div>
 
+                    <!-- OUTBOUND INTRO -->
                     <div id="call-initiation" class="theme-panel p-6 space-y-5">
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q1</span>
                         <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
@@ -382,6 +388,7 @@
                         </div>
                     </div>
 
+                    <!-- SSDI TRACK -->
                     <div id="step-ssdi-intro" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-5 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-ssdi-intro')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font">SSDI Track - Program Transition</span>
@@ -471,6 +478,8 @@
                             <span class="theme-highlight font-semibold">Agent:</span> Please stay on the line while I connect you. The transfer will only take a brief moment.
                         </div>
                     </div>
+
+                    <!-- REPRESENTED PATH -->
                     <div id="step-represented-funding" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-represented-funding')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Funding Qualification</span>
@@ -514,6 +523,7 @@
                         </p>
                     </div>
 
+                    <!-- MVA ATTORNEY TRACK -->
                     <div id="step-not-represented" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--highlight)]">
                         <button onclick="goBackToPreviousStep('step-not-represented')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted heading-font">Legal Options - Verification</span>
@@ -718,24 +728,41 @@
 
         const buyersData = [
             {
-                name: "Lerner & Rowe", transferType: "Live Transfer", hours: "24/7", allowedStates: ["AZ", "NV", "NM", "WA"], isExcluded: () => false, priority: "",
-                criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps over 30 days", fault: "Not at fault", injury: "Injured", defendant: "Insured or UIM", attorney: "Not represented", other: "Willing to treat within 1 year" }
+                name: "Louis Law", transferType: "Firm calls back ASAP", hours: "24/7", 
+                allowedStates: ["NC", "MS", "FL", "GA", "MI", "TN", "LA", "IL", "KY", "MD", "SC", "TX", "AR", "NM", "OH", "OR", "WA", "WI", "AL", "NE", "NJ", "OK", "AK", "DE", "NY", "VA", "PA"], 
+                isExcluded: () => false, priority: "First priority in all listed states",
+                criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps over 30 days", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI or UIM", attorney: "Not currently represented", other: "Police report not required but speeds up approval." }
             },
             {
-                name: "The Advocates", transferType: "Live Transfer", hours: "11-7 EST", allowedStates: ["AZ", "CA", "IA", "MT", "NV", "ND", "UT", "WY"], isExcluded: () => false, priority: "Direct to attorney line.",
-                criteria: { doi: "Within 12 months", treatment: "Within 30 days (continuous)", fault: "Not at fault", injury: "Injured", defendant: "Insured or UM", attorney: "None prior or current", other: "Property damage over $1,500 preferred" }
+                name: "Monge & Associates", transferType: "Live Transfer", hours: "24/7", 
+                allowedStates: [], 
+                isExcluded: (stateCode) => ["DE", "AK", "HI", "CT", "CA", "VA", "MI", "NJ", "NY", "FL", "PA", "LA", "TX", "CO"].includes(stateCode), 
+                priority: "First priority in allowed states",
+                criteria: { doi: "At least 6 months before SOL", treatment: "Within 7-10 days (10 if health ins), follow up within 14 days", fault: "Not at fault (partially ok if serious injury)", injury: "Must be injured", defendant: "Has insurance or UIM", attorney: "No current attorney", other: "Car damaged (min $1.5k dent, parking lot >$3k). Evaluates DUI cases." }
             },
             {
-                name: "Beverly Law", transferType: "Live Transfer", hours: "11-11 EST", allowedStates: ["CA", "TX"], isExcluded: () => false, priority: "First Priority in TX",
-                criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps over 30 days", fault: "Not at fault", injury: "Injured and treated", defendant: "Insured or UM", attorney: "None prior or current", other: "Willing to continue treatment; proof required" }
+                name: "The Advocates", transferType: "Live Transfer", hours: "11-7 EST", 
+                allowedStates: ["AZ", "CA", "IA", "MT", "NV", "ND", "UT", "WY"], 
+                isExcluded: () => false, priority: "Direct to attorney line.",
+                criteria: { doi: "Within 12 months", treatment: "Within 30 days (continuous, no gaps over 30 days)", fault: "Not at fault", injury: "Injured", defendant: "Known and insured (or UM)", attorney: "None prior or current", other: "Property damage over $1,500 preferred (Car must be damaged)" }
             },
             {
-                name: "Turnbull", transferType: "Live Transfer", hours: "24/7", allowedStates: ["AL", "GA", "TX"], isExcluded: () => false, priority: "First priority in GA & AL",
-                criteria: { doi: "Within 12 months", treatment: "Within 30 days, gaps up to 60 days allowed", fault: "Not at fault", injury: "Injured", defendant: "Insured or UM", attorney: "None", other: "Willing to treat within 1 year; proof of accident required" }
+                name: "Beverly Law", transferType: "Live Transfer", hours: "11-11 EST", 
+                allowedStates: ["TX"], 
+                isExcluded: () => false, priority: "First Priority in TX",
+                criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps over 30 days", fault: "Not at fault", injury: "Injured and treated", defendant: "Known and insured (or UM)", attorney: "None prior or current", other: "Willing to continue treatment. PR/case number required." }
             },
             {
-                name: "Monge & Associates", transferType: "Live Transfer", hours: "24/7", allowedStates: [], isExcluded: (stateCode) => ["DE", "AK", "HI", "CT", "CA", "VA", "MI", "NJ", "NY", "FL", "PA", "LA", "TX", "CO"].includes(stateCode), priority: "First priority in allowed states",
-                criteria: { doi: "At least 6 months before SOL", treatment: "Within 7-10 days, follow up within 14 days", fault: "Not at fault (partially okay if serious)", injury: "Injured", defendant: "Insured or UIM", attorney: "No current attorney", other: "Car must be damaged (basketball size dent or $3000+). Evaluates DUI cases." }
+                name: "McDonald Worley", transferType: "Firm calls back within 24 hours", hours: "9:30-6 EST", 
+                allowedStates: ["AK", "AZ", "AR", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "LA", "ME", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NC", "NH", "NJ", "NM", "NY", "ND", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TX", "UT", "VT", "WA", "WV", "WY"], // CO removed due to absolute block
+                isExcluded: () => false, priority: "Accepts pedestrian cases",
+                criteria: { doi: "Within 3 months", treatment: "Within 7 days, no gaps > 14 days", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI or UIM", attorney: "None", other: "No parking lot cases involving 2 vehicles." }
+            },
+            {
+                name: "JBL-10x", transferType: "Regular Transfer", hours: "PAUSED", 
+                allowedStates: [], 
+                isExcluded: () => true, priority: "CURRENTLY PAUSED - DO NOT SEND",
+                criteria: { doi: "0 to 6 months", treatment: "Within 2 weeks, consistent with no gaps over 30 days", fault: "Not at fault", injury: "Injured", defendant: "Has insurance or UIM", attorney: "No prior or current", other: "N/A" }
             }
         ];
 
@@ -795,6 +822,7 @@
                                 <span class="text-[9px] uppercase bg-[var(--panel-bg)] px-2 py-0.5 rounded border border-[var(--panel-border)]">${buyer.hours}</span>
                             </div>
                             <div class="space-y-1 theme-text-muted leading-tight">
+                                <p><span class="font-semibold text-[var(--text-main)]">Action:</span> ${buyer.transferType} - <span class="theme-highlight">${buyer.priority}</span></p>
                                 <p><span class="font-semibold text-[var(--text-main)]">DOI:</span> ${buyer.criteria.doi}</p>
                                 <p><span class="font-semibold text-[var(--text-main)]">Treatment:</span> ${buyer.criteria.treatment}</p>
                                 <p><span class="font-semibold text-[var(--text-main)]">Fault:</span> ${buyer.criteria.fault}</p>
