@@ -154,13 +154,13 @@
 </head>
 <body class="h-[100dvh] flex flex-col text-[14px]">
 
-    <header id="main-header" class="theme-panel z-50 rounded-none border-t-0 border-x-0 bg-opacity-90 backdrop-blur-md h-[72px] shrink-0">
+    <header id="main-header" class="theme-panel z-50 rounded-none border-t-0 border-x-0 bg-opacity-90 backdrop-blur-md min-h-[72px] shrink-0 py-2">
         <div class="max-w-[1000px] w-full mx-auto px-6 h-full flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-4">
                 <div class="theme-btn-accent font-bold py-1 px-3 text-xs tracking-wide uppercase">MVA INTAKE</div>
-                <h1 class="text-lg font-semibold tracking-tight hidden sm:block heading-font">Motor Vehicle Accident Engine</h1>
+                <h1 class="text-lg font-semibold tracking-tight hidden lg:block heading-font">Motor Vehicle Accident Engine</h1>
             </div>
-            <div class="flex flex-wrap items-center gap-3">
+            <div class="flex flex-wrap items-center gap-2">
                 <select id="global-theme-menu" onchange="changeActiveTheme(this.value)" class="theme-inner-card text-inherit border border-opacity-20 text-xs px-2 py-1.5 focus:outline-none cursor-pointer font-semibold">
                     <option value="apple">Basic Theme</option>
                     <option value="explore">Beige Theme</option>
@@ -169,9 +169,7 @@
                     <option value="dark">Dark Theme</option>
                     <option value="light">Light Theme</option>
                 </select>
-                <button onclick="goToSSDI()" class="theme-inner-card border-[var(--highlight)] text-[var(--highlight)] hover:bg-[var(--highlight)] hover:text-white transition-colors font-bold py-1.5 px-3 text-xs flex items-center gap-1 shadow-md">
-                    🏥 SSDI Script
-                </button>
+
                 <button id="mode-toggle-btn" onclick="toggleMode()" class="theme-inner-card border-[var(--accent)] text-[var(--accent)] hover:bg-opacity-80 font-bold py-1.5 px-3 text-xs flex items-center gap-1">📞 Start Inbound</button>
                 <button onclick="resetEntirePortal()" class="theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs flex items-center gap-1">⟲ Reset</button>
             </div>
@@ -187,38 +185,17 @@
                     <span class="font-semibold theme-text-muted uppercase tracking-wider text-[11px] block heading-font">🛡️ Quick Rebuttals & Portals</span>
                     
                     <div class="flex flex-wrap gap-2">
-                        <button onclick="showRebuttal(1)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Early Legal Q.</button>
-                        <button onclick="showRebuttal(2)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Mid-Call Q.</button>
-                        <button onclick="showRebuttal(3)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Who is this?</button>
-                        <button onclick="showRebuttal(7)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Do I pay?</button>
-                        <button onclick="showRebuttal(8)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">What happens next?</button>
-                        <button onclick="showRebuttal(9)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">⏱How long?</button>
-                        <button onclick="showRebuttal(11)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Call about?</button>
-                        <button onclick="showRebuttal(12)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">My accident?</button>
-                        <button onclick="showRebuttal(14)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">When was it?</button>
-
-                        <button onclick="showRebuttal(4)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Got my #?</button>
-                        <button onclick="showRebuttal(5)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Scam?</button>
-                        <button onclick="showRebuttal(6)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Lawyer?</button>
-                        <button onclick="showRebuttal(10)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Binding?</button>
-                        <button onclick="showRebuttal(13)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Disqualified</button>
-                        <button onclick="showRebuttal(15)" class="custom-btn-bg-red theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">Why need one?</button>
-                        
-                        <button onclick="openIframe('https://live.tcpatech.com/678765d914fc2', 'TCPA Tech Portal')" class="theme-btn-tcpa px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
-                            TCPA
-                        </button>
-                        <button onclick="openIframe('https://cases.caraccidentpayout.com/oa', 'OA Car Accident Payout')" class="theme-btn-oa px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
-                            MVA FORM
-                        </button>
-                        <button onclick="openIframe('https://autoinjuryadvisor.com/go/psf/partner/lux-media', 'DQ LEADS')" class="theme-btn-dq px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
-                            DQ LEADS
-                        </button>
+                        <button onclick="showRebuttal(1)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">SIGNING REBUTTALS</button>
                         <button onclick="window.open('https://sign.zoho.com', '_blank')" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             ZOHO SIGN
                         </button>
-                        <button onclick="goToSSDI()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
-                            SSDI
+                        <button onclick="goToNoAccident()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+                            No Accident
                         </button>
+                        <button onclick="goToAlreadyRepresented()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+                            Already Represented
+                        </button>
+
                     </div>
 
                     <div id="rebuttal-display-container" class="hidden">
@@ -258,98 +235,178 @@
 
                 <div class="space-y-6">
 
-                    <div id="inbound-step-intro" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Introduction & Client Info</span>
-                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                            <span class="theme-highlight font-semibold">Agent:</span> Thank you for holding. This is (Agent Name) with Car Accident Payout. How are you today?<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> I understand you're calling about a car accident. Is that correct? <strong>(Must be Yes.)</strong><br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear you've been through that. I'll gather a few details to better understand your situation and see what assistance may be available. Once we're finished, I'll connect you with one of our experienced motor vehicle accident attorneys, who can review your case, explain your legal options, and answer any questions you have.<br><br>
-                            <strong class="text-[var(--accent)]">CLIENT INFO</strong><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Can you tell me which state you currently live in? Are you currently represented by an attorney?<br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Great, thank you. To make sure I have everything accurate, I'll just verify a few details with you.<br>
-                            • I have your phone number as (Dialer Number). Is that still the best number to reach you?<br>
-                            • May I have your first and last name, please?<br>
-                            • And what's the best email address for you?<br>
-                            • Lastly, just to verify your identity, may I have your date of birth?<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Thank you. Now, did the accident happen in (State)?<br>
-                            <em>If Yes:</em> Perfect. What is your home address<br>
-                            <em>If No:</em> No problem at all. What is your home address?
-                        </p>
-                        <div class="grid grid-cols-1 gap-4">
-                            <button onclick="goToStep('inbound-step-case', 'inbound-step-intro')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Client Verified - Proceed to Case Description</button>
+                    <div id="inbound-step-full" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--oa-bg)]">
+                        <button onclick="goBackToPreviousStep('inbound-step-full')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">Introduction & Client Info</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Thank you for holding. This is (Agent Name) with Car Accident Payout. How are you today?<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> I understand you're calling about a car accident. Is that correct? <strong>(Must be Yes.)</strong><br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear you've been through that. I'll gather a few details to better understand your situation and see what assistance may be available. Once we're finished, I'll connect you with one of our experienced motor vehicle accident attorneys, who can review your case, explain your legal options, and answer any questions you have.<br><br>
+                                <strong class="text-[var(--accent)]">CLIENT INFO</strong><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> First, can you tell me which state you currently live in?<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Great, thank you. To make sure I have everything accurate, I'll just verify a few details with you.<br>
+                                • I have your phone number as (Dialer Number). Is that still the best number to reach you?<br>
+                                • May I have your first and last name, please?<br>
+                                • And what's the best email address for you?<br>
+                                • Lastly, just to verify your identity, may I have your date of birth?<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Thank you. Now, did the accident happen in (State)?<br>
+                                <em>If Yes:</em> Perfect. What is your home address?<br>
+                                <em>If No:</em> No problem at all. What is your home address?
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">Case Description</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Thank you. Now I'd like to get a better understanding of what happened.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Could you briefly walk me through the accident? For example, was it a rear-end collision, head-on, or were multiple vehicles involved? <em>(Listen actively. Acknowledge their response.)</em><br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> I'm sorry you had to experience that.<br><br>
+                                • When did the accident occur?<br>
+                                • Was the vehicle involved your personal vehicle, or was it a company or commercial vehicle?<br>
+                                • At the time of the accident, were you driving or were you a passenger?<br>
+                                • Do you have any passenger during the accident?<br>
+                                • And based on what happened, who was determined to be at fault—you or the other driver? <strong class="text-[var(--danger-bg)]">(Must qualify: Other driver at fault.)</strong><br>
+                                • Was a police report filed for the accident? <strong class="text-[var(--danger-bg)]">(Must be Yes.)</strong><br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> That's helpful. If you happen to have the police report number available, I'd be happy to add it to your file. If not, that's completely okay, I can simply note that it's unavailable at the moment.
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">Treatment & Insurance Details</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <strong class="text-[var(--accent)]">TREATMENT DETAILS - Injury description</strong><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Now, were you physically injured in the accident?<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear that.<br><br>
+                                • Can you briefly describe the injuries you've experienced?<br>
+                                • Did you receive medical treatment within 30 days of the accident, such as an emergency room visit, urgent care, or another healthcare provider?<br>
+                                • When was your most recent medical visit related to these injuries?<br>
+                                • What symptoms are you still experiencing, and what treatment or therapy are you currently receiving?<br>
+                                • Do you already have another doctor's appointment scheduled?<br>
+                                • On a scale from 1 to 10, where 1 is very little pain and 10 is the worst pain imaginable, how would you rate the pain you've experienced since the accident or what you're feeling today?<br><br>
+                                <strong class="text-[var(--accent)]">INSURANCE DETAILS</strong><br>
+                                • Do you know if the other driver has auto insurance? <strong class="text-[var(--danger-bg)]">(Must be Yes.)</strong><br>
+                                • Do you happen to have uninsured or underinsured motorist coverage on your own insurance policy?<br><br>
+                                <strong class="text-[var(--accent)]">SURGERY REQUIREMENT</strong><br>
+                                • Has any doctor recommended surgery, have you already had surgery, or is surgery something they believe you may need as part of your treatment?
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">Pre-Transfer</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Thank you for sharing all of that with me. Based on everything you've told me, your information appears ready for attorney review. The next step is to prepare your file and connect you with one of our experienced motor vehicle accident attorneys. They'll review your situation in detail, discuss your legal options, and answer any questions you have.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Before I transfer you, I'll send a document to your email. Please let me know once you receive it. Take your time opening it, and let me know when it's on your screen.<br><br>
+                                <strong class="text-[var(--accent)]">Guiding the Client Through the Document</strong><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> At the top of the document, you'll see the Terms and Conditions. Please review them and click Agree to continue. Feel free to go through the document, you will see it's just a standard agreement. This is not legally binding yet. You can change your mind anytime while speaking to the Attorney.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Now you can scroll down a little- you should see a green box to sign. Go ahead and click it. A small window will appear where you'll enter your name, initials, and signature. In the lower-left corner, check the box that says Fill out all fields, then click OK. Once everything is completed, click Finish at the top of the document. Perfect.
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">Final Step and Transfer</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> I just received confirmation that your document has been completed. Thank you for taking care of that.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> The final step is connecting you with one of our motor vehicle accident attorneys. They'll review everything you've shared, discuss your case in greater detail, and answer any questions you may have. Please stay on the line while I bring them into the call. It'll only take a moment.<br><br>
+                                <strong class="text-[var(--accent)]">Attorney Warm Transfer</strong><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Hi, this is (Agent Name) with Car Accident Payout. I have (Client Name) on the line. They have completed and signed the intake document. Their phone number is (Phone Number), and their email address is (Email Address).<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Can you please confirm you've received the signed document? Perfect. I'll let you take it from here. Thank you both, and have a great day.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 mt-6">
+                            <button onclick="triggerDispo('inbound-step-full')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md w-full sm:w-1/2">Not Qualified / Dispo</button>
                         </div>
                     </div>
 
-                    <div id="inbound-step-case" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
-                        <button onclick="goBackToPreviousStep('inbound-step-case')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Case Description</span>
-                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                            <span class="theme-highlight font-semibold">Agent:</span> Thank you. Now I'd like to get a better understanding of what happened.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Could you briefly walk me through the accident? For example, was it a rear-end collision, head-on, or were multiple vehicles involved? <em>(Listen actively. Acknowledge their response.)</em> I'm sorry you had to experience that.<br><br>
-                            • When did the accident occur?<br>
-                            • Was the vehicle involved your personal vehicle, or was it a company or commercial vehicle?<br>
-                            • At the time of the accident, were you driving or were you a passenger?<br>
-                            • Do you have any passenger during the accident?<br>
-                            • And based on what happened, who was determined to be at fault—you or the other driver? <strong class="text-[var(--danger-bg)]">(Must qualify: Other driver at fault.)</strong><br>
-                            • Was a police report filed for the accident? <strong class="text-[var(--danger-bg)]">(Must be Yes.)</strong><br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> That's helpful. If you happen to have the police report number available, I'd be happy to add it to your file. If not, that's completely okay, I can simply note that it's unavailable at the moment.
-                        </p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <button onclick="goToStep('inbound-step-medical', 'inbound-step-case')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Qualified (Other Driver Fault & Report Filed)</button>
-                            <button onclick="triggerDispo('inbound-step-case')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified (At Fault / No Report)</button>
+                    <div id="step-no-accident" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
+                        <button onclick="goBackToPreviousStep('step-no-accident')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">No Accident / Not injured Track</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <strong class="text-[var(--success-bg)]">NOT INJURED EARLY IN THE CALL</strong><br><br>
+                                 <span class="theme-highlight font-semibold">Agent:</span> That's completely okay. Can you please confirm your age?<br><br>
+                                <strong class="text-[var(--success-bg)]">54-64-year old - Continue</strong><br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span>Are you seeing a doctor for any medical condition? <strong>Must be Yes</strong><br><br>
+                                <strong class="text-[var(--success-bg)]">**VERIFY CLIENT INFO**</strong><br><br>
+                                <strong class="text-[var(--success-bg)]">NOT INJURED LATER IN THE CALL</strong><br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> That's completely okay. Can you please confirm your age?<br><br>
+                                <strong class="text-[var(--success-bg)]">54-64-year old - Continue</strong><br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span>Are you seeing a doctor for any medical condition? <strong>Must be Yes</strong><br><br>
+                                <strong class="text-[var(--success-bg)]">**NO NEED VERIFY CLIENT INFO**</strong><br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Based on what you've shared, you may qualify for Social Security Disability benefits if your injuries are preventing you from working. These benefits are separate from your motor vehicle claim and could provide financial support while your accident case is still being resolved.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> What I'd like to do is verify a few details first. If everything looks good, I'll connect you with one of our licensed specialists. They'll review your situation, explain your options, and guide you through the process so you can better understand what benefits may be available to you. Does that sound okay?
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">SSDI Eligibility Questions</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                1. Are you seeing a doctor for your medical condition other than the ones related to the accident? <strong class="text-[var(--danger-bg)]">(Must be YES)</strong><br>
+                                2. Based on your doctor's expectations, do you believe you'll be unable to work for at least one year? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
+                                3. Have you worked for at least five of the last ten years? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
+                                4. Have you ever applied for Social Security Disability benefits before? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
+                                5. Are you currently receiving any Social Security Disability benefits? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
+                                6. Are you currently represented by an attorney for a Social Security Disability claim? <strong class="text-[var(--danger-bg)]">(Must be No)</strong>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Transfer</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Excellent. Based on everything you've shared today, your information appears ready for review. The next step is for one of our SSDI licensed specialists to take a closer look at your case.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> They'll answer your questions, explain the benefits you may qualify for, and discuss the options available based on your situation.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Please stay on the line while I connect you. The transfer will only take a brief moment.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('step-no-accident')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
                         </div>
                     </div>
 
-                    <div id="inbound-step-medical" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
-                        <button onclick="goBackToPreviousStep('inbound-step-medical')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Treatment & Insurance Details</span>
-                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                            <strong class="text-[var(--accent)]">TREATMENT DETAILS</strong><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Now, were you physically injured in the accident? I'm sorry to hear that.<br><br>
-                            • Can you briefly describe the injuries you've experienced?<br>
-                            • Did you receive medical treatment within 30 days of the accident, such as an emergency room visit, urgent care, or another healthcare provider?<br>
-                            • When was your most recent medical visit related to these injuries?<br>
-                            • What symptoms are you still experiencing, and what treatment or therapy are you currently receiving?<br>
-                            • Do you already have another doctor's appointment scheduled?<br>
-                            • On a scale from 1 to 10, where 1 is very little pain and 10 is the worst pain imaginable, how would you rate the pain you've experienced since the accident or what you're feeling today?<br><br>
-                            <strong class="text-[var(--accent)]">INSURANCE DETAILS</strong><br>
-                            • Do you know if the other driver has auto insurance? <strong class="text-[var(--danger-bg)]">(Must be Yes.)</strong><br>
-                            • Do you happen to have uninsured or underinsured motorist coverage on your own insurance policy?<br><br>
-                            <strong class="text-[var(--accent)]">SURGERY REQUIREMENT</strong><br>
-                            • Has any doctor recommended surgery, have you already had surgery, or is surgery something they believe you may need as part of your treatment?
-                        </p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <button onclick="goToStep('inbound-step-docs', 'inbound-step-medical')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Medically Qualified & Insured</button>
-                            <button onclick="triggerDispo('inbound-step-medical')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Uninsured</button>
+                    <div id="step-already-represented" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
+                        <button onclick="goBackToPreviousStep('step-already-represented')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Already represented/ Not insured/ Gap in treatment/ Incident > 2 years</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> That's completely okay. Since your motor vehicle case is still pending, there's another option that may be able to help in the meantime.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Based on what you've shared, you may qualify for Social Security Disability benefits if your injuries are preventing you from working. These benefits are separate from your motor vehicle claim and could provide financial support while your accident case is still being resolved.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> What I'd like to do is verify a few details first. If everything looks good, I'll connect you with one of our licensed specialists. They'll review your situation, explain your options, and guide you through the process so you can better understand what benefits may be available to you. Does that sound okay?<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Can you please confirm your age?<br><br>
+                                <strong class="text-[var(--success-bg)]">54-64-year old - Continue</strong>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">SSDI Eligibility Questions</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                1. Are you seeing a doctor for your medical condition other than related to the accident? <strong class="text-[var(--danger-bg)]">(Must be YES)</strong><br>
+                                2. Based on your doctor's expectations, do you believe you'll be unable to work for at least one year? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
+                                3. Have you worked for at least five of the last ten years? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
+                                4. Have you ever applied for Social Security Disability benefits before? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
+                                5. Are you currently receiving any Social Security Disability benefits? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
+                                6. Are you currently represented by an attorney for a Social Security Disability claim? <strong class="text-[var(--danger-bg)]">(Must be No)</strong>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Transfer</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Excellent. Based on everything you've shared today, your information appears ready for review.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> The next step is for one of our SSDI licensed specialists to take a closer look at your case. They'll answer your questions, explain the benefits you may qualify for, and discuss the options available based on your situation.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Please stay on the line while I connect you. The transfer will only take a brief moment.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('step-already-represented')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
                         </div>
                     </div>
 
-                    <div id="inbound-step-docs" class="hidden theme-panel p-6 space-y-5 border-t-4 border-[var(--oa-bg)]">
-                        <button onclick="goBackToPreviousStep('inbound-step-docs')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font">Inbound - Pre-Transfer & Document Signing</span>
-                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed">
-                            <span class="theme-highlight font-semibold">Agent:</span> Thank you for sharing all of that with me. Based on everything you've told me, your information appears ready for attorney review. The next step is to prepare your file and connect you with one of our experienced motor vehicle accident attorneys. They'll review your situation in detail, discuss your legal options, and answer any questions you have.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Before I transfer you, I'll send a document to your email. Please let me know once you receive it. Take your time opening it, and let me know when it's on your screen.<br><br>
-                            <strong class="text-[var(--accent)]">Guiding the Client Through the Document</strong><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> At the top of the document, you'll see the Terms and Conditions. Please review them and click Agree to continue. Feel free to go through the document, you will see it's just a standard agreement. This is not legally binding yet. You can change your mind anytime while speaking to the Attorney.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Now you can scroll down a little- you should see a green box to sign. Go ahead and click it. A small window will appear where you'll enter your name, initials, and signature. In the lower-left corner, check the box that says Fill out all fields, then click OK. Once everything is completed, click Finish at the top of the document. Perfect.
-                        </p>
-                        <div class="grid grid-cols-1 gap-4">
-                            <button onclick="goToStep('inbound-step-transfer', 'inbound-step-docs')" class="custom-btn-bg theme-btn-accent font-medium shadow-md">Document Signed - Proceed to Transfer</button>
-                        </div>
-                    </div>
-
-                    <div id="inbound-step-transfer" class="hidden theme-panel p-6 space-y-5 border-[var(--oa-bg)] border-opacity-50 relative overflow-hidden">
-                        <button onclick="goBackToPreviousStep('inbound-step-transfer')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] relative heading-font">Inbound - Final Step and Transfer</span>
-                        <p class="text-[15px] theme-inner-card p-5 leading-relaxed relative">
-                            <span class="theme-highlight font-semibold">Agent:</span> I just received confirmation that your document has been completed. Thank you for taking care of that.<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> The final step is connecting you with one of our motor vehicle accident attorneys. They'll review everything you've shared, discuss your case in greater detail, and answer any questions you may have. Please stay on the line while I bring them into the call. It'll only take a moment.<br><br>
-                            <strong class="text-[var(--accent)]">Attorney Warm Transfer</strong><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Hi, this is (Agent Name) with Car Accident Payout. I have (Client Name) on the line. They have completed and signed the intake document. Their phone number is (Phone Number), and their email address is (Email Address).<br><br>
-                            <span class="theme-highlight font-semibold">Agent:</span> Can you please confirm you've received the signed document? Perfect. I'll let you take it from here. Thank you both, and have a great day.
-                        </p>
-                    </div>
 
                     <div id="call-initiation" class="theme-panel p-6 space-y-5">
                         <span class="text-xs font-semibold uppercase tracking-wider theme-text-muted block heading-font">Introduction - Q1</span>
@@ -796,21 +853,7 @@
         let currentMode = 'outbound'; // Global state to track active mode
         
         const rebuttalsData = {
-            1: "<span class='theme-highlight font-semibold'>Agent:</span> That's a great question — I'm not an attorney and I can't give legal advice, but that's exactly why I'd love to try to connect you with one. I just need a little more information from you first.",
-            2: "<span class='theme-highlight font-semibold'>Agent:</span> That's a fair question, but that's really something only an attorney can answer. Let me keep going — I'm almost done, and then I'll try to get you connected with one right away.",
-            3: "<span class='theme-highlight font-semibold'>Agent:</span> This is ___ with Car Accident Payout. We're not a law firm — we help people get information and, if they choose, connect with independent attorneys.",
-            4: "<span class='theme-highlight font-semibold'>Agent:</span> You submitted a request for information regarding an accident, and I'm following up on that. If you'd prefer not to be contacted, just say the word and I'll remove you immediately.",
-            5: "<span class='theme-highlight font-semibold'>Agent:</span> Completely understandable — you're right to be careful. There's no cost, no commitment, and no pressure. We're a legitimate intake service, and you're fully in control of what happens next.",
-            6: "<span class='theme-highlight font-semibold'>Agent:</span> No, I'm not an attorney. My role is to gather your information and, if you'd like, try to connect you with a licensed attorney.",
-            7: "<span class='theme-highlight font-semibold'>Agent:</span> There's no charge to speak with us. Any fee discussion would be directly between you and the attorney you choose. Attorneys typically work on a contingency basis — you pay nothing unless they win your case.",
-            8: "<span class='theme-highlight font-semibold'>Agent:</span> That's entirely up to you. The attorney will walk you through their process and you can decide from there.",
-            9: "<span class='theme-highlight font-semibold'>Agent:</span> Just a few minutes on my end — then you choose how you want to continue.",
-            10: "<span class='theme-highlight font-semibold'>Agent:</span> Completely fair concern. Both you and the firm have the right to end the agreement at any time — you're not permanently committed. For specific questions about the terms, the attorney will be the best person to walk you through those when you speak with them.",
-            11: "<span class='theme-highlight font-semibold'>Agent:</span> This is about your most recent car accident, Mr/ Ms ( Client Name).",
-            12: "<span class='theme-highlight font-semibold'>Agent:</span> Well, I am (Name of the Agent) and I am calling to see if you get the assistance you need. Is somebody assisting you with your recent car accident?<br><br>YES/NO - Perfect, that is exactly the reason why I am calling you.<br><br>YES - So you are currently represented by an attorney right now, correct? (IF YES - [Shift to the DQ script - When we are already LIVE]) <br><br>No - Okay no worries, you are not represented by an attorny yet, correct?(IF YES - Proceed with the script.)",
-            13: "<span class='theme-highlight font-semibold'>Agent:</span> Ok, I understand. Based on what you've shared, this particular program may not be the right fit for you... but that doesn't mean you're without options.<br><br>You're always welcome to get a second opinion elsewhere. Take care.",
-            14: "<span class='theme-highlight font-semibold'>Agent:</span> I don't have the exact information of when did your accident happen. I am calling a list of people who had car accidents within at least 2 years and haven't gotten any legal assistance yet. Are you currently being represented by a lawyer?",
-            15: "<span class='theme-highlight font-semibold'>Agent:</span> A lawyer can help you navigate through the legal process. The process can be tedious and definitely time consuming if you will do it yourself. So you are currently not being represented by a lawyer, correct?"
+            1: "<span class='theme-highlight font-semibold'>Agent:</span> <br>- The attorney can explain the agreement and answer any questions you have about its terms. This document is not legally binding yet. My role is to help with the intake process and make sure everything is ready before I transfer you. If there's anything you'd like to discuss regarding the agreement, the attorney will be the best person to address those concerns.<br><br> - This is just a standard process we have before you talk to the Attorneys. This saves you and the firm, the time of going through the whole intake process. Your signature doesn't bind you to the agreement. It's just to affirm your interest in being represented by the firm. However in anytime during the process, while talking to the lawyer, you didn't agree to any of the terms or not fully satisfied with the legal advice you received and you changed you mind, you can just inform that Attorney, There will be no consequences or charges at the point. So you don't have to worry about it."
         };
 
         function openIframe(url, titleText) {
@@ -880,7 +923,7 @@
             document.getElementById('matrixOutputArea').classList.add('hidden');
             closeRebuttal();
             closeIframe();
-            document.getElementById('inbound-step-intro').classList.remove('hidden');
+            document.getElementById('inbound-step-full').classList.remove('hidden');
             document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -903,6 +946,28 @@
             closeRebuttal();
             closeIframe();
             document.getElementById('step-ssdi-full').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToNoAccident() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = '';
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('step-no-accident').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToAlreadyRepresented() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = '';
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('step-already-represented').classList.remove('hidden');
             document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -949,9 +1014,9 @@
                 'step-represented-details', 'step-represented-closing', 'step-not-represented', 
                 'step-accident-info-1', 'step-accident-info-2', 'step-medical-info-1', 
                 'step-closing', 'step-warm-transfer', 'step-dispo', 
-                'step-ssdi-full', // The new single page SSDI flow
-                // Inbound Steps
-                'inbound-step-intro', 'inbound-step-case', 'inbound-step-medical', 'inbound-step-docs', 'inbound-step-transfer'
+                'step-ssdi-full', 'step-no-accident', 'step-already-represented',
+                // Inbound Step (Combined)
+                'inbound-step-full'
             ];
             steps.forEach(s => {
                 const el = document.getElementById(s);
