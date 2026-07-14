@@ -199,6 +199,9 @@
                         <button onclick="goToAlreadyRepresented()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             Already Represented
                         </button>
+                        <button onclick="openGuidePanel()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+                            Guiding Leads
+                        </button>
                         <button onclick="triggerDispo('inbound-step-full')" class="theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             EXIT
                         </button>
@@ -895,6 +898,74 @@
             document.getElementById('rebuttal-display-container').classList.add('hidden');
         }
 
+        function openGuidePanel() {
+            const guideHTML = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <script src="https://cdn.tailwindcss.com"><\/script>
+                    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+                    <style>
+                        body { font-family: 'Poppins', sans-serif; background-color: #1e293b; color: #f8fafc; margin: 0; padding: 1.5rem; }
+                        .card { background-color: #334155; border: 1px solid #475569; border-radius: 0.5rem; padding: 1rem; margin-bottom: 0.75rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+                        .step-title { color: #38bdf8; font-weight: 700; font-size: 0.875rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;}
+                        ul { margin: 0; padding-left: 1.25rem; }
+                        li { font-size: 0.8125rem; margin-bottom: 0.25rem; line-height: 1.4; color: #cbd5e1; }
+                        strong { color: #f1f5f9; }
+                        .highlight-red { color: #ef4444; font-weight: 700;}
+                        .highlight-green { color: #22c55e; font-weight: 700;}
+                    </style>
+                </head>
+                <body>
+                    <h2 class="text-xl font-bold mb-4 text-white border-b border-slate-600 pb-2">Step-by-Step Guide to Signing</h2>
+                    
+                    <div class="card">
+                        <div class="step-title">Step 1: Check Your Email</div>
+                        <ul>
+                            <li>Look for an email from <strong>Notifications@zohosign.com</strong>.</li>
+                            <li>Open the email and click the <span class="highlight-red">Start Signing (red)</span> button.</li>
+                            <br><br>
+                            <div class="step-title">Step 2: Open the Document</div>
+                            <li>You will be redirected to the document page.</li>
+                            <li>Click the <span class="highlight-green">Proceed to Document (green)</span> button.</li>
+                            <br><br>
+                            <div class="step-title">Step 3: Start the Signing Process</div>
+                            <li>Once the document loads, click the <span class="highlight-green">Start Signing (green)</span> button.</li>
+                            <br><br>
+                            <div class="step-title">Step 4: Accept the Agreement</div>
+                            <li>Read the document if needed.</li>
+                            <li>Click <strong>Agree</strong> to continue.</li>
+                            <br><br>
+                            <div class="step-title">Step 5: Enter Your Full Name</div>
+                            <li>Scroll to the bottom and look for <span class="highlight-green">Enter Text</span> with a green button.</li>
+                            <li>Click <strong>Enter Text</strong>.</li>
+                            <li>Type your full name.</li>
+                            <li>Click <strong>Done</strong>.</li>
+                            <br><br>
+                            <div class="step-title">Step 6: Create Signature & Initials</div>
+                            <li>Scroll to the bottom of the next page until you reach the <strong>Add Initial</strong> section.</li>
+                            <li>In the Signature field, enter your full name.</li>
+                            <li>In the Initial field, enter your initials.</li>
+                            <li>Tick the checkbox at the bottom left that says <strong>Fill the signature in all places</strong>.</li>
+                            <li>Click <strong>OK</strong>.</li>
+                            <br><br>
+                            <div class="step-title">Step 7: Complete the Signing</div>
+                            <li>Review the document to ensure all required fields have been completed.</li>
+                            <li>Click <strong>Finish</strong> to submit the signed document.</li>
+
+                        </ul>
+                    </div>
+
+                </body>
+                </html>
+            `;
+            
+            const blob = new Blob([guideHTML], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            openIframe(url, 'Guiding Leads Guide');
+        }
+
         function changeActiveTheme(themeName) {
             document.body.setAttribute('data-theme', themeName);
             localStorage.setItem('mva-portal-theme', themeName);
@@ -1078,6 +1149,7 @@
                 alert("Summary generated! (Please manually copy the text block)");
             });
         }
+        
         function resetSummary() {
             // List of all input IDs used in the case summary generator
             const summaryFields = [
