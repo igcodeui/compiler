@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cinzel:wght@600;700&family=Oswald:wght@500;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
     <style>
+        
         /* CSS VARIABLE THEME SCHEME ENGINE */
         :root, [data-theme="apple"] {
             --bg-main: #000000; --text-main: #F5F5F7; --text-muted: #8E8E93;
@@ -189,14 +190,14 @@
                         <button onclick="window.open('https://sign.zoho.com', '_blank')" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             ZOHO SIGN
                         </button>
-                        <button onclick="openIframe('https://cases.caraccidentpayout.com/oa', 'OA Car Accident Payout')" class="theme-btn-oa px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+                        <button onclick="window.open('https://cases.caraccidentpayout.com/oa', '_blank')" class="theme-btn-oa px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             MVA FORM
                         </button>
                         <button onclick="goToNoAccident()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
-                            No Accident / Not injured Track
+                            No Accident
                         </button>
                         <button onclick="goToAlreadyRepresented()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
-                            Already represented/ Not insured/ Gap in treatment/ Incident > 2 years
+                            Already Represented
                         </button>
 
                     </div>
@@ -246,7 +247,7 @@
                             <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
                                 <span class="theme-highlight font-semibold">Agent:</span> Thank you for holding. This is (Agent Name) with Car Accident Payout. How are you today?<br><br>
                                 <span class="theme-highlight font-semibold">Agent:</span> I understand you're calling about a car accident. Is that correct? <strong>(Must be Yes.)</strong><br><br>
-                                <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear you've been through that. I'll gather a few details to better understand your situation and see what assistance may be available. Once we're finished, I'll connect you with one of our experienced motor vehicle accident attorneys, who can review your case, explain your legal options, and answer any questions you have. Can you please confirm that you are not currently represented by an attorney<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear you've been through that. I'll gather a few details to better understand your situation and see what assistance may be available. Once we're finished, I'll connect you with one of our experienced motor vehicle accident attorneys, who can review your case, explain your legal options, and answer any questions you have.<br><br>
                                 <strong class="text-[var(--accent)]">CLIENT INFO</strong><br>
                                 <span class="theme-highlight font-semibold">Agent:</span> First, can you tell me which state you currently live in?<br><br>
                                 <span class="theme-highlight font-semibold">Agent:</span> Great, thank you. To make sure I have everything accurate, I'll just verify a few details with you.<br>
@@ -339,7 +340,7 @@
                                 <strong class="text-[var(--success-bg)]">54-64-year old - Continue</strong><br><br>
                                 <span class="theme-highlight font-semibold">Agent:</span>Are you seeing a doctor for any medical condition? <strong>Must be Yes</strong><br><br>
                                 <strong class="text-[var(--success-bg)]">**NO NEED VERIFY CLIENT INFO**</strong><br><br>
-                                <span class="theme-highlight font-semibold">Agent:</span> Based on what you've shared, you may qualify for Social Security Disability benefits if your medical conditions are preventing you from working.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Based on what you've shared, you may qualify for Social Security Disability benefits if your injuries are preventing you from working. These benefits are separate from your motor vehicle claim and could provide financial support while your accident case is still being resolved.<br><br>
                                 <span class="theme-highlight font-semibold">Agent:</span> What I'd like to do is verify a few details first. If everything looks good, I'll connect you with one of our licensed specialists. They'll review your situation, explain your options, and guide you through the process so you can better understand what benefits may be available to you. Does that sound okay?
                             </div>
                         </div>
@@ -347,11 +348,12 @@
                         <div>
                             <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">SSDI Eligibility Questions</span>
                             <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                                1. Based on your doctor's expectations, do you believe you'll be unable to work for at least one year? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
-                                2. Have you worked for at least five of the last ten years? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
-                                3. Have you ever applied for Social Security Disability benefits before? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
-                                4. Are you currently receiving any Social Security Disability benefits? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
-                                5. Are you currently represented by an attorney for a Social Security Disability claim? <strong class="text-[var(--danger-bg)]">(Must be No)</strong>
+                                1. Are you seeing a doctor for your medical condition other than the ones related to the accident? <strong class="text-[var(--danger-bg)]">(Must be YES)</strong><br>
+                                2. Based on your doctor's expectations, do you believe you'll be unable to work for at least one year? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
+                                3. Have you worked for at least five of the last ten years? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br>
+                                4. Have you ever applied for Social Security Disability benefits before? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
+                                5. Are you currently receiving any Social Security Disability benefits? <strong class="text-[var(--danger-bg)]">(Must be No)</strong><br>
+                                6. Are you currently represented by an attorney for a Social Security Disability claim? <strong class="text-[var(--danger-bg)]">(Must be No)</strong>
                             </div>
                         </div>
 
@@ -714,6 +716,9 @@
                 <button onclick="generateAndCopySummary()" class="theme-btn-oa w-full font-bold uppercase py-2.5 text-xs tracking-wider shadow active:scale-95 transition-transform mt-2">
                     Generate & Copy Summary
                 </button>
+                <button type="button" onclick="resetSummary()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors w-full mt-2">
+    Reset Summary
+</button>
 
                 <div class="space-y-1 mt-4">
                     <textarea id="summary-output" readonly rows="4" placeholder="Output will appear here..." class="theme-inner-card w-full p-2.5 text-[11px] leading-relaxed resize-none focus:outline-none text-opacity-90 select-all"></textarea>
@@ -743,39 +748,33 @@
                 name: "Louis Law", transferType: "Firm calls back ASAP", hours: "24/7", 
                 allowedStates: ["NC", "MS", "FL", "GA", "MI", "TN", "LA", "IL", "KY", "MD", "SC", "TX", "AR", "NM", "OH", "OR", "WA", "WI", "AL", "NE", "NJ", "OK", "AK", "DE", "NY", "VA", "PA"], 
                 isExcluded: () => false, priority: "First priority in all listed states",
-                criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps over 30 days", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI or UIM", attorney: "Not currently represented", other: "Police report not required but speeds up approval." }
+                criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps in treatment over 30 days", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI or the client has UIM", attorney: "Not currently represented", other: "Police report not required but speeds up approval." }
             },
             {
                 name: "Monge & Associates", transferType: "Live Transfer", hours: "24/7", 
                 allowedStates: [], 
                 isExcluded: (stateCode) => ["DE", "AK", "HI", "CT", "CA", "VA", "MI", "NJ", "NY", "FL", "PA", "LA", "TX", "CO"].includes(stateCode), 
                 priority: "First priority in allowed states",
-                criteria: { doi: "At least 6 months before SOL", treatment: "Within 7-10 days (10 if health ins), follow up within 14 days", fault: "Not at fault (partially ok if serious injury)", injury: "Must be injured", defendant: "Has insurance or UIM", attorney: "No current attorney", other: "Car damaged (min $1.5k dent, parking lot >$3k). Evaluates DUI cases." }
+                criteria: { doi: "At least 6 months before SOL epires", treatment: "Within 7 days, or 10 days if they have Health insurance, Follow up treatment should be within 14 days of initial treatment unless serious injury or medicals over 1k like xrays, CT scan, ambulance etc. Need continuous treatment.", fault: "Not at fault, Can be partially at fault only if client has serious injury.", injury: "Must be injured", defendant: "Has insurance or client has UIM", attorney: "No current attorney", other: "Car must be damaged to prove case must at least have basketball/dinner plate-sized dent in damages (at least 1.5k in damages). not just small dents<br> Parking lot cases must have more than $3000 in damages ( bigger dents ) Would like to evaluate all cases where at fault driver is charged with a DUI" }
             },
             {
                 name: "The Advocates", transferType: "Live Transfer", hours: "11-7 EST", 
                 allowedStates: ["AZ", "CA", "IA", "MT", "NV", "ND", "UT", "WY"], 
                 isExcluded: () => false, priority: "Direct to attorney line.",
-                criteria: { doi: "Within 12 months", treatment: "Within 30 days (continuous, no gaps over 30 days)", fault: "Not at fault", injury: "Injured", defendant: "Known and insured (or UM)", attorney: "None prior or current", other: "Property damage over $1,500 preferred (Car must be damaged)" }
+                criteria: { doi: "Within 12 months", treatment: "Within 30 days (or continuous, no gaps in treatment over 30 days)", fault: "Not at fault", injury: "Injured", defendant: "Known and insured (or client has UM)", attorney: "None prior or current", other: "Property damage over $1,500 preferred (not required) ( Aka Car must be damaged )" }
             },
             {
                 name: "Beverly Law", transferType: "Live Transfer", hours: "11-11 EST", 
                 allowedStates: ["TX"], 
                 isExcluded: () => false, priority: "First Priority in TX",
-                criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps over 30 days", fault: "Not at fault", injury: "Injured and treated", defendant: "Known and insured (or UM)", attorney: "None prior or current", other: "Willing to continue treatment. PR/case number required." }
+                criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps over 30 days", fault: "Not at fault", injury: "Injured and treated", defendant: "Known and insured (or UM)", attorney: "None prior or current", other: "Wwilling to continue treatment; proof of accident required (police report, insurance info, photos)", PoliceReport: "Case number or PR document required for them to work the case." }
             },
             {
                 name: "McDonald Worley", transferType: "Firm calls back within 24 hours", hours: "9:30-6 EST", 
                 allowedStates: ["AK", "AZ", "AR", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "LA", "ME", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NC", "NH", "NJ", "NM", "NY", "ND", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TX", "UT", "VT", "WA", "WV", "WY"], // CO removed due to absolute block
                 isExcluded: () => false, priority: "Accepts pedestrian cases",
-                criteria: { doi: "Within 3 months", treatment: "Within 7 days, no gaps > 14 days", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI or UIM", attorney: "None", other: "No parking lot cases involving 2 vehicles." }
+                criteria: { doi: "Within 3 months", treatment: "Within 7 days, No gaps bigger than 14 days.", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI, Or client has UIM", attorney: "None", other: "No parking lot cases involving 2 vehicles." }
             },
-            {
-                name: "JBL-10x", transferType: "Regular Transfer", hours: "PAUSED", 
-                allowedStates: [], 
-                isExcluded: () => true, priority: "CURRENTLY PAUSED - DO NOT SEND",
-                criteria: { doi: "0 to 6 months", treatment: "Within 2 weeks, consistent with no gaps over 30 days", fault: "Not at fault", injury: "Injured", defendant: "Has insurance or UIM", attorney: "No prior or current", other: "N/A" }
-            }
         ];
 
         function findStateKey(input) {
@@ -842,6 +841,7 @@
                                 <p><span class="font-semibold text-[var(--text-main)]">Defendant:</span> ${buyer.criteria.defendant}</p>
                                 <p><span class="font-semibold text-[var(--text-main)]">Attorney:</span> ${buyer.criteria.attorney}</p>
                                 <p><span class="font-semibold text-[var(--text-main)]">Other:</span> ${buyer.criteria.other}</p>
+                                <p><span class="font-semibold text-[var(--text-main)]">Police Report:</span> ${buyer.criteria.PoliceReport}</p>
                             </div>
                         </div>`;
                 });
@@ -1073,6 +1073,28 @@
             }).catch(err => {
                 console.error("Failed to copy text: ", err);
                 alert("Summary generated! (Please manually copy the text block)");
+            });
+        }
+        function resetSummary() {
+            // List of all input IDs used in the case summary generator
+            const summaryFields = [
+                'sum-date', 
+                'sum-type', 
+                'sum-city', 
+                'sum-state', 
+                'sum-injury', 
+                'sum-symptoms', 
+                'sum-treatment', 
+                'sum-surgery', 
+                'summary-output'
+            ];
+
+            // Loop through and clear each field if it exists
+            summaryFields.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.value = '';
+                }
             });
         }
     </script>
