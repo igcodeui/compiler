@@ -187,6 +187,12 @@
                     
                     <div class="flex flex-wrap gap-2">
                         <button onclick="showRebuttal(1)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">SIGNING REBUTTALS</button>
+                        <button onclick="goToPreTransfer()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+                            Pre Transfer
+                        </button>
+                        <button onclick="goToTransfer()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+                            Transfer
+                        </button>
                         <button onclick="window.open('https://sign.zoho.com', '_blank')" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             ZOHO SIGN
                         </button>
@@ -302,18 +308,59 @@
                                 • Has any doctor recommended surgery, have you already had surgery, or is surgery something they believe you may need as part of your treatment?
                             </div>
                         </div>
+                                                <div id="pre-transfer-section">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">Pre-Transfer</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Thank you for sharing all of that with me. Based on everything you've told me, your information appears ready for attorney review. The next step is to prepare your file and connect you with one of our experienced motor vehicle accident attorneys. They'll review your situation in detail, discuss your legal options, and answer any questions you have.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Before I transfer you, I'll send a document to your email. Please let me know once you receive it. Take your time opening it, and let me know when it's on your screen.<br><br>
+                                <strong class="text-[var(--accent)]">Guiding the Client Through the Document</strong><br>
+                                                       <button onclick="openGuidePanel()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+                            Guiding Leads
+                        </button>
+                            </div>
+                        </div>
 
+                        <div id="transfer-section">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">Final Step and Transfer</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> I just received confirmation that your document has been completed. Thank you for taking care of that.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> The final step is connecting you with one of our motor vehicle accident attorneys. They'll review everything you've shared, discuss your case in greater detail, and answer any questions you may have. Please stay on the line while I bring them into the call. It'll only take a moment.<br><br>
+                                <strong class="text-[var(--accent)]">Attorney Warm Transfer</strong><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Hi, this is (Agent Name) with Car Accident Payout. I have (Client Name) on the line. They have completed and signed the intake document. Their phone number is (Phone Number), and their email address is (Email Address).<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Can you please confirm you've received the signed document? Perfect. I'll let you take it from here. Thank you both, and have a great day.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('inbound-step-full')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md w-full">Not Qualified / Dispo</button>
+                        </div>
+                    </div>
+
+                    <div id="step-pre-transfer" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--oa-bg)]">
+                        <button onclick="goBackToPreviousStep('step-pre-transfer')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
                         <div>
                             <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">Pre-Transfer</span>
                             <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
                                 <span class="theme-highlight font-semibold">Agent:</span> Thank you for sharing all of that with me. Based on everything you've told me, your information appears ready for attorney review. The next step is to prepare your file and connect you with one of our experienced motor vehicle accident attorneys. They'll review your situation in detail, discuss your legal options, and answer any questions you have.<br><br>
                                 <span class="theme-highlight font-semibold">Agent:</span> Before I transfer you, I'll send a document to your email. Please let me know once you receive it. Take your time opening it, and let me know when it's on your screen.<br><br>
                                 <strong class="text-[var(--accent)]">Guiding the Client Through the Document</strong><br>
-                                <span class="theme-highlight font-semibold">Agent:</span> At the top of the document, you'll see the Terms and Conditions. Please review them and click Agree to continue. Feel free to go through the document, you will see it's just a standard agreement. This is not legally binding yet. You can change your mind anytime while speaking to the Attorney.<br><br>
-                                <span class="theme-highlight font-semibold">Agent:</span> Now you can scroll down a little- you should see a green box to sign. Go ahead and click it. A small window will appear where you'll enter your name, initials, and signature. In the lower-left corner, check the box that says Fill out all fields, then click OK. Once everything is completed, click Finish at the top of the document. Perfect.
-                            </div>
+                               
+                        <button onclick="openGuidePanel()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+                            Guiding Leads
+                        </button>                           
+                     </div>
                         </div>
 
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="goToStep('step-transfer', 'step-pre-transfer')" class="custom-btn-bg theme-btn-success font-medium shadow-md w-full">Proceed to Transfer</button>
+                            <button onclick="triggerDispo('step-pre-transfer')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md w-full">Not Qualified / Dispo</button>
+                        </div>
+                    </div>
+
+                    <div id="step-transfer" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--oa-bg)]">
+                        <button onclick="goBackToPreviousStep('step-transfer')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
                         <div>
                             <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">Final Step and Transfer</span>
                             <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
@@ -326,7 +373,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 gap-4 mt-6">
-                            <button onclick="triggerDispo('inbound-step-full')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md w-full sm:w-1/2">Not Qualified / Dispo</button>
+                            <button onclick="triggerDispo('step-transfer')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md w-full sm:w-1/2">End Call / Dispo</button>
                         </div>
                     </div>
 
@@ -1046,6 +1093,28 @@
             document.getElementById('step-already-represented').classList.remove('hidden');
             document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
         }
+        
+        function goToPreTransfer() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = '';
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('step-pre-transfer').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function goToTransfer() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = '';
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('step-transfer').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         function goToStep(stepId, currentTrackId) {
             if (currentTrackId) { 
@@ -1091,8 +1160,8 @@
                 'step-accident-info-1', 'step-accident-info-2', 'step-medical-info-1', 
                 'step-closing', 'step-warm-transfer', 'step-dispo', 
                 'step-ssdi-full', 'step-no-accident', 'step-already-represented',
-                // Inbound Step (Combined)
-                'inbound-step-full'
+                // Inbound Steps
+                'inbound-step-full', 'step-pre-transfer', 'step-transfer'
             ];
             steps.forEach(s => {
                 const el = document.getElementById(s);
