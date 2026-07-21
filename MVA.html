@@ -802,28 +802,34 @@
         const buyersData = [
             {
                 name: "Louis Law", transferType: "Firm calls back ASAP", hours: "24/7", 
-                allowedStates: ["NC", "MS", "FL", "GA", "MI", "TN", "LA", "IL", "KY", "MD", "SC", "TX", "AR", "NM", "OH", "OR", "WA", "WI", "AL", "NE", "NJ", "OK", "AK", "DE", "NY", "VA", "PA"], 
+                allowedStates: ["NC", "MS", "FL", "GA", "MI", "TN", "LA", "IL", "KY", "MD", "SC", "TX", "AR", "NM", "OH", "OR", "WA", "WI", "AL", "NE", "NJ", "OK", "AK", "DE", "NY", "VA", "PA", "CT"], 
                 isExcluded: () => false, priority: "First priority in all listed states",
                 criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps in treatment over 30 days", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI or the client has UIM", attorney: "Not currently represented", other: "Police report not required but speeds up approval." }
             },
             {
                 name: "Monge & Associates", transferType: "Live Transfer", hours: "24/7", 
                 allowedStates: [], 
-                isExcluded: (stateCode) => ["DE", "AK", "HI", "CT", "CA", "VA", "MI", "NJ", "NY", "FL", "PA", "LA", "TX", "CO"].includes(stateCode), 
+                isExcluded: (stateCode) => ["DE", "AK", "HI", "CT", "CA", "VA", "MI", "NJ", "NY", "FL", "PA", "LA", "TX"].includes(stateCode), 
                 priority: "First priority in allowed states",
                 criteria: { doi: "At least 6 months before SOL epires", treatment: "Within 7 days, or 10 days if they have Health insurance, Follow up treatment should be within 14 days of initial treatment unless serious injury or medicals over 1k like xrays, CT scan, ambulance etc. Need continuous treatment.", fault: "Not at fault, Can be partially at fault only if client has serious injury.", injury: "Must be injured", defendant: "Has insurance or client has UIM", attorney: "No current attorney", other: "Car must be damaged to prove case must at least have basketball/dinner plate-sized dent in damages (at least 1.5k in damages). not just small dents<br> Parking lot cases must have more than $3000 in damages ( bigger dents ) Would like to evaluate all cases where at fault driver is charged with a DUI" }
             },
             {
                 name: "The Advocates", transferType: "Live Transfer", hours: "11-7 EST", 
-                allowedStates: ["AZ", "CA", "IA", "MT", "NV", "ND", "UT", "WY"], 
+                allowedStates: ["AZ", "IA", "MT", "NV", "ND", "UT", "WY"], 
                 isExcluded: () => false, priority: "Direct to attorney line.",
                 criteria: { doi: "Within 12 months", treatment: "Within 30 days (or continuous, no gaps in treatment over 30 days)", fault: "Not at fault", injury: "Injured", defendant: "Known and insured (or client has UM)", attorney: "None prior or current", other: "Property damage over $1,500 preferred (not required) ( Aka Car must be damaged )" }
             },
             {
                 name: "Beverly Law", transferType: "Live Transfer", hours: "11-11 EST", 
-                allowedStates: ["TX"], 
+                allowedStates: ["TX", "CA"], 
                 isExcluded: () => false, priority: "First Priority in TX",
                 criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps over 30 days", fault: "Not at fault", injury: "Injured and treated", defendant: "Known and insured (or UM)", attorney: "None prior or current", other: "Wwilling to continue treatment; proof of accident required (police report, insurance info, photos)", PoliceReport: "Case number or PR document required for them to work the case." }
+            },
+            {
+                name: "Lerner & Rowe", transferType: "Live Transfer", hours: "24/7", 
+                allowedStates: ["AZ", "NV", "NM", "WA"], 
+                isExcluded: () => false,
+                criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps in treatment over 30 days.", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI, or the client has UIM ", attorney: "Not currently represented ", other: "Willing to treat within 1 year" }
             },
             {
                 name: "McDonald Worley", transferType: "Firm calls back within 24 hours", hours: "9:30-6 EST", 
