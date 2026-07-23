@@ -814,6 +814,13 @@
                 criteria: { doi: "At least 6 months before SOL epires", treatment: "Within 7 days, or 10 days if they have Health insurance, Follow up treatment should be within 14 days of initial treatment unless serious injury or medicals over 1k like xrays, CT scan, ambulance etc. Need continuous treatment.", fault: "Not at fault, Can be partially at fault only if client has serious injury.", injury: "Must be injured", defendant: "Has insurance or client has UIM", attorney: "No current attorney", other: "Car must be damaged to prove case must at least have basketball/dinner plate-sized dent in damages (at least 1.5k in damages). not just small dents<br> Parking lot cases must have more than $3000 in damages ( bigger dents ) Would like to evaluate all cases where at fault driver is charged with a DUI" }
             },
             {
+                name: "AD Mediary", transferType: "Live Transfer", hours: "24/7", 
+                allowedStates: [], 
+                isExcluded: (stateCode) => ["CA"].includes(stateCode), 
+                priority: "First priority in allowed states",
+                criteria: { doi: "Accident within past 1 year", treatment: "Yes", fault: "Not at fault", injury: "Must be injured", attorney: "No current attorney" }
+            },
+            {
                 name: "The Advocates", transferType: "Live Transfer", hours: "11-7 EST", 
                 allowedStates: ["AZ", "IA", "MT", "NV", "ND", "UT", "WY"], 
                 isExcluded: () => false, priority: "Direct to attorney line.",
