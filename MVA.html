@@ -202,6 +202,9 @@
 <button onclick="openIframe('https://form.caraccidentpayout.com/signed', 'Purple Form')" class="px-4 py-2 text-xs font-semibold shadow-sm active:scale-95 bg-purple-600 text-white hover:bg-purple-700 transition-colors" style="border-radius: var(--radius-sm);">
     PURPLE FORM
 </button>
+                        <button onclick="goToACA()" class="theme-btn-highlight px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
+                            ACA
+                        </button>
                         <button onclick="goToNoAccident()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             No Accident
                         </button>
@@ -466,6 +469,27 @@
                             <button onclick="triggerDispo('step-already-represented')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
                         </div>
                     </div>
+                    
+                    <!-- NEW ACA SECTION START -->
+                    <div id="step-aca" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
+                        <button onclick="goBackToPreviousStep('step-aca')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">ACA Script</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Hello! I'm following up on the accident you told us about that happened on (date of accident).<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> When we first spoke with you, we reviewed the information you provided, but unfortunately, we weren't able to match your case with a law firm at that time.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> The reason for my call today is that we now have a program that may be a great fit for your current situation.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> This program can help you access important healthcare benefits, including free annual check-ups, vaccines, and certain preventive screenings. It also provides coverage for doctor visits, hospital stays, prescription medications, and emergency care, giving you access to the medical services you may need.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> I'd like to ask you a few quick questions to see if you qualify and explain how the program works. It will only take a few minutes. Does that sound okay?
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('step-aca')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
+                        </div>
+                    </div>
+                    <!-- NEW ACA SECTION END -->
 
 
                     <div id="call-initiation" class="theme-panel p-6 space-y-5">
@@ -1116,6 +1140,18 @@
             document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
         }
         
+        // NEW ACA ROUTING FUNCTION
+        function goToACA() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = '';
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('step-aca').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         function goToPreTransfer() {
             stepHistory = [];
             hideAllSteps();
@@ -1181,7 +1217,7 @@
                 'step-represented-details', 'step-represented-closing', 'step-not-represented', 
                 'step-accident-info-1', 'step-accident-info-2', 'step-medical-info-1', 
                 'step-closing', 'step-warm-transfer', 'step-dispo', 
-                'step-ssdi-full', 'step-no-accident', 'step-already-represented',
+                'step-ssdi-full', 'step-no-accident', 'step-already-represented', 'step-aca', // Added 'step-aca'
                 // Inbound Steps
                 'inbound-step-full', 'step-pre-transfer', 'step-transfer'
             ];
