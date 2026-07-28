@@ -31,6 +31,15 @@
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .state-checker-input::placeholder {
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .state-checker-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(244, 114, 182, 0.4);
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col text-sm font-semibold selection:bg-pink-500 selection:text-slate-900">
@@ -40,6 +49,26 @@
             <div class="flex items-center gap-3">
                 <div class="bg-pink-400 text-slate-900 font-extrabold p-2.5 rounded-2xl text-xs tracking-wider shadow-[0_0_15px_rgba(244,114,182,0.4)]">🌸 CCM SCRIPT</div>
                 <h1 class="text-xl font-extrabold tracking-tight text-white hidden sm:block">Outbound Benefits Review (AHS)</h1>
+            </div>
+            <div class="flex items-center gap-2 relative" id="state-checker-container">
+                <div class="relative">
+                    <input
+                        type="text"
+                        id="state-search-input"
+                        class="state-checker-input bg-slate-700 border border-slate-600 text-white font-bold py-2 pl-3 pr-8 rounded-xl text-xs w-[100px] sm:w-[120px] transition-all placeholder:text-slate-500"
+                        placeholder="State..."
+                        maxlength="2"
+                        autocomplete="off"
+                        oninput="checkGreenState(this.value)"
+                    >
+                    <svg class="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <div id="state-result" class="hidden items-center gap-1.5 bg-slate-700 border border-slate-600 rounded-xl px-3 py-2 text-xs font-extrabold transition-all whitespace-nowrap">
+                    <span id="state-result-icon"></span>
+                    <span id="state-result-text"></span>
+                </div>
             </div>
             <button onclick="resetEntirePortal()" class="bg-slate-700 hover:bg-slate-600 text-pink-300 font-extrabold py-2 px-4 rounded-xl text-xs tracking-wide transition-all shadow-md flex items-center gap-2 border border-pink-400/20">
                 ⟲ Start Over
@@ -475,6 +504,37 @@
                 modal.classList.remove('hidden');
             } else {
                 modal.classList.add('hidden');
+            }
+        }
+
+        // Green State Checker
+        const GREEN_STATES = ['AL', 'AZ', 'GA', 'IL', 'KS', 'KY', 'MI', 'MO', 'PA', 'SC', 'TX'];
+
+        function checkGreenState(val) {
+            const input = val.trim().toUpperCase();
+            const resultDiv = document.getElementById('state-result');
+            const resultIcon = document.getElementById('state-result-icon');
+            const resultText = document.getElementById('state-result-text');
+
+            if (input.length === 0) {
+                resultDiv.classList.add('hidden');
+                resultDiv.classList.remove('flex');
+                return;
+            }
+
+            resultDiv.classList.remove('hidden');
+            resultDiv.classList.add('flex');
+
+            if (GREEN_STATES.includes(input)) {
+                resultDiv.className = 'flex items-center gap-1.5 bg-emerald-900/40 border border-emerald-400/50 rounded-xl px-3 py-2 text-xs font-extrabold transition-all whitespace-nowrap shadow-[0_0_10px_rgba(16,185,129,0.2)]';
+                resultIcon.textContent = '✅';
+                resultText.className = 'text-emerald-300';
+                resultText.textContent = 'GREEN';
+            } else {
+                resultDiv.className = 'flex items-center gap-1.5 bg-rose-900/40 border border-rose-400/50 rounded-xl px-3 py-2 text-xs font-extrabold transition-all whitespace-nowrap shadow-[0_0_10px_rgba(244,63,94,0.2)]';
+                resultIcon.textContent = '❌';
+                resultText.className = 'text-rose-300';
+                resultText.textContent = input.length === 2 ? 'NOT GREEN' : '—';
             }
         }
 
