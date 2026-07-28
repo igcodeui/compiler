@@ -205,6 +205,12 @@
                         <button onclick="goToACA()" class="theme-btn-highlight px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             ACA
                         </button>
+                        <button onclick="goToTransition()" class="px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30" style="background: var(--tcpa-bg); color: var(--tcpa-text); border-radius: var(--radius-sm);">
+                            TRANSITION
+                        </button>
+                        <button onclick="goToFinalExpense()" class="px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30" style="background: var(--highlight); color: var(--highlight-text); border-radius: var(--radius-sm);">
+                            FINAL EXPENSE
+                        </button>
                         <button onclick="goToNoAccident()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             No Accident
                         </button>
@@ -470,26 +476,269 @@
                         </div>
                     </div>
                     
-                    <!-- NEW ACA SECTION START -->
+                    <!-- FINAL DESTINATION ACA FLOW START -->
                     <div id="step-aca" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-aca')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         
                         <div>
-                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">ACA Script</span>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Final Destination - Opening</span>
                             <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                                <span class="theme-highlight font-semibold">Agent:</span> Hello! I'm following up on the accident you told us about that happened on (date of accident).<br><br>
-                                <span class="theme-highlight font-semibold">Agent:</span> When we first spoke with you, we reviewed the information you provided, but unfortunately, we weren't able to match your case with a law firm at that time.<br><br>
-                                <span class="theme-highlight font-semibold">Agent:</span> The reason for my call today is that we now have a program that may be a great fit for your current situation.<br><br>
-                                <span class="theme-highlight font-semibold">Agent:</span> This program can help you access important healthcare benefits, including free annual check-ups, vaccines, and certain preventive screenings. It also provides coverage for doctor visits, hospital stays, prescription medications, and emergency care, giving you access to the medical services you may need.<br><br>
-                                <span class="theme-highlight font-semibold">Agent:</span> I'd like to ask you a few quick questions to see if you qualify and explain how the program works. It will only take a few minutes. Does that sound okay?
+                                <span class="theme-highlight font-semibold">Agent:</span> Hello! I'm following up on the accident you told us about that happened on (date of accident).
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                            <button onclick="triggerDispo('step-aca')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
+                            <button onclick="goToStep('step-aca-not-qualified', 'step-aca')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">NOT Qualified for MVA</button>
+                            <button onclick="goToStep('step-aca-qualified', 'step-aca')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Qualified for MVA</button>
                         </div>
                     </div>
-                    <!-- NEW ACA SECTION END -->
+
+                    <div id="step-aca-not-qualified" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--danger-bg)]">
+                        <button onclick="goBackToPreviousStep('step-aca-not-qualified')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--danger-bg)] block heading-font mb-3">Not Qualified for MVA</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> When we first spoke with you, we reviewed the information you provided. Unfortunately, we weren't able to match your case with a law firm at that time.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="goToStep('step-transition', 'step-aca-not-qualified')" class="custom-btn-bg theme-btn-accent font-medium shadow-md">Continue to Transition</button>
+                            <button onclick="triggerDispo('step-aca-not-qualified')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
+                        </div>
+                    </div>
+
+                    <div id="step-aca-qualified" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--success-bg)]">
+                        <button onclick="goBackToPreviousStep('step-aca-qualified')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--success-bg)] block heading-font mb-3">Qualified for MVA</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Based on our records, your case is currently pending. <strong class="text-[var(--accent)]">Are you satisfied with how things have been moving so far?</strong>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="goToStep('step-aca-satisfied', 'step-aca-qualified')" class="custom-btn-bg theme-btn-success font-medium shadow-md">YES (Satisfied)</button>
+                            <button onclick="goToStep('step-aca-not-satisfied', 'step-aca-qualified')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">YES (Not Satisfied)</button>
+                        </div>
+                    </div>
+
+                    <div id="step-aca-satisfied" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--success-bg)]">
+                        <button onclick="goBackToPreviousStep('step-aca-satisfied')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--success-bg)] block heading-font mb-3">Satisfied Path</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Perfect! That's good to know.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="goToStep('step-transition', 'step-aca-satisfied')" class="custom-btn-bg theme-btn-accent font-medium shadow-md">Continue to Transition</button>
+                        </div>
+                    </div>
+
+                    <div id="step-aca-not-satisfied" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--highlight)]">
+                        <button onclick="goBackToPreviousStep('step-aca-not-satisfied')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--highlight)] block heading-font mb-3">Not Satisfied Path</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear that. That's actually one of the reasons for my call today—to make sure you're getting the assistance and benefits available to you and to help ensure you have a better overall experience.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="goToStep('step-transition', 'step-aca-not-satisfied')" class="custom-btn-bg theme-btn-accent font-medium shadow-md">Continue to Transition</button>
+                        </div>
+                    </div>
+
+                    <!-- TRANSITION SECTION -->
+                    <div id="step-transition" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--tcpa-bg)]">
+                        <button onclick="goBackToPreviousStep('step-transition')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--tcpa-bg)] block heading-font mb-3">Transition</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> While reviewing your file, we also noticed that you may qualify for another program that is completely separate from your accident case. We like to make sure our clients are aware of any additional benefits they may be eligible for. It will only take a couple of minutes to determine what's available.
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--tcpa-bg)] block heading-font mb-3">Age Routing</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> To get started, can you please confirm your age?
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                            <button onclick="goToStep('step-final-expense', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--highlight); color: var(--highlight-text);">63–85: Final Expense</button>
+                            <button onclick="goToStep('step-aca-questions', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--accent); color: var(--accent-text);">19–64: ACA</button>
+                            <button onclick="goToStep('step-ssdi-full', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--oa-bg); color: var(--oa-text);">49–62: SSDI</button>
+                        </div>
+                    </div>
+
+                    <!-- ACA QUALIFYING QUESTIONS -->
+                    <div id="step-aca-questions" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
+                        <button onclick="goBackToPreviousStep('step-aca-questions')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">ACA Script</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Based on what you shared, it looks like you may qualify for a healthcare program that could help make healthcare more affordable. Depending on your eligibility, it may provide access to benefits like preventive care, annual wellness visits, doctor appointments, emergency medical services, and other essential healthcare coverage.
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Qualifying Questions</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> To see what options may be available for you, I just need to ask a few quick questions.
+                                <ul class="mt-3 space-y-2 ml-4 list-disc">
+                                    <li>Are you currently enrolled in Medicare or Medicaid?</li>
+                                    <li>About how much is your annual household income?</li>
+                                    <li>And just to confirm, you don't currently have health insurance coverage is that correct? <strong class="text-[var(--danger-bg)]">(Must be YES)</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('step-aca-questions')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
+                        </div>
+                    </div>
+
+                    <!-- FINAL EXPENSE SECTION -->
+                    <div id="step-final-expense" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--highlight)]">
+                        <button onclick="goBackToPreviousStep('step-final-expense')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--highlight)] block heading-font mb-3">Final Expense - Intro</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Based on what you shared, you may qualify for additional Final Expense coverage that can provide extra peace of mind. It looks like you've spoken with someone about this before, and we just wanted to make sure you received all the information you needed.
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--highlight)] block heading-font mb-3">Satisfaction Check</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Were you satisfied with your life insurance coverage and how your previous review was handled?
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="goToStep('step-final-expense-satisfied', 'step-final-expense')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Satisfied</button>
+                            <button onclick="goToStep('step-final-expense-not-satisfied', 'step-final-expense')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Satisfied</button>
+                        </div>
+                    </div>
+
+                    <div id="step-final-expense-satisfied" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--success-bg)]">
+                        <button onclick="goBackToPreviousStep('step-final-expense-satisfied')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--success-bg)] block heading-font mb-3">Final Expense - Satisfied</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> That's great to hear. I'm glad your coverage is meeting your needs. My goal today is simply to make sure you're aware of any additional benefits that may be available to you.
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--success-bg)] block heading-font mb-3">Coverage Question</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Just so I understand your current coverage, does your life insurance provide enough to cover all of your burial and cremation expenses?
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="goToStep('step-final-expense-coverage-no', 'step-final-expense-satisfied')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">NO</button>
+                            <button onclick="goToStep('step-final-expense-coverage-yes', 'step-final-expense-satisfied')" class="custom-btn-bg theme-btn-success font-medium shadow-md">YES</button>
+                        </div>
+                    </div>
+
+                    <div id="step-final-expense-not-satisfied" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--highlight)]">
+                        <button onclick="goBackToPreviousStep('step-final-expense-not-satisfied')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--highlight)] block heading-font mb-3">Final Expense - Not Satisfied</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear that. That's exactly why we're reaching out. There may be additional coverage options that better fit your needs.
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--highlight)] block heading-font mb-3">Coverage Question</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Just so I understand your current coverage, does your life insurance provide enough to cover all of your burial and cremation expenses?
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="goToStep('step-final-expense-coverage-no', 'step-final-expense-not-satisfied')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">NO</button>
+                            <button onclick="goToStep('step-final-expense-coverage-yes', 'step-final-expense-not-satisfied')" class="custom-btn-bg theme-btn-success font-medium shadow-md">YES</button>
+                        </div>
+                    </div>
+
+                    <div id="step-final-expense-coverage-no" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--danger-bg)]">
+                        <button onclick="goBackToPreviousStep('step-final-expense-coverage-no')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--danger-bg)] block heading-font mb-3">Coverage Not Enough</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> I understand. About how much additional coverage do you think would be enough, around $5,000, $10,000, $20,000, or more?
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 mt-6">
+                            <button onclick="goToStep('step-final-expense-beneficiary', 'step-final-expense-coverage-no')" class="custom-btn-bg theme-btn-accent font-medium shadow-md">Continue</button>
+                        </div>
+                    </div>
+
+                    <div id="step-final-expense-coverage-yes" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--success-bg)]">
+                        <button onclick="goBackToPreviousStep('step-final-expense-coverage-yes')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--success-bg)] block heading-font mb-3">Coverage Enough</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> That's good to know. In addition to funeral expenses, families sometimes face other unexpected costs. How much additional coverage would give you greater peace of mind, around $5,000, $10,000, $20,000, or more?
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 mt-6">
+                            <button onclick="goToStep('step-final-expense-beneficiary', 'step-final-expense-coverage-yes')" class="custom-btn-bg theme-btn-accent font-medium shadow-md">Continue</button>
+                        </div>
+                    </div>
+
+                    <div id="step-final-expense-beneficiary" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
+                        <button onclick="goBackToPreviousStep('step-final-expense-beneficiary')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Beneficiary</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Perfect.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Who would you like to name as your beneficiary?
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Qualification & Pre-Transfer</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Thank you for answering those questions. Based on what you shared, it appears you may qualify for additional coverage through the Final Expense Program.
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Pre Transfer</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> The next step is for me to connect you with one of our licensed agents. They'll review your options, explain the available benefits, answer any questions you have, and help you decide whether any of the coverage is right for you.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Please stay on the line while I connect you now.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('step-final-expense-beneficiary')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
+                        </div>
+                    </div>
+                    <!-- FINAL DESTINATION FLOW END -->
 
 
                     <div id="call-initiation" class="theme-panel p-6 space-y-5">
@@ -1149,6 +1398,30 @@
             document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
         }
         
+        // TRANSITION ROUTING FUNCTION
+        function goToTransition() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = '';
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('step-transition').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // FINAL EXPENSE ROUTING FUNCTION
+        function goToFinalExpense() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = '';
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('step-final-expense').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // NEW ACA ROUTING FUNCTION
         function goToACA() {
             stepHistory = [];
@@ -1226,7 +1499,10 @@
                 'step-represented-details', 'step-represented-closing', 'step-not-represented', 
                 'step-accident-info-1', 'step-accident-info-2', 'step-medical-info-1', 
                 'step-closing', 'step-warm-transfer', 'step-dispo', 
-                'step-ssdi-full', 'step-no-accident', 'step-already-represented', 'step-aca', // Added 'step-aca'
+                'step-ssdi-full', 'step-no-accident', 'step-already-represented', 'step-aca', 'step-aca-not-qualified',
+                'step-aca-qualified', 'step-aca-satisfied', 'step-aca-not-satisfied', 'step-transition', 'step-aca-questions',
+                'step-final-expense', 'step-final-expense-satisfied', 'step-final-expense-not-satisfied',
+                'step-final-expense-coverage-no', 'step-final-expense-coverage-yes', 'step-final-expense-beneficiary',
                 // Inbound Steps
                 'inbound-step-full', 'step-pre-transfer', 'step-transfer'
             ];
