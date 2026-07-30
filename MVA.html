@@ -562,7 +562,7 @@
                         <div>
                             <span class="text-xs font-semibold uppercase tracking-wider text-[var(--tcpa-bg)] block heading-font mb-3">Transition</span>
                             <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                                <span class="theme-highlight font-semibold">Agent:</span> While reviewing your file, we also noticed that you may qualify for another program that is completely separate from your accident case. We like to make sure our clients are aware of any additional benefits they may be eligible for. It will only take a couple of minutes to determine what's available.
+                                <span class="theme-highlight font-semibold">Agent:</span> Based on what you shared, it looks like you may qualify for a healthcare program that could help and provide access to benefits like preventive care, annual wellness visits, doctor appointments, emergency medical services, and other essential healthcare coverage.
                             </div>
                         </div>
 
@@ -573,12 +573,31 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-6">
                             <button onclick="goToStep('step-final-expense', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--highlight); color: var(--highlight-text);">63–85: Final Expense</button>
                             <button onclick="goToStep('step-aca-questions', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--accent); color: var(--accent-text);">19–64: ACA</button>
                             <button onclick="goToStep('step-ssdi-full', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--oa-bg); color: var(--oa-text);">49–62: SSDI</button>
+                            <button onclick="goToStep('step-u65', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--oa-bg); color: var(--oa-text);">U65</button>
+                            
                         </div>
                     </div>
+
+                    <!-- U65 SECTION -->
+                    <div id="step-u65" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--oa-bg)]">
+                        <button onclick="goBackToPreviousStep('step-u65')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">U65 Script</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Based on what you shared, it looks like you may qualify for a healthcare program that could provide full medical care, covers doctor visits, hospital stays and emergency services. It will also lower the cost of your daily or required medicines. You will also have access to large networks of physicians and specialist.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('step-u65')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
+                        </div>
+                    </div>
+                    <!-- U65 SECTION END -->
 
                     <!-- ACA QUALIFYING QUESTIONS -->
                     <div id="step-aca-questions" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
@@ -1496,7 +1515,7 @@
                 'step-ssdi-full', 'step-no-accident', 'step-already-represented', 'step-aca', 'step-aca-not-qualified',
                 'step-aca-qualified', 'step-aca-satisfied', 'step-aca-not-satisfied', 'step-transition', 'step-aca-questions',
                 'step-final-expense', 'step-final-expense-satisfied', 'step-final-expense-not-satisfied',
-                'step-final-expense-coverage-no', 'step-final-expense-coverage-yes', 'step-final-expense-beneficiary',
+                'step-final-expense-coverage-no', 'step-final-expense-coverage-yes', 'step-final-expense-beneficiary', 'step-u65',
                 // Inbound Steps
                 'inbound-step-full', 'step-pre-transfer', 'step-transfer'
             ];
