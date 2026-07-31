@@ -1098,6 +1098,7 @@ To get started, can you please confirm your age?
         };
 
         const acaGreenStates = ["AK","AL","AR","AZ","CA","CO","CT","DC","DE","FL","GA","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VA","VT","WA","WI","WV","WY"];
+        const acaNewBuyerGreenStates = ["AL","AK","AZ","AR","DE","FL","HI","IN","IA","KS","LA","MI","MS","MO","MT","NE","NH","NC","ND","OH","OK","OR","SC","SD","TN","TX","UT","WV","WI","WY"];
 
         const buyersData = [
             {
@@ -1184,6 +1185,7 @@ To get started, can you please confirm your age?
             const validBuyers = buyersData.filter(b => b.allowedStates.length > 0 ? b.allowedStates.includes(stateCode) : !b.isExcluded(stateCode));
             
             const isAcaGreen = acaGreenStates.includes(stateCode);
+            const isAcaNewBuyerGreen = acaNewBuyerGreenStates.includes(stateCode);
 
             let htmlString = `<div class="bg-[var(--inner-bg)] p-3 rounded text-xs mb-3 border-l-2 border-[var(--accent)] space-y-2">
                 <div>
@@ -1193,6 +1195,10 @@ To get started, can you please confirm your age?
                     ${isAcaGreen
                         ? '<span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--success-bg)] text-[var(--success-text)]">&#10003; ACA Allowed (Green State)</span>'
                         : '<span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--danger-bg)] text-[var(--danger-text)]">&#10007; ACA Not Allowed</span>'
+                    }
+                    ${isAcaNewBuyerGreen
+                        ? '<span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--success-bg)] text-[var(--success-text)]">&#10003; ACA New Buyer Allowed (Green State)</span>'
+                        : '<span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--danger-bg)] text-[var(--danger-text)]">&#10007; ACA New Buyer Not Allowed</span>'
                     }
                 </div>
             </div>`;
