@@ -358,7 +358,7 @@ function rStep2(el){
 function rStep3(el){
     el.innerHTML=`<div class="script-card">${gc(`
         ${bd('',2,'Verify Debt')}
-        ${tx('Hi <strong>[First Name]</strong>, this is <strong>[Agent Name]</strong> with Credit Services. I\'m calling because I saw that you recently filled out a form on <strong>Facebook</strong> requesting information about credit relief. Just to make sure I have the correct information, I see you indicated that you have about <strong>$[Amount]</strong> in unsecured debt, such as credit cards, personal loans, or medical bills. <strong>Is that still accurate?</strong>')}
+        ${tx('Hi <strong>[First Name]</strong>, this is <strong>[Agent Name]</strong> with Credit Services. I\'m calling because I saw that you recently filled out a form on <strong>Facebook</strong> requesting information about debt relief. Just to make sure I have the correct information, I see you indicated that you have about <strong>$[Amount]</strong> in unsecured debt, such as credit cards, personal loans, or medical bills. <strong>Is that still accurate?</strong>')}
         <div class="actions">
             ${bb()}
             <button class="btn btn-go" onclick="go(4)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Debt confirmed</span></button>
