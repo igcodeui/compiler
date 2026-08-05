@@ -209,9 +209,11 @@
                     <div class="prog-node" id="d2">2</div>
                     <div class="prog-line" id="l2"></div>
                     <div class="prog-node" id="d3">3</div>
+                    <div class="prog-line" id="l3"></div>
+                    <div class="prog-node" id="d4">4</div>
                 </div>
             </div>
-            <div class="step-label" id="stepLabel">Step 1 of 3 &mdash; Greeting</div>
+            <div class="step-label" id="stepLabel">Step 1 of 7 &mdash; Greeting</div>
             <main class="main" id="main"></main>
             <footer class="footer">Debt Settlement Callback Script</footer>
         </div>
@@ -286,37 +288,37 @@ function toggleTheme(){
 
 // ── App State ──
 let step = 0, startTime = null, timerRef = null, hist = [];
-const STEPS = ['Greeting','Verify','Transfer'];
-const TOTAL = 6;
+const STEPS = ['Greeting','Verify','Confirm','Transfer'];
+const TOTAL = 7;
 startTime = Date.now(); timerRef = setInterval(tick, 1000);
 
 function resetCall(){ clearInterval(timerRef); step=0; startTime=Date.now(); hist=[]; timerRef=setInterval(tick,1000); go(1); }
 function tick(){ const s=Math.floor((Date.now()-startTime)/1000); document.getElementById('timer').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
 
 function setProgress(n, ended){
-    for(let i=1;i<=3;i++){
+    for(let i=1;i<=4;i++){
         const d=document.getElementById('d'+i), l=document.getElementById('l'+(i-1));
-        if(ended) d.className='prog-node'+(i===3?' ended':'');
+        if(ended) d.className='prog-node'+(i===4?' ended':'');
         else d.className='prog-node'+(i<n?' done':i===n?' active':'');
         if(l) l.className='prog-line'+(ended?'':i<n?' filled':'');
     }
-    const labels = {1:'Greeting',2:'Verify',3:'Transfer'};
+    const labels = {1:'Greeting',2:'Verify',3:'Confirm',4:'Transfer'};
     document.getElementById('stepLabel').innerHTML = ended?'Call Ended':`Step ${n} of ${TOTAL} &mdash; ${labels[n]}`;
 }
-function mp(s){ return s<=2?1:s<=4?2:3; }
+function mp(s){ return s<=2?1:s<=4?2:s<=5?3:4; }
 
 function go(n){
     if(step>0 && step!==99) hist.push(step);
     step=n; setProgress(mp(n),false);
     const m=document.getElementById('main');
-    const r={1:rStep1,2:rStep2,3:rStep3,4:rStep4,5:rStep5,6:rStep6,99:rEnd};
+    const r={1:rStep1,2:rStep2,3:rStep3,4:rStep4,5:rStep5,6:rStep6,7:rStep7,99:rEnd};
     (r[n]||rStep1)(m);
 }
 function goBack(){
     if(!hist.length) return;
     const p=hist.pop(); step=p; setProgress(mp(p),false);
     const m=document.getElementById('main');
-    const r={1:rStep1,2:rStep2,3:rStep3,4:rStep4,5:rStep5,6:rStep6};
+    const r={1:rStep1,2:rStep2,3:rStep3,4:rStep4,5:rStep5,6:rStep6,7:rStep7};
     (r[p]||rStep1)(m);
 }
 
@@ -333,7 +335,7 @@ const resetBtn = `<button class="btn btn-ghost" onclick="resetCall()" style="mar
 function rStep1(el){
     el.innerHTML=`<div class="script-card">${gc(`
         ${bd('',1,'Greeting')}
-        ${tx('Hi, may I speak with <strong>[First Name]</strong>?')}
+        ${tx('Hi, am I speaking with <strong>(Lead\'s Name)</strong>?')}
         <div class="actions">
             <button class="btn btn-go" onclick="go(2)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Caller confirmed</span></button>
         </div>
@@ -341,11 +343,11 @@ function rStep1(el){
     `)}</div>`;
 }
 
-// ── Step 2: Sound Check ──
+// ── Step 2: Intro & Sound Check ──
 function rStep2(el){
     el.innerHTML=`<div class="script-card">${gc(`
         ${bd('',1,'Greeting')}
-        ${tx('Can you hear me okay ?')}
+        ${tx('Hi <strong>[Lead\'s Name]</strong>, this is <strong>[Agent Name]</strong> with <strong>Facebook Forms Services</strong>. Can you hear me okay?')}
         <div class="actions">
             ${bb()}
             <button class="btn btn-go" onclick="go(3)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Audio confirmed</span></button>
@@ -354,11 +356,11 @@ function rStep2(el){
     `)}</div>`;
 }
 
-// ── Step 3: Verify Debt ──
+// ── Step 3: Verify Debt Amount ──
 function rStep3(el){
     el.innerHTML=`<div class="script-card">${gc(`
         ${bd('',2,'Verify Debt')}
-        ${tx('Hi <strong>[First Name]</strong>, this is <strong>[Agent Name]</strong> with Credit Services. I\'m calling because I saw that you recently filled out a form on <strong>Facebook</strong> requesting information about debt relief. Just to make sure I have the correct information, I see you indicated that you have about <strong>$[Amount]</strong> in unsecured debt, such as credit cards, personal loans, or medical bills. <strong>Is that still accurate?</strong>')}
+        ${tx('Perfect! I\'m just following up on the form you submitted regarding your debt. I have here that you reported approximately <strong>$[Amount]</strong> in debt. Is that still about right?')}
         <div class="actions">
             ${bb()}
             <button class="btn btn-go" onclick="go(4)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Debt confirmed</span></button>
@@ -367,37 +369,50 @@ function rStep3(el){
     `)}</div>`;
 }
 
-// ── Step 4: Verify Name ──
+// ── Step 4: Confirm Debt Type ──
 function rStep4(el){
     el.innerHTML=`<div class="script-card">${gc(`
-        ${bd('',2,'Verify Name')}
-        ${tx('Thank you. And for verification, could you please confirm your <strong>first and last name</strong>?')}
+        ${bd('',2,'Verify Debt')}
+        ${tx('Great. And just to confirm, are those all <strong>unsecured debts</strong>, such as credit cards, personal loans, or medical bills?')}
         <div class="actions">
             ${bb()}
-            <button class="btn btn-go" onclick="go(5)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Name confirmed</span></button>
+            <button class="btn btn-go" onclick="go(5)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Debt type confirmed</span></button>
         </div>
         ${kb([{k:'Enter',l:'or'},{k:'&rarr;',l:'Next'}],true)}
     `)}</div>`;
 }
 
-// ── Step 5: Transfer Explanation ──
+// ── Step 5: Verify Information ──
 function rStep5(el){
     el.innerHTML=`<div class="script-card">${gc(`
-        ${bd('',3,'Transfer')}
-        ${tx('Perfect. Based on the information you\'ve shared, it looks like there are available options to help you with this debt. <strong>The next step is to transfer you over to our debt specialist</strong> who will review your  situation, explain what are the available options , and answer any questions you may have.')}
+        ${bd('',3,'Confirm Details')}
+        ${tx('Thank you for confirming. For verification, I have your first name as <strong>[First Name]</strong>, your last name as <strong>[Last Name]</strong>, and you\'re currently living in <strong>[State]</strong>. Is that all correct?')}
         <div class="actions">
             ${bb()}
-            <button class="btn btn-go" onclick="go(6)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Proceed to transfer</span></button>
+            <button class="btn btn-go" onclick="go(6)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Info confirmed</span></button>
         </div>
         ${kb([{k:'Enter',l:'or'},{k:'&rarr;',l:'Next'}],true)}
     `)}</div>`;
 }
 
-// ── Step 6: Transfer ──
+// ── Step 6: Transfer Explanation ──
 function rStep6(el){
     el.innerHTML=`<div class="script-card">${gc(`
-        ${bd('',3,'Transfer')}
-        ${tx('The transfer will just take a moment. <strong>Please stay on the line while I connect you.</strong>')}
+        ${bd('',4,'Transfer')}
+        ${tx('Excellent. Thank you for verifying your information. The next step is to connect you with one of our <strong>debt specialists</strong>. They\'ll review your financial situation, answer any questions you have, and explain the debt relief options that may be available based on your circumstances.')}
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-go" onclick="go(7)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Proceed to transfer</span></button>
+        </div>
+        ${kb([{k:'Enter',l:'or'},{k:'&rarr;',l:'Next'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 7: Transfer ──
+function rStep7(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('',4,'Transfer')}
+        ${tx('I have a specialist available now, so I\'ll connect you. <strong>Please stay on the line while I transfer your call.</strong>')}
         <div class="actions">
             ${bb()}
             <button class="btn btn-go" onclick="doTransfer()" style="flex:2;"><span class="btn-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg><span class="btn-label">Initiate Transfer</span></span><span class="btn-sub">Cold transfer to next available agent</span></button>
@@ -437,8 +452,8 @@ document.addEventListener('keydown', e => {
     const k=e.key.toLowerCase();
     if(k==='escape'){resetCall();return;}
     if(k==='backspace'||k==='arrowleft'){goBack();return;}
-    if(step>=1 && step<=5){if(k==='enter'||k==='arrowright'||k==='>'||k==='=') go(step+1);}
-    else if(step===6){if(k==='enter'||k==='t') doTransfer();}
+    if(step>=1 && step<=6){if(k==='enter'||k==='arrowright'||k==='>'||k==='=') go(step+1);}
+    else if(step===7){if(k==='enter'||k==='t') doTransfer();}
 });
 </script>
 </body>
