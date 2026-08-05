@@ -3,391 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent Campaign Dashboard</title>
+    <title>Script Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
-            --bg-base: #020617;
-            --glass-bg: rgba(15, 23, 42, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-primary: #38bdf8;
-            --accent-secondary: #818cf8;
-            --danger: #fb7185;
+            --bg: #0a0a12; --surface: #12121e; --surface2: #1a1a2a; --surface3: #222236;
+            --border: rgba(255,255,255,0.06); --border-hover: rgba(255,255,255,0.12);
+            --text: #e8eaf0; --text-dim: rgba(255,255,255,0.3); --text-mid: rgba(255,255,255,0.55);
+            --accent: #8b5cf6; --accent-glow: rgba(139,92,246,0.15);
+            --green: #10b981; --green-dim: rgba(16,185,129,0.1);
+            --blue: #3b82f6; --blue-dim: rgba(59,130,246,0.1);
+            --amber: #f59e0b; --amber-dim: rgba(245,158,11,0.1);
+            --rose: #f43f5e; --rose-dim: rgba(244,63,94,0.1);
+            --cyan: #06b6d4; --cyan-dim: rgba(6,182,212,0.1);
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        html { font-size: 16px; scroll-behavior: smooth; }
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-            padding: 50px 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg); color: var(--text);
+            min-height: 100vh; line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Ambient Background Glows */
-        .ambient-glow {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -1;
-            opacity: 0.4;
-            pointer-events: none;
+        /* Ambient BG */
+        body::before {
+            content: ''; position: fixed; top: -40%; left: -20%; width: 80%; height: 80%;
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
+        }
+        body::after {
+            content: ''; position: fixed; bottom: -30%; right: -15%; width: 60%; height: 60%;
+            background: radial-gradient(circle, rgba(6,182,212,0.04) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
         }
 
-        .glow-1 {
-            top: -10%;
-            left: -5%;
-            width: 500px;
-            height: 500px;
-            background: var(--accent-secondary);
-        }
+        .wrapper { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
-        .glow-2 {
-            bottom: -20%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: var(--accent-primary);
+        /* Header */
+        header {
+            padding: 48px 0 12px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
+        .logo-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 16px; }
+        .logo-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent), #a78bfa);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 24px var(--accent-glow);
         }
-
-        /* Header Section */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 60px;
-            padding: 30px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        .logo-icon svg { width: 22px; height: 22px; color: #fff; }
+        header h1 { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.02em; color: var(--text); }
+        header p { font-size: 0.82rem; color: var(--text-dim); font-weight: 500; margin-top: 6px; }
+        .stats-row {
+            display: flex; align-items: center; justify-content: center; gap: 24px;
+            margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);
         }
+        .stat { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--text-mid); font-weight: 600; }
+        .stat-dot { width: 7px; height: 7px; border-radius: 50%; }
+        .stat-dot.green { background: var(--green); box-shadow: 0 0 8px var(--green-dim); }
+        .stat-dot.blue { background: var(--blue); box-shadow: 0 0 8px var(--blue-dim); }
+        .stat-dot.amber { background: var(--amber); box-shadow: 0 0 8px var(--amber-dim); }
 
-        .header-content {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        /* Section */
+        .section { margin-bottom: 36px; }
+        .section-label {
+            font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.12em; color: var(--text-dim); margin-bottom: 14px;
+            display: flex; align-items: center; gap: 8px;
         }
+        .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-        .badge {
-            align-self: flex-start;
-            background: linear-gradient(135deg, rgba(129, 140, 248, 0.2), rgba(56, 189, 248, 0.2));
-            color: var(--accent-primary);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
+        /* Cards Grid */
+        .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
 
-        .title {
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            background: linear-gradient(to right, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .add-btn {
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: #fff;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 20px -10px rgba(56, 189, 248, 0.5);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .add-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px -10px rgba(56, 189, 248, 0.7);
-        }
-
-        /* Grid & Cards */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-        }
-
+        /* Card */
         .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 30px;
-            text-decoration: none;
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            display: flex; align-items: center; gap: 14px;
+            padding: 18px 18px; border-radius: 12px;
+            background: var(--surface); border: 1px solid var(--border);
+            text-decoration: none; color: var(--text);
+            transition: all 0.2s ease; position: relative; overflow: hidden;
         }
-
         .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
-            opacity: 0;
-            transition: 0.4s;
-            pointer-events: none;
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, transparent 60%, var(--card-accent, var(--accent-glow)));
+            opacity: 0; transition: opacity 0.2s;
         }
-
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 
-                        0 0 20px -5px rgba(56, 189, 248, 0.15);
-        }
-
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
+        .card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        .card:hover::before { opacity: 1; }
+        .card:active { transform: translateY(0); }
 
         .card-icon {
-            font-size: 28px;
-            background: rgba(255, 255, 255, 0.05);
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: 42px; height: 42px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; position: relative; z-index: 1;
         }
+        .card-icon svg { width: 18px; height: 18px; }
+        .card-icon.purple { background: rgba(139,92,246,0.12); color: #a78bfa; }
+        .card-icon.green { background: rgba(16,185,129,0.12); color: #34d399; }
+        .card-icon.blue { background: rgba(59,130,246,0.12); color: #60a5fa; }
+        .card-icon.amber { background: rgba(245,158,11,0.12); color: #fbbf24; }
+        .card-icon.rose { background: rgba(244,63,94,0.12); color: #fb7185; }
+        .card-icon.cyan { background: rgba(6,182,212,0.12); color: #22d3ee; }
 
-        .card-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            letter-spacing: -0.3px;
+        .card-body { flex: 1; min-width: 0; position: relative; z-index: 1; }
+        .card-title { font-size: 0.85rem; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-sub { font-size: 0.68rem; color: var(--text-dim); font-weight: 500; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .card-arrow {
+            flex-shrink: 0; color: var(--text-dim); position: relative; z-index: 1;
+            transition: transform 0.15s, color 0.15s;
         }
+        .card-arrow svg { width: 16px; height: 16px; }
+        .card:hover .card-arrow { transform: translateX(3px); color: var(--text-mid); }
 
-        .card-file {
-            font-size: 13px;
-            color: var(--text-muted);
-            background: rgba(0, 0, 0, 0.3);
-            padding: 6px 10px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255,255,255,0.03);
+        /* Tag on card */
+        .card-tag {
+            display: inline-block; padding: 1px 7px; border-radius: 5px;
+            font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+            margin-top: 5px;
         }
+        .card-tag.live { background: var(--green-dim); color: var(--green); }
+        .card-tag.medicare { background: rgba(59,130,246,0.1); color: var(--blue); }
+        .card-tag.cc { background: var(--amber-dim); color: var(--amber); }
+        .card-tag.auto { background: var(--rose-dim); color: var(--rose); }
 
-        .card-action {
-            margin-top: auto;
-            color: var(--accent-primary);
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0.8;
-            transition: 0.3s;
+        /* Footer */
+        footer {
+            text-align: center; padding: 32px 0 48px;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
         }
+        footer p { font-size: 0.62rem; color: var(--text-dim); font-weight: 600; letter-spacing: 0.04em; }
 
-        .card:hover .card-action {
-            opacity: 1;
-            gap: 12px; /* Slight movement arrow effect */
-        }
-
-        /* Delete Button */
-        .delete-btn {
-            background: transparent;
-            color: var(--text-muted);
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: 0.2s;
-            opacity: 0;
-            z-index: 10;
-        }
-
-        .card:hover .delete-btn {
-            opacity: 0.5;
-        }
-
-        .delete-btn:hover {
-            opacity: 1 !important;
-            background: rgba(251, 113, 133, 0.15);
-            color: var(--danger);
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-            .add-btn {
-                width: 100%;
-                justify-content: center;
-            }
+        /* Responsive */
+        @media (max-width: 600px) {
+            header { padding: 32px 0 8px; }
+            header h1 { font-size: 1.3rem; }
+            .cards { grid-template-columns: 1fr; }
+            .stats-row { gap: 14px; flex-wrap: wrap; justify-content: center; }
         }
     </style>
 </head>
 <body>
-
-    <!-- Ambient Glows -->
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
-
-    <div class="container">
-        <header class="header">
-            <div class="header-content">
-                <span class="badge">Master Hub</span>
-                <div class="title">Campaign Launcher</div>
+    <div class="wrapper">
+        <header>
+            <div class="logo-row">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                </div>
+                <h1>Script Portal</h1>
             </div>
-            <button class="add-btn" onclick="addNewScript()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-                Deploy New Script
-            </button>
+            <p>Interactive call scripts &amp; workflows</p>
+            <div class="stats-row">
+                <div class="stat"><div class="stat-dot green"></div><span id="scriptCount">10 Scripts</span></div>
+                <div class="stat"><div class="stat-dot blue"></div><span>Healthcare &amp; Insurance</span></div>
+                <div class="stat"><div class="stat-dot amber"></div><span>Outbound Calls</span></div>
+            </div>
         </header>
 
-        <div class="grid" id="dashboardGrid">
-            <!-- Cards will be generated here by JavaScript -->
-        </div>
+        <main>
+            <!-- Medicare / Health -->
+            <div class="section">
+                <div class="section-label">Medicare &amp; Health</div>
+                <div class="cards">
+                    <a href="mshp.html" class="card" style="--card-accent: rgba(139,92,246,0.08);">
+                        <div class="card-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">MSHP Medicare 101</div>
+                            <div class="card-sub">Perlman Clinic Outbound</div>
+                            <span class="card-tag live">Live</span>
+                        </div>
+                        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                    </a>
+                    <a href="CCM-MEDICARE.html" class="card" style="--card-accent: rgba(59,130,246,0.08);">
+                        <div class="card-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">CCM Medicare</div>
+                            <div class="card-sub">Chronic Care Management</div>
+                            <span class="card-tag medicare">Medicare</span>
+                        </div>
+                        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- CCM -->
+            <div class="section">
+                <div class="section-label">CCM Workflows</div>
+                <div class="cards">
+                    <a href="CCM-FE.html" class="card" style="--card-accent: rgba(139,92,246,0.08);">
+                        <div class="card-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">CCM FE</div>
+                            <div class="card-sub">Front-end outreach script</div>
+                            <span class="card-tag cc">CCM</span>
+                        </div>
+                        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                    </a>
+                    <a href="CCMMEDCALLBACK.html" class="card" style="--card-accent: rgba(59,130,246,0.08);">
+                        <div class="card-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/><path d="M14.05 2a9 9 0 0 1 8 7.94"/><path d="M14.05 6A5 5 0 0 1 18 10"/></svg>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">CCM Med Callback</div>
+                            <div class="card-sub">Medicare callback workflow</div>
+                            <span class="card-tag medicare">Medicare</span>
+                        </div>
+                        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                    </a>
+                    <a href="CCMMEDRET.html" class="card" style="--card-accent: rgba(6,182,212,0.08);">
+                        <div class="card-icon cyan">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">CCM Med Retention</div>
+                            <div class="card-sub">Retention &amp; follow-up script</div>
+                            <span class="card-tag cc">CCM</span>
+                        </div>
+                        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Other Campaigns -->
+            <div class="section">
+                <div class="section-label">Other Campaigns</div>
+                <div class="cards">
+                    <a href="debt.html" class="card" style="--card-accent: rgba(245,158,11,0.08);">
+                        <div class="card-icon amber">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">Debt Settlement</div>
+                            <div class="card-sub">Debt relief outbound script</div>
+                            <span class="card-tag live">Live</span>
+                        </div>
+                        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                    </a>
+                    <a href="MVA.html" class="card" style="--card-accent: rgba(244,63,94,0.08);">
+                        <div class="card-icon rose">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">MVA</div>
+                            <div class="card-sub">Motor Vehicle Accident</div>
+                            <span class="card-tag auto">Auto</span>
+                        </div>
+                        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                    </a>
+                    <a href="plum.html" class="card" style="--card-accent: rgba(139,92,246,0.08);">
+                        <div class="card-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">Plum</div>
+                            <div class="card-sub">Plum campaign script</div>
+                        </div>
+                        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                    </a>
+                    <a href="plumwinback.html" class="card" style="--card-accent: rgba(16,185,129,0.08);">
+                        <div class="card-icon green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">Plum Winback</div>
+                            <div class="card-sub">Winback campaign script</div>
+                        </div>
+                        <div class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Script Portal &middot; Interactive Call Scripts &amp; Workflows</p>
+        </footer>
     </div>
-
-    <script>
-        const defaultScripts = [
-            { id: "1", name: "CCM Final Expense", file: "CCM-FE.html", icon: "📑" },
-            { id: "2", name: "CCM Medicare", file: "CCM-MEDICARE.html", icon: "🩺" },
-            { id: "3", name: "CCM Med Ret", file: "CCMMEDRET.html", icon: "🔄" },
-            { id: "4", name: "CCM Med Callback", file: "CCMMEDCALLBACK.html", icon: "📞" },
-            { id: "5", name: "MVA Intake", file: "MVA.html", icon: "🚗" },
-            { id: "6", name: "Plum Winback", file: "plumwinback.html", icon: "🎯" },
-            { id: "7", name: "Plum Standard", file: "plum.html", icon: "🟣" },
-            { id: "8", name: "Debt Settlement", file: "debt.html", icon: "🟣" }
-            
-        ];
-
-        let myScripts = [];
-
-        function loadDashboard() {
-            const savedScripts = localStorage.getItem('agentScriptsV2');
-            if (savedScripts) {
-                myScripts = JSON.parse(savedScripts);
-            } else {
-                myScripts = [...defaultScripts];
-                saveToStorage();
-            }
-            renderCards();
-        }
-
-        function renderCards() {
-            const grid = document.getElementById('dashboardGrid');
-            grid.innerHTML = ''; 
-
-            myScripts.forEach((script) => {
-                const card = document.createElement('a');
-                card.href = script.file;
-                card.target = "_blank"; 
-                card.className = 'card';
-                
-                card.innerHTML = `
-                    <div class="card-header">
-                        <div class="card-icon">${script.icon || '📄'}</div>
-                    </div>
-                    <div class="card-title">${script.name}</div>
-                    <div class="card-file">${script.file}</div>
-                    <div class="card-action">Launch Engine →</div>
-                `;
-
-                const delBtn = document.createElement('button');
-                delBtn.className = 'delete-btn';
-                delBtn.innerHTML = '✕';
-                delBtn.title = "Remove campaign";
-                delBtn.onclick = (e) => {
-                    e.preventDefault(); 
-                    deleteScript(script.id);
-                };
-                
-                card.querySelector('.card-header').appendChild(delBtn);
-                grid.appendChild(card);
-            });
-        }
-
-        function addNewScript() {
-            const name = prompt("Enter the Campaign Name:\n(e.g., 'New Health Campaign')");
-            if (!name) return;
-
-            const filename = prompt("Enter the exact HTML file name:\n(e.g., 'health-script.html')");
-            if (!filename) return;
-
-            const newScript = {
-                id: Date.now().toString(),
-                name: name,
-                file: filename,
-                icon: "🌟" 
-            };
-
-            myScripts.push(newScript);
-            saveToStorage();
-            renderCards();
-        }
-
-        function deleteScript(id) {
-            if(confirm("Are you sure you want to remove this campaign from the dashboard?")) {
-                myScripts = myScripts.filter(script => script.id !== id);
-                saveToStorage();
-                renderCards();
-            }
-        }
-
-        function saveToStorage() {
-            localStorage.setItem('agentScriptsV2', JSON.stringify(myScripts));
-        }
-
-        window.onload = loadDashboard;
-    </script>
 </body>
 </html>
