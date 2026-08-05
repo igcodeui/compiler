@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSHP Interactive Scripting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 18px; }
+        :root {
+            --bg: #0c0c14; --surface: #14141f; --surface2: #1a1a28;
+            --border: rgba(255,255,255,0.07); --border-hover: rgba(255,255,255,0.14);
+            --text: #e2e4ea; --text-dim: rgba(255,255,255,0.35); --text-mid: rgba(255,255,255,0.6);
+            --accent: #8b5cf6; --accent2: #06b6d4;
+            --yes: #10b981; --no: #f43f5e; --info: #3b82f6; --warn: #f59e0b;
+        }
+        [data-theme="light"] {
+            --bg: #f3f3f7; --surface: #fff; --surface2: #f9f9fb;
+            --border: rgba(0,0,0,0.08); --border-hover: rgba(0,0,0,0.15);
+            --text: #1a1a2e; --text-dim: rgba(0,0,0,0.35); --text-mid: rgba(0,0,0,0.6);
+            --accent: #7c3aed; --accent2: #0891b2;
+        }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+        /* Layout */
+        .split-wrap { display: flex; width: 100%; height: 100vh; overflow: hidden; }
+        .app { flex: 1 1 100%; display: flex; flex-direction: column; height: 100vh; min-width: 0; transition: flex 0.3s ease; overflow-y: auto; }
+
+        /* Topbar */
+        .topbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+        .topbar-left { display: flex; align-items: center; gap: 10px; }
+        .topbar-logo { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); display: flex; align-items: center; justify-content: center; }
+        .topbar-logo svg { width: 15px; height: 15px; color: #fff; }
+        .topbar-brand { font-size: 0.78rem; font-weight: 800; color: var(--text); }
+        .topbar-sub { font-size: 0.55rem; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+        .topbar-right { display: flex; align-items: center; gap: 6px; }
+        .icon-btn { width: 30px; height: 30px; border-radius: 7px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-mid); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; }
+        .icon-btn:hover { border-color: var(--border-hover); color: var(--text); }
+        .icon-btn svg { width: 13px; height: 13px; }
+        .timer-chip { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 7px; background: var(--surface2); border: 1px solid var(--border); font-family: 'SF Mono','Consolas', monospace; font-size: 0.72rem; font-weight: 700; color: var(--accent); }
+        .timer-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+        .sm-btn { padding: 4px 10px; height: 30px; border-radius: 7px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-mid); font-size: 0.6rem; font-weight: 700; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 4px; font-family: inherit; }
+        .sm-btn:hover { border-color: var(--border-hover); color: var(--text); }
+        .sm-btn svg { width: 11px; height: 11px; }
+        .sm-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        /* Rebuttals Panel */
+        .rebuttal-panel { flex: 0 0 0%; width: 0; overflow: hidden; border-left: 1px solid var(--border); background: var(--surface); transition: flex 0.3s ease; display: flex; flex-direction: column; height: 100vh; }
+        .rebuttal-panel.open { flex: 0 0 50%; width: 50%; }
+        .rebuttal-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+        .rebuttal-panel-title { font-size: 0.72rem; font-weight: 700; color: var(--text-mid); display: flex; align-items: center; gap: 6px; }
+        .rebuttal-panel-title svg { width: 13px; height: 13px; }
+        .rebuttal-panel-close { width: 28px; height: 28px; border-radius: 6px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-mid); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+        .rebuttal-panel-close:hover { color: var(--text); }
+        .rebuttal-panel-close svg { width: 12px; height: 12px; }
+        .rebuttal-search-wrap { padding: 10px 14px 6px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+        .rebuttal-search { width: 100%; padding: 8px 10px 8px 32px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-size: 0.68rem; font-family: inherit; outline: none; }
+        .rebuttal-search:focus { border-color: var(--accent); }
+        .rebuttal-search-icon { position: absolute; left: 24px; top: 19px; width: 13px; height: 13px; color: var(--text-dim); pointer-events: none; }
+        .rebuttal-list { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+        .rebuttal-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; transition: border-color 0.15s; }
+        .rebuttal-card:hover { border-color: var(--border-hover); }
+        .rebuttal-objection { font-size: 0.72rem; font-weight: 700; color: var(--no); margin-bottom: 10px; display: flex; align-items: flex-start; gap: 8px; }
+        .rebuttal-objection svg { width: 13px; height: 13px; flex-shrink: 0; margin-top: 1px; }
+        .rebuttal-response { font-size: 0.68rem; font-weight: 500; line-height: 1.8; color: var(--text); padding: 12px; border-radius: 8px; background: var(--bg); border-left: 3px solid var(--yes); }
+        .rebuttal-empty { text-align: center; padding: 30px; color: var(--text-dim); font-size: 0.72rem; }
+        .rebuttal-count { padding: 6px 14px; border-top: 1px solid var(--border); font-size: 0.5rem; color: var(--text-dim); text-align: center; font-weight: 600; flex-shrink: 0; }
+
+        /* Progress */
+        .progress-section { padding: 18px 20px 0; }
+        .progress-track { max-width: 280px; margin: 0 auto; display: flex; align-items: center; }
+        .prog-node { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.52rem; font-weight: 800; color: var(--text-dim); flex-shrink: 0; background: transparent; transition: all 0.3s; }
+        .prog-node.active { border-color: var(--accent); color: #fff; background: var(--accent); }
+        .prog-node.done { border-color: var(--accent); color: #fff; background: var(--accent); opacity: 0.35; }
+        .prog-node.ended { border-color: var(--no); color: #fff; background: var(--no); }
+        .prog-line { flex: 1; height: 2px; background: var(--border); border-radius: 1px; position: relative; min-width: 6px; }
+        .prog-line::after { content: ''; position: absolute; inset: 0; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+        .prog-line.filled::after { transform: scaleX(1); }
+        .step-label { text-align: center; padding: 8px 20px 0; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); }
+
+        /* Main */
+        .main { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 20px 20px 30px; overflow-y: auto; }
+
+        /* Card */
+        .script-card { max-width: 580px; width: 100%; animation: cardIn 0.25s ease-out; }
+        @keyframes cardIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+
+        /* Badge */
+        .step-badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 3px; border-radius: 16px; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; background: rgba(139,92,246,0.08); color: var(--accent); border: 1px solid rgba(139,92,246,0.15); }
+        .step-badge .num { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 900; color: #fff; background: var(--accent); }
+        .step-badge.s-end { background: rgba(244,63,94,0.08); color: var(--no); border-color: rgba(244,63,94,0.15); }
+        .step-badge.s-end .num { background: var(--no); }
+        .step-badge.s-vm { background: rgba(59,130,246,0.08); color: var(--info); border-color: rgba(59,130,246,0.15); }
+        .step-badge.s-vm .num { background: var(--info); }
+        .step-badge.s-reg { background: rgba(16,185,129,0.08); color: var(--yes); border-color: rgba(16,185,129,0.15); }
+        .step-badge.s-reg .num { background: var(--yes); }
+
+        /* Agent label + text */
+        .agent-label { display: inline-flex; align-items: center; gap: 5px; font-size: 0.58rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 10px; padding: 2px 8px; border-radius: 5px; background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.12); }
+        .agent-label::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+        .script-text { font-size: 0.88rem; font-weight: 500; line-height: 1.85; color: var(--text); padding: 18px 16px; border-radius: 10px; background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--accent); }
+        .script-text strong { font-weight: 700; }
+        [data-theme="light"] .script-text strong { color: #111; }
+
+        /* Info note */
+        .info-note { font-size: 0.65rem; font-weight: 600; color: var(--text-dim); padding: 14px 14px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); margin-top: 14px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.75; }
+        .info-note svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; color: var(--info); }
+        .info-note.warn svg { color: var(--warn); }
+
+        /* Buttons */
+        .actions { display: flex; gap: 10px; margin-top: 18px; }
+        .btn { flex: 1; padding: 14px 14px; border-radius: 10px; font-family: inherit; border: 1px solid transparent; cursor: pointer; transition: all 0.15s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 54px; }
+        .btn:active { transform: scale(0.97); }
+        .btn-row { display: flex; align-items: center; gap: 6px; }
+        .btn-row svg { width: 14px; height: 14px; flex-shrink: 0; }
+        .btn-label { font-size: 0.78rem; font-weight: 700; }
+        .btn-sub { font-size: 0.55rem; font-weight: 500; opacity: 0.5; }
+        .btn-yes { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: var(--yes); }
+        .btn-yes:hover { background: #10b981; color: #fff; border-color: #10b981; }
+        .btn-no { background: rgba(244,63,94,0.06); border-color: rgba(244,63,94,0.15); color: var(--no); }
+        .btn-no:hover { background: #f43f5e; color: #fff; border-color: #f43f5e; }
+        .btn-info { background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.2); color: var(--info); }
+        .btn-info:hover { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+        .btn-warn { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); color: var(--warn); }
+        .btn-warn:hover { background: #f59e0b; color: #fff; border-color: #f59e0b; }
+        .btn-go { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: var(--yes); }
+        .btn-go:hover { background: #10b981; color: #fff; border-color: #10b981; }
+        .btn-ghost { background: var(--surface2); border-color: var(--border); color: var(--text-mid); }
+        .btn-ghost:hover { border-color: var(--border-hover); color: var(--text); }
+        .btn-back { background: var(--surface2); border-color: var(--border); color: var(--text-mid); flex: 0 0 auto; min-width: 42px; min-height: auto; padding: 12px; }
+        .btn-back:hover { border-color: var(--border-hover); color: var(--text); }
+        .btn-back svg { width: 14px; height: 14px; }
+
+        /* Link chips */
+        .link-chips { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+        .link-chip { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; background: var(--surface2); border: 1px solid var(--border); text-decoration: none; color: var(--text); transition: border-color 0.15s; }
+        .link-chip:hover { border-color: var(--accent); }
+        .link-chip-icon { width: 28px; height: 28px; border-radius: 7px; background: rgba(139,92,246,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .link-chip-icon svg { width: 13px; height: 13px; color: var(--accent); }
+        .link-chip-text { flex: 1; }
+        .link-chip-title { font-size: 0.68rem; font-weight: 700; }
+        .link-chip-sub { font-size: 0.55rem; color: var(--text-dim); margin-top: 1px; }
+        .link-chip-arrow { color: var(--text-dim); }
+        .link-chip-arrow svg { width: 12px; height: 12px; }
+
+        /* Keyboard hints */
+        .kb-hint { text-align: center; margin-top: 10px; font-size: 0.52rem; color: var(--text-dim); display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .kbd { display: inline-block; padding: 1px 5px; border-radius: 4px; background: var(--surface2); border: 1px solid var(--border); font-family: 'SF Mono','Consolas', monospace; font-size: 0.5rem; font-weight: 600; color: var(--text-mid); }
+
+        /* Done anim */
+        .done-badge { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px; animation: pop 0.3s ease-out; }
+        @keyframes pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .done-badge svg { width: 16px; height: 16px; color: #fff; }
+        .done-badge.ok { background: var(--yes); }
+        .done-badge.end { background: var(--no); }
+
+        /* Footer */
+        .footer { padding: 12px 20px; margin-top: auto; text-align: center; font-size: 0.5rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            html { font-size: 16px; }
+            .actions { flex-direction: column; }
+            .kb-hint { display: none; }
+            .topbar-sub { display: none; }
+            .sm-btn span:last-child { display: none; }
+            .rebuttal-panel.open { flex: 0 0 100%; width: 100%; position: fixed; inset: 0; z-index: 100; }
+        }
+    </style>
+</head>
+<body>
+    <div class="split-wrap">
+        <div class="app">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <div class="topbar-logo">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <div>
+                        <div class="topbar-brand">MSHP Interactive Scripting</div>
+                        <div class="topbar-sub">Perlman Clinic</div>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
+                        <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <div class="timer-chip"><div class="timer-dot"></div><span id="timer">00:00</span></div>
+                    <button class="sm-btn" id="rebuttalToggle" onclick="toggleRebuttals()" title="Rebuttals">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <span>Rebuttals</span>
+                    </button>
+                    <button class="sm-btn" id="vmToggle" onclick="go(98)" title="Voicemail Script">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                        <span>Voicemail</span>
+                    </button>
+                    <button class="sm-btn" onclick="resetCall()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                        <span>Reset</span>
+                    </button>
+                </div>
+            </header>
+            <div class="progress-section">
+                <div class="progress-track">
+                    <div class="prog-node active" id="d1">1</div>
+                    <div class="prog-line" id="l1"></div>
+                    <div class="prog-node" id="d2">2</div>
+                    <div class="prog-line" id="l2"></div>
+                    <div class="prog-node" id="d3">3</div>
+                    <div class="prog-line" id="l3"></div>
+                    <div class="prog-node" id="d4">4</div>
+                </div>
+            </div>
+            <div class="step-label" id="stepLabel">Step 1 of 4 &mdash; Opening</div>
+            <main class="main" id="main"></main>
+            <footer class="footer">MSHP Medicare 101 Event Script &middot; Perlman Clinic Outbound</footer>
+        </div>
+
+        <!-- Rebuttals Panel -->
+        <div class="rebuttal-panel" id="rebuttalPanel">
+            <div class="rebuttal-panel-header">
+                <div class="rebuttal-panel-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Rebuttals
+                </div>
+                <button class="rebuttal-panel-close" onclick="toggleRebuttals()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="rebuttal-search-wrap" style="position:relative;">
+                <svg class="rebuttal-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" class="rebuttal-search" id="rebuttalSearch" placeholder="Search rebuttals..." oninput="filterRebuttals(this.value)">
+            </div>
+            <div class="rebuttal-list" id="rebuttalList"></div>
+            <div class="rebuttal-count" id="rebuttalCount"></div>
+        </div>
+    </div>
+
+<script>
+// ── Rebuttals Data ──
+const REBUTTALS = [
+    ["I'm not interested.", 'I understand. Before you decide, may I take 20 seconds to explain what the event is about? Then you can let me know if it might be worth considering.'],
+    ["I don't have time.", 'I completely understand. The event is designed to be brief, and we have several schedules available. Is there a day or time that would be more convenient?'],
+    ["I'm busy that day / I have work", "No problem. We often have other dates available. Would you like me to check another schedule that works better for you?"],
+    ["I'm not buying anything.", "That's perfectly okay. This is simply an informational Medicare event designed to help people understand how Medicare works, review their benefits and options, and navigate the enrollment process with confidence. The goal is to educate and answer questions so you have the information you need."],
+    ['Can you just send me the details?', "Of course! I'd be happy to send everything over. The first step is to reserve your preferred event date and time, and once that's set, I'll send you all the details in writing so you have everything handy. If any questions come up after that, I'm here to help."],
+    ['I need to ask my spouse/partner.', "Of course. In fact, you're both welcome to attend together if you'd like. Would it help if I reserved two seats while you discuss it?"],
+    ["I've heard negative things.", 'I appreciate you sharing that. This is simply an informational Medicare event designed to help people understand how Medicare works, review their benefits and options, and navigate the enrollment process with confidence. The goal is to educate and answer questions so you have the information you need.'],
+    ['Where is it?', "It's being held at La Jolla Resource Center in San Diego. It's easy to access, and I'd be happy to provide directions if and when needed. Just call us anytime."],
+    ['Is there any obligation?', 'No. The invitation is simply to attend the presentation. This is simply an informational Medicare event designed to help people understand how Medicare works, review their benefits and options, and navigate the enrollment process with confidence. The goal is to educate and answer questions so you have the information you need.'],
+    ['I need to think about it.', 'Absolutely. Is there any specific information I can provide that would help you decide whether attending is worthwhile?']
+];
+
+let rebuttalOpen = false;
+function toggleRebuttals(){
+    rebuttalOpen = !rebuttalOpen;
+    document.getElementById('rebuttalPanel').classList.toggle('open', rebuttalOpen);
+    document.getElementById('rebuttalToggle').classList.toggle('active', rebuttalOpen);
+    if(rebuttalOpen){ renderRebuttals(REBUTTALS); }
+}
+const objIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+function renderRebuttals(list){
+    const el = document.getElementById('rebuttalList');
+    const cnt = document.getElementById('rebuttalCount');
+    if(!list.length){ el.innerHTML = '<div class="rebuttal-empty">No rebuttals match your search</div>'; cnt.textContent = '0 rebuttals'; return; }
+    el.innerHTML = list.map(([obj, res]) =>
+        `<div class="rebuttal-card"><div class="rebuttal-objection">${objIcon}<span>\u201C${obj}\u201D</span></div><div class="rebuttal-response">${res}</div></div>`
+    ).join('');
+    cnt.textContent = `${list.length} rebuttal${list.length!==1?'s':''}`;
+}
+function filterRebuttals(q){
+    q = q.trim().toLowerCase();
+    if(!q){ renderRebuttals(REBUTTALS); return; }
+    renderRebuttals(REBUTTALS.filter(([o,r]) => o.toLowerCase().includes(q) || r.toLowerCase().includes(q)));
+}
+
+// ── Theme ──
+(function(){ const s = localStorage.getItem('mshp-theme'); if(s==='light') document.documentElement.setAttribute('data-theme','light'); })();
+function toggleTheme(){
+    const l = document.documentElement.getAttribute('data-theme')==='light';
+    document.documentElement.setAttribute('data-theme', l?'dark':'light');
+    localStorage.setItem('mshp-theme', l?'dark':'light');
+    const sun = document.getElementById('sunIcon'), moon = document.getElementById('moonIcon');
+    if(sun&&moon){ sun.style.display=l?'':'none'; moon.style.display=l?'none':''; }
+}
+
+// ── App State ──
+let step = 0, startTime = null, timerRef = null, hist = [];
+const STEPS = ['Opening','Invite','Confirm','Close'];
+startTime = Date.now(); timerRef = setInterval(tick, 1000);
+
+function resetCall(){ clearInterval(timerRef); step=0; startTime=Date.now(); hist=[]; timerRef=setInterval(tick,1000); go(1); }
+function tick(){ const s=Math.floor((Date.now()-startTime)/1000); document.getElementById('timer').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+
+function setProgress(n, ended){
+    for(let i=1;i<=4;i++){
+        const d=document.getElementById('d'+i), l=document.getElementById('l'+(i-1));
+        if(ended){d.className='prog-node'+(i===4?' ended':''); if(l) l.className='prog-line';}
+        else{d.className='prog-node'+(i<n?' done':i===n?' active':''); if(l) l.className='prog-line'+(i<n?' filled':'');}
+    }
+    document.getElementById('stepLabel').innerHTML = ended?'Call Ended':`Step ${n} of 4 &mdash; ${STEPS[n-1]}`;
+}
+function mp(s){
+    if(s<=1) return 1;
+    if(s<=2) return 2;
+    if(s<=5) return 3;
+    return 4;
+}
+
+function go(n){
+    if(step>0 && step!==99 && step!==98) hist.push(step);
+    step=n;
+    if(n===99) setProgress(4,true);
+    else if(n===98) {} // voicemail - don't change progress
+    else setProgress(mp(n),false);
+    const m=document.getElementById('main');
+    const r={1:rOpen,2:rInvite,3:rEmail,4:rPhone,5:rDisclaimer,6:rRegister,7:rOnline,8:rRegisterOnline,9:rEnd,98:rVoicemail,99:rDNC};
+    (r[n]||rOpen)(m);
+}
+function goBack(){
+    if(!hist.length) return;
+    const p=hist.pop(); step=p;
+    if(p===98){}else setProgress(mp(p),false);
+    const m=document.getElementById('main');
+    const r={1:rOpen,2:rInvite,3:rEmail,4:rPhone,5:rDisclaimer,6:rRegister,7:rOnline,8:rRegisterOnline};
+    (r[p]||rOpen)(m);
+}
+
+// ── Helpers ──
+const gc = h => `<div class="card">${h}</div>`;
+const bd = (c,n,t) => `<div class="step-badge ${c}"><span class="num">${n}</span>${t}</div>`;
+const tx = t => `<div class="agent-label">Agent</div><div class="script-text">${t}</div>`;
+const kb = (items,back) => `<div class="kb-hint">${items.map(i=>`<span class="kbd">${i.k}</span> ${i.l}`).join('&nbsp;&nbsp;')}${back?'&nbsp;&nbsp;<span class="kbd">&larr;</span> Back':''}</div>`;
+const bb = () => `<button class="btn btn-back" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>`;
+const chk = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+const xIc = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+const resetBtn = `<button class="btn btn-ghost" onclick="resetCall()" style="margin-top:14px;"><span class="btn-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span class="btn-label">New Call</span></span></button>`;
+
+// ── Step 1: Opening ──
+function rOpen(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('','1','Opening')}
+        ${tx('Hello, this is <strong>_____________</strong> calling on behalf of <strong>Perlman Clinic</strong>, may I speak with <strong>(patient name)</strong> please?')}
+        <div class="actions">
+            <button class="btn btn-yes" onclick="go(2)"><span class="btn-row">${chk}<span class="btn-label">Yes, Speaking</span></span><span class="btn-sub">Continue to event invite</span></button>
+            <button class="btn btn-no" onclick="go(98)"><span class="btn-row">${xIc}<span class="btn-label">Voicemail</span></span><span class="btn-sub">Leave voicemail message</span></button>
+        </div>
+        ${kb([{k:'Y',l:'Yes'},{k:'V',l:'Voicemail'}])}
+    `)}</div>`;
+}
+
+// ── Step 2: Event Invite ──
+function rInvite(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('','2','Event Invite')}
+        ${tx('The reason for my call today is because as a valued patient of Perlman Clinic, we want to invite you to an <strong>exclusive Medicare 101 event</strong> on <strong>Wednesday, June 17th at 6:00 PM</strong> in La Jolla. We will be serving pastries, coffee, and tea at our partner\'s location, <strong>myseniorhealthplan.com\'s La Jolla Resource Center</strong>. <strong>Can I go ahead and reserve one of our remaining few openings?</strong>')}
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-yes" onclick="go(3)"><span class="btn-row">${chk}<span class="btn-label">Yes</span></span><span class="btn-sub">Confirm email address</span></button>
+            <button class="btn btn-no" onclick="go(7)"><span class="btn-row">${xIc}<span class="btn-label">No</span></span><span class="btn-sub">Offer online event</span></button>
+        </div>
+        ${kb([{k:'Y',l:'Yes'},{k:'N',l:'No'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 3: Confirm Email ──
+function rEmail(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('','3','Confirm Details')}
+        ${tx('I have your email as <strong>_______________________</strong>')}
+        <div class="info-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Verify the email address on file with the patient. Correct if needed.</div>
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-yes" onclick="go(4)"><span class="btn-row">${chk}<span class="btn-label">Confirmed</span></span><span class="btn-sub">Continue to phone confirmation</span></button>
+        </div>
+        ${kb([{k:'Enter',l:'or'},{k:'Y',l:'Confirmed'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 4: Confirm Phone ──
+function rPhone(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('','3','Confirm Details')}
+        ${tx('And is <strong>_______________</strong> still a good number for you?')}
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-yes" onclick="go(5)"><span class="btn-row">${chk}<span class="btn-label">Yes</span></span><span class="btn-sub">Read disclaimer</span></button>
+ 
+        </div>
+        ${kb([{k:'Y',l:'Yes'},{k:'U',l:'Update'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 5: Disclaimer ──
+function rDisclaimer(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('','3','Permission')}
+        ${tx('I have a short disclaimer to read as I reserve your spot:<br><br><strong>\"Does My Senior Health Plan have permission to email or text you regarding plans and event information regarding your Medicare enrollment options?\"</strong>')}
+        <div class="info-note warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><strong>If caller does not say YES:</strong> \"I Need a YES to proceed.\" If permission is not given, disposition call queue DNC.</div>
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-yes" onclick="go(6)"><span class="btn-row">${chk}<span class="btn-label">YES &mdash; Permission Given</span></span><span class="btn-sub">Proceed to registration</span></button>
+            <button class="btn btn-no" onclick="go(99)"><span class="btn-row">${xIc}<span class="btn-label">NO &mdash; DNC</span></span><span class="btn-sub">Disposition DNC, end call</span></button>
+        </div>
+        ${kb([{k:'Y',l:'Yes'},{k:'N',l:'DNC'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 6: Register (In-Person) ──
+function rRegister(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('s-reg','','Register & Close')}
+        ${tx('<strong>Please look out for your reservation confirmation that will include parking validation.</strong> If you have any questions about this event please feel free to call me back at <strong>(619) 737-4736</strong> or you can call My Senior Health Plan with the number on the reservation.')}
+        <div style="font-size:0.6rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin:12px 0 6px;">Register at one of these links:</div>
+        <div class="link-chips">
+            <a href="https://www.eventbrite.com/e/turning-65-medicare-basics-beyond-workshop-tickets-1990980480212?aff=oddtdtcreator" target="_blank" class="link-chip">
+                <div class="link-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                <div class="link-chip-text"><div class="link-chip-title">Wednesday, August 12 &mdash; 6:00 PM to 7:00 PM</div><div class="link-chip-sub">In-Person &middot; La Jolla Resource Center</div></div>
+                <div class="link-chip-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </a>
+            <a href="https://www.eventbrite.com/e/medicare-101-beyond-masterclass-in-la-jolla-tickets-1992502374238?aff=ebdsoporgprofile" target="_blank" class="link-chip">
+                <div class="link-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                <div class="link-chip-text"><div class="link-chip-title">Saturday, September 19 &mdash; 10:00 AM to 11:00 AM</div><div class="link-chip-sub">In-Person &middot; La Jolla Resource Center</div></div>
+                <div class="link-chip-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </a>
+        </div>
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-go" onclick="go(9)" style="flex:2;"><span class="btn-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="btn-label">End Call</span></span><span class="btn-sub">Thank you so much for your time today. Have a great day.</span></button>
+        </div>
+        ${kb([{k:'Enter',l:'or'},{k:'E',l:'End Call'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 7: Offer Online ──
+function rOnline(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('','2','Online Offer')}
+        ${tx('Would you be interested in joining our <strong>ONLINE event</strong> instead on <strong>August 20th at 10am</strong>? I can reserve a spot for you right now for that event.')}
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-info" onclick="go(8)"><span class="btn-row">${chk}<span class="btn-label">Yes, Online</span></span><span class="btn-sub">Register for online event</span></button>
+            <button class="btn btn-no" onclick="go(9)"><span class="btn-row">${xIc}<span class="btn-label">No</span></span><span class="btn-sub">End call gracefully</span></button>
+        </div>
+        ${kb([{k:'Y',l:'Yes'},{k:'N',l:'No'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 8: Register Online ──
+function rRegisterOnline(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('s-reg','','Register Online & Close')}
+        ${tx('If you have any questions about this event please feel free to call me back at <strong>(619) 737-4736</strong> or you can call My Senior Health Plan with the number on the reservation.')}
+        <div style="font-size:0.6rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin:12px 0 6px;">Register for online event:</div>
+        <div class="link-chips">
+            <a href="https://www.eventbrite.com/e/medicare-101-basics-beyond-masterclass-webinar-tickets-1990983148192?aff=ebdsoporgprofile" target="_blank" class="link-chip">
+                <div class="link-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                <div class="link-chip-text"><div class="link-chip-title">Thursday, August 20th &mdash; 10:00 AM</div><div class="link-chip-sub">Online Event &middot; Medicare 101 Webinar</div></div>
+                <div class="link-chip-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </a>
+            <a href="https://www.eventbrite.com/e/medicare-101-basics-beyond-masterclass-webinar-tickets-1992502966008?aff=ebdsoporgprofile" target="_blank" class="link-chip">
+                <div class="link-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                <div class="link-chip-text"><div class="link-chip-title">Thursday, September 17th &mdash; 10:00 AM</div><div class="link-chip-sub">Online Event &middot; Medicare 101 Webinar</div></div>
+                <div class="link-chip-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </a>
+        </div>
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-go" onclick="go(9)" style="flex:2;"><span class="btn-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="btn-label">End Call</span></span><span class="btn-sub">Thank you so much for your time today. Have a great day.</span></button>
+        </div>
+        ${kb([{k:'Enter',l:'or'},{k:'E',l:'End Call'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 9: End Call ──
+function rEnd(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('s-end','','\u2713 Complete')}
+        <div style="text-align:center;padding:8px 0 16px;"><div class="done-badge ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><h3 style="font-size:0.88rem;font-weight:700;margin-bottom:4px;">Call Complete</h3><p style="color:var(--text-dim);font-size:0.72rem;">Thank you so much for your time today. Have a great day.</p></div>
+        ${resetBtn}
+    `)}</div>`;
+}
+
+// ── Step 98: Voicemail ──
+function rVoicemail(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('s-vm','VM','Voicemail')}
+        ${tx('Hello, this is <strong>&lt;agent first name&gt;</strong> calling on behalf of Perlman Clinic. As a valued patient of ours, we are inviting you to an <strong>exclusive Medicare 101 event</strong> on <strong>Wednesday, August 12th at 6:00 PM</strong> in La Jolla. We will be serving pastries, coffee, and tea at our partner\'s location, <strong>myseniorhealthplan.com\'s La Jolla Resource Center</strong>. To reserve one of our limited spots, please call us back at <strong>619-737-4736</strong>. That number again is <strong>619-737-4736</strong>. Thank you and we hope to see you there!')}
+        <div class="info-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/></svg><div><div style="margin-bottom:6px;">Callback &amp; Caller ID: <strong style="font-size:0.7rem;">619-737-4736</strong> &mdash; Do NOT give any other number.</div><div>Perlman Clinic contact: <strong style="font-size:0.7rem;">858-554-1212</strong> (on speed dial)</div></div></div>
+        <div class="actions">
+            ${hist.length?bb():''}
+            <button class="btn btn-ghost" onclick="resetCall()" style="flex:2;"><span class="btn-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span class="btn-label">New Call</span></span></button>
+        </div>
+        ${kb([{k:'Esc',l:'New Call'}],!!hist.length)}
+    `)}</div>`;
+}
+
+// ── Step 99: DNC End ──
+function rDNC(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('s-end','','\u2717 Disposition DNC')}
+        <div style="text-align:center;padding:8px 0 16px;"><div class="done-badge end"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><h3 style="font-size:0.88rem;font-weight:700;margin-bottom:4px;">DNC &mdash; Call Ended</h3><p style="color:var(--text-dim);font-size:0.72rem;">Permission not given. Disposition call queue DNC.<br>If applicable: \"Thank you so much for your time today. While we cannot help you today, please call us back at (619) 737-4736 if you would still like assistance with your Medicare Insurance enrollment questions. Have a great day.\"</p></div>
+        ${resetBtn}
+    `)}</div>`;
+}
+
+// ── Init ──
+(function(){
+    const sun=document.getElementById('sunIcon'), moon=document.getElementById('moonIcon');
+    if(sun&&moon){ const l=document.documentElement.getAttribute('data-theme')==='light'; sun.style.display=l?'':'none'; moon.style.display=l?'none':''; }
+})();
+go(1);
+
+// ── Keyboard ──
+document.addEventListener('keydown', e => {
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+    const k=e.key.toLowerCase();
+    if(k==='escape'){resetCall();return;}
+    if(k==='backspace'||k==='arrowleft'){goBack();return;}
+    if(step===1){if(k==='y')go(2);else if(k==='v')go(98);}
+    else if(step===2){if(k==='y')go(3);else if(k==='n')go(7);}
+    else if(step===3){if(k==='enter'||k==='y')go(4);}
+    else if(step===4){if(k==='y')go(5);else if(k==='u')go(4);}
+    else if(step===5){if(k==='y')go(6);else if(k==='n')go(99);}
+    else if(step===6){if(k==='enter'||k==='e')go(9);}
+    else if(step===7){if(k==='y')go(8);else if(k==='n')go(9);}
+    else if(step===8){if(k==='enter'||k==='e')go(9);}
+});
+</script>
+</body>
+</html>
