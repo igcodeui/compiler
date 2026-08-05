@@ -697,20 +697,20 @@ function setProgress(n, ended){
     }
     document.getElementById('stepLabel').innerHTML = ended?'Call Ended':`Step ${n} of 3 &mdash; ${STEPS[n-1]}`;
 }
-function mp(s){ return s<=1?1:s<=4?2:3; }
+function mp(s){ return s<=1?1:s<=4||s===98?2:3; }
 
 function go(n){
     if(step>0&&step!==99) hist.push(step);
     step=n; setProgress(mp(n),false);
     const m=document.getElementById('main');
-    const r={1:rOpen,2:rAvail,3:rDebt,4:rSpec,5:rXfer,99:rEnd};
+    const r={1:rOpen,2:rAvail,3:rDebt,4:rSpec,5:rXfer,98:rCallback,99:rEnd};
     (r[n]||rEnd)(m);
 }
 function goBack(){
     if(!hist.length) return;
     const p=hist.pop(); step=p; setProgress(mp(p),false);
     const m=document.getElementById('main');
-    const r={1:rOpen,2:rAvail,3:rDebt,4:rSpec,5:rXfer};
+    const r={1:rOpen,2:rAvail,3:rDebt,4:rSpec,5:rXfer,98:rCallback};
     (r[p]||rOpen)(m);
 }
 
@@ -744,7 +744,7 @@ function rAvail(el){
         <div class="actions">
             ${bb()}
             <button class="btn btn-yes" onclick="go(3)"><span class="btn-row">${chk}<span class="btn-label">Yes</span></span><span class="btn-sub">Continue to debt check</span></button>
-            <button class="btn btn-no" onclick="go(99)"><span class="btn-row">${xIc}<span class="btn-label">No</span></span><span class="btn-sub">Ask for better time &amp; end</span></button>
+            <button class="btn btn-no" onclick="go(98)"><span class="btn-row">${xIc}<span class="btn-label">No</span></span><span class="btn-sub">Ask for callback time</span></button>
         </div>
         ${kb([{k:'Y',l:'Yes'},{k:'N',l:'No'}],true)}
     `)}</div>`;
@@ -775,6 +775,19 @@ function rSpec(el){
             <button class="btn btn-no" onclick="go(99)"><span class="btn-row">${xIc}<span class="btn-label">No</span></span><span class="btn-sub">Thank them &amp; end call</span></button>
         </div>
         ${kb([{k:'Y',l:'Yes'},{k:'N',l:'No'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 98: Callback (No on Availability) ──
+function rCallback(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('','2','Callback')}
+        ${tx('<strong>Do you have a specific time or day for call back?</strong>')}
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-ghost" onclick="go(99)" style="flex:2;"><span class="btn-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="btn-label">Alright, End Call</span></span><span class="btn-sub">Thank you for your time. Have a great day!</span></button>
+        </div>
+        ${kb([{k:'Enter',l:'or'},{k:'N',l:'End Call'}],true)}
     `)}</div>`;
 }
 
@@ -829,7 +842,8 @@ document.addEventListener('keydown', e => {
     if(k==='escape'){resetCall();return;}
     if(k==='backspace'||k==='arrowleft'){goBack();return;}
     if(step===1){if(k==='y')go(2);else if(k==='n')go(99);}
-    else if(step===2){if(k==='y')go(3);else if(k==='n')go(99);}
+    else if(step===2){if(k==='y')go(3);else if(k==='n')go(98);}
+    else if(step===98){if(k==='enter'||k==='n')go(99);}
     else if(step===3){if(k==='<'||k===','){debtCat='less';go(4);}else if(k==='>'||k==='.'){debtCat='over';go(4);}}
     else if(step===4){if(k==='y')go(5);else if(k==='n')go(99);}
     else if(step===5){if(k==='enter'||k==='t')doTransfer();}
