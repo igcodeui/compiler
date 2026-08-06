@@ -145,6 +145,23 @@
         .done-badge svg { width: 16px; height: 16px; color: #fff; }
         .done-badge.ok { background: var(--yes); }
 
+        /* Rebuttal Bar */
+        .rebuttal-bar { padding: 10px 20px 6px; overflow-x: auto; display: flex; gap: 6px; flex-shrink: 0; scrollbar-width: none; justify-content: center; flex-wrap: wrap; }
+        .rebuttal-bar::-webkit-scrollbar { display: none; }
+        .rebuttal-pill { white-space: nowrap; padding: 5px 12px; border-radius: 20px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-mid); font-size: 0.58rem; font-weight: 700; cursor: pointer; transition: all 0.15s; font-family: inherit; flex-shrink: 0; }
+        .rebuttal-pill:hover { border-color: var(--no); color: var(--no); background: rgba(244,63,94,0.06); }
+        .rebuttal-pill.active { border-color: var(--no); color: #fff; background: var(--no); }
+
+        /* Rebuttal Popup */
+        .rebuttal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .rebuttal-overlay.open { display: flex; }
+        .rebuttal-popup { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; max-width: 460px; width: 100%; animation: pop 0.2s ease-out; }
+        .rebuttal-popup-obj { font-size: 0.72rem; font-weight: 700; color: var(--no); margin-bottom: 12px; display: flex; align-items: flex-start; gap: 8px; }
+        .rebuttal-popup-obj svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
+        .rebuttal-popup-res { font-size: 0.68rem; font-weight: 500; line-height: 1.85; color: var(--text); padding: 14px; border-radius: 8px; background: var(--surface2); border-left: 3px solid var(--yes); }
+        .rebuttal-popup-close { margin-top: 14px; width: 100%; padding: 10px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-mid); font-size: 0.68rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+        .rebuttal-popup-close:hover { border-color: var(--border-hover); color: var(--text); }
+
         /* Footer */
         .footer { padding: 12px 20px; margin-top: auto; text-align: center; font-size: 0.5rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; }
 
@@ -214,7 +231,13 @@
                 </div>
             </div>
             <div class="step-label" id="stepLabel">Step 1 of 7 &mdash; Greeting</div>
+            <div class="rebuttal-bar" id="rebuttalBar"></div>
             <main class="main" id="main"></main>
+
+            <!-- Rebuttal Popup -->
+            <div class="rebuttal-overlay" id="rebuttalOverlay" onclick="if(event.target===this)hideRebuttal()">
+                <div class="rebuttal-popup" id="rebuttalPopup"></div>
+            </div>
             <footer class="footer">Debt Settlement Callback Script</footer>
         </div>
         <div class="form-panel" id="formPanel">
@@ -274,6 +297,41 @@ function toggleFormPanel(){
     const iframe = document.getElementById('formIframe');
     if(formOpen){ panel.classList.add('open'); btn.classList.add('active'); if(iframe.src === 'about:blank' || !iframe.src) iframe.src = iframe.dataset.src; }
     else { panel.classList.remove('open'); btn.classList.remove('active'); }
+}
+
+// ── Rebuttals Data ──
+const REBUTTALS = [
+    ["This is A SCAM", "That\'s a reasonable concern. Before working with any company, it\'s worth checking reviews, credentials, and asking about fees and how the program works. Transparency is important. I am calling you because you filled out a form about needing help with your debts. We reviewed your case and there are available options ready for you today. I just need to verify some information I have this on the form to see if these are accurate. I have your debt as (debt amount), your full name is (full name), and still currently in (State). The next step is I will transfer you to the debt specialist so you would know the options available now. This will be quick. Please hold."],
+    ["I DON\'T WANT TO PAY AGAIN", "I understand your concern. The goal of some debt relief or consolidation options is to make repayment more manageable, but eligibility and result vary. We can review your situation to see if any options fit your budget."],
+    ["I\'VE BEEN DENIED BEFORE", "No worries, every situation is different. While I cannot guarantee approval, reviewing your file to have a picture of your current financial situation, you would know today what options are available for you."]
+];
+
+let activeRebuttalIdx = -1;
+const objIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+const objIconSm = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+
+(function(){
+    const bar = document.getElementById('rebuttalBar');
+    bar.innerHTML = REBUTTALS.map(([obj], i) =>
+        `<button class="rebuttal-pill" onclick="showRebuttal(${i})" id="rpill${i}">${objIconSm} ${obj.replace(/'/g, "&#39;")}</button>`
+    ).join('');
+})();
+
+function showRebuttal(idx){
+    activeRebuttalIdx = idx;
+    const [obj, res] = REBUTTALS[idx];
+    document.getElementById('rebuttalPopup').innerHTML = `
+        <div class="rebuttal-popup-obj">${objIcon}<span>\u201C${obj}\u201D</span></div>
+        <div class="rebuttal-popup-res">${res}</div>
+        <button class="rebuttal-popup-close" onclick="hideRebuttal()">Got It</button>
+    `;
+    document.getElementById('rebuttalOverlay').classList.add('open');
+    document.querySelectorAll('.rebuttal-pill').forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+function hideRebuttal(){
+    document.getElementById('rebuttalOverlay').classList.remove('open');
+    activeRebuttalIdx = -1;
+    document.querySelectorAll('.rebuttal-pill').forEach(p => p.classList.remove('active'));
 }
 
 // ── Theme ──
