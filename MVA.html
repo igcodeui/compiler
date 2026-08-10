@@ -220,6 +220,9 @@
                         <button onclick="openGuidePanel()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             Guiding Leads
                         </button>
+                        <button onclick="goToDebtSLSC()" class="px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30" style="background: var(--tcpa-bg); color: var(--tcpa-text); border-radius: var(--radius-sm);">
+                            DEBT & SLC
+                        </button>
                         <button onclick="triggerDispo('inbound-step-full')" class="theme-btn-danger px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             EXIT
                         </button>
@@ -475,7 +478,63 @@
                             <button onclick="triggerDispo('step-already-represented')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
                         </div>
                     </div>
-                    
+
+                    <div id="step-debt-slsc" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
+                        <button onclick="goBackToPreviousStep('step-debt-slsc')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">DEBT & SLC Transition Script</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> I completely understand. Based on the information you've provided, it looks like the MVA program may not be the right fit for you.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Upon checking though, there are programs that may be able to help you with your existing student loans or unsecured debts.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> It will only take a quick couple of questions to see what's available for you.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> How much is your total unsecured debts?
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="goToStep('step-debt-has-debt', 'step-debt-slsc')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Has unsecured debts</button>
+                            <button onclick="goToStep('step-debt-no-debt', 'step-debt-slsc')" class="custom-btn-bg theme-btn-accent font-medium shadow-md">No unsecured debts</button>
+                        </div>
+                    </div>
+
+                    <div id="step-debt-has-debt" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--success-bg)]">
+                        <button onclick="goBackToPreviousStep('step-debt-has-debt')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--success-bg)] block heading-font mb-3">DEBT Transfer Script</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> No worries, we can definitely help you with this one.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> The next step is to transfer to you to a debt specialist. No worries because this is a no obligation call. The debt specialist will walk you through your options that can help you with your debts.<br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Please hold while I transfer you over.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('step-debt-has-debt')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
+                        </div>
+                    </div>
+
+                    <div id="step-debt-no-debt" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
+                        <button onclick="goBackToPreviousStep('step-debt-no-debt')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">SLC Screening</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> No worries— How about your student loans? How much do you still owe? <strong class="text-[var(--danger-bg)]">(Must be 10K)</strong><br><br>
+
+                                <strong class="text-[var(--success-bg)]">SCREENING FOR SLC:</strong><br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> We can definitely help you with this. Just to confirm these are federal student loans, correct? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> Are you already out of school? <strong class="text-[var(--danger-bg)]">(Must be Yes)</strong><br><br>
+                                <span class="theme-highlight font-semibold">Agent:</span> It looks like there are options available to help you with your student loans. The next step is to transfer you to a student loan specialist. This is a no obligation call. They will walk you through your options that can help you with your current situation. Please hold while I transfer you over.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('step-debt-no-debt')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
+                        </div>
+                    </div>
+
                     <!-- FINAL DESTINATION ACA FLOW START -->
                     <div id="step-aca" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--accent)]">
                         <button onclick="goBackToPreviousStep('step-aca')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
@@ -574,11 +633,12 @@ To get started, can you please confirm your age?
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 mt-6">
                             <button onclick="goToStep('step-final-expense', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--highlight); color: var(--highlight-text);">63–85: Final Expense</button>
                             <button onclick="goToStep('step-aca-questions', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--accent); color: var(--accent-text);">19–64: ACA</button>
                             <button onclick="goToStep('step-ssdi-full', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--oa-bg); color: var(--oa-text);">49–62: SSDI</button>
                             <button onclick="goToStep('step-u65', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--oa-bg); color: var(--oa-text);">U65</button>
+                            <button onclick="goToDebtSLSC()" class="theme-btn-neutral font-medium shadow-md" style="background: var(--oa-bg); color: var(--oa-text);">DEBT & SLC</button>
                             
                         </div>
                     </div>
@@ -1441,6 +1501,18 @@ To get started, can you please confirm your age?
             document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // DEBT & SLC ROUTING FUNCTION
+        function goToDebtSLSC() {
+            stepHistory = [];
+            hideAllSteps();
+            document.getElementById('stateSearch').value = "";
+            document.getElementById('matrixOutputArea').classList.add('hidden');
+            closeRebuttal();
+            closeIframe();
+            document.getElementById('step-debt-slsc').classList.remove('hidden');
+            document.getElementById('script-workspace').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // FINAL EXPENSE ROUTING FUNCTION
         function goToFinalExpense() {
             stepHistory = [];
@@ -1530,7 +1602,7 @@ To get started, can you please confirm your age?
                 'step-represented-details', 'step-represented-closing', 'step-not-represented', 
                 'step-accident-info-1', 'step-accident-info-2', 'step-medical-info-1', 
                 'step-closing', 'step-warm-transfer', 'step-dispo', 
-                'step-ssdi-full', 'step-no-accident', 'step-already-represented', 'step-aca', 'step-aca-not-qualified',
+                'step-ssdi-full', 'step-no-accident', 'step-already-represented', 'step-debt-slsc', 'step-debt-has-debt', 'step-debt-no-debt', 'step-aca', 'step-aca-not-qualified',
                 'step-aca-qualified', 'step-aca-satisfied', 'step-aca-not-satisfied', 'step-transition', 'step-aca-questions',
                 'step-final-expense', 'step-final-expense-satisfied', 'step-final-expense-not-satisfied',
                 'step-final-expense-coverage-no', 'step-final-expense-coverage-yes', 'step-final-expense-beneficiary', 'step-u65',
