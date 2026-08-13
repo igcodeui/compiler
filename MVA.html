@@ -1217,6 +1217,12 @@ To get started, can you please confirm your age?
                 allowedStates: ["AK", "AZ", "AR", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "LA", "ME", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NC", "NH", "NJ", "NM", "NY", "ND", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TX", "UT", "VT", "WA", "WV", "WY"], // CO removed due to absolute block
                 isExcluded: () => false, priority: "Accepts pedestrian cases",
                 criteria: { doi: "Within 3 months", treatment: "Within 7 days, No gaps bigger than 14 days.", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI, Or client has UIM", attorney: "None", other: "No parking lot cases involving 2 vehicles." }
+            },
+            {
+                name: "NY BUYER", transferType: "Live Transfer", hours: "M-F 10am-5pm EST",
+                allowedStates: ["NY"],
+                isExcluded: () => false, priority: "NY only - Severe injuries required",
+                criteria: { doi: "Within 2 years", treatment: "ER/Urgent Care within 72 hours, diagnostic imaging (MRI/CT/X-rays) confirming internal damage, ongoing specialist treatment (Orthopedist, Neurologist, PT, Pain Mgmt). No treatment = Disqualify", fault: "Not at fault", injury: "Broken Bones/Fractures, Concussion/Head Injury/TBI, Internal Bleeding, Organ Damage/Tears requiring surgery, Radiculopathy (shooting pain/numbness/tingling down arms/legs)", defendant: "Insured at DOI", attorney: "Not currently represented", other: "Police report filed required.", PoliceReport: "Must be filed" }
             }
         ];
 
@@ -1301,7 +1307,7 @@ To get started, can you please confirm your age?
                                 <p><span class="font-semibold text-[var(--text-main)]">Defendant:</span> ${buyer.criteria.defendant}</p>
                                 <p><span class="font-semibold text-[var(--text-main)]">Attorney:</span> ${buyer.criteria.attorney}</p>
                                 <p><span class="font-semibold text-[var(--text-main)]">Other:</span> ${buyer.criteria.other}</p>
-                                <p><span class="font-semibold text-[var(--text-main)]">Police Report:</span> ${buyer.criteria.PoliceReport}</p>
+                                <p><span class="font-semibold text-[var(--text-main)]">Police Report:</span> ${buyer.criteria.PoliceReport || ""}</p>
                             </div>
                         </div>`;
                 });
