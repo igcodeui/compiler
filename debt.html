@@ -124,6 +124,10 @@
         .btn-sub { font-size: 0.55rem; font-weight: 500; opacity: 0.5; }
         .btn-go { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: var(--yes); }
         .btn-go:hover { background: #10b981; color: #fff; border-color: #10b981; }
+        .btn-no { background: rgba(244,63,94,0.06); border-color: rgba(244,63,94,0.15); color: var(--no); }
+        .btn-no:hover { background: #f43f5e; color: #fff; border-color: #f43f5e; }
+        .btn-warn { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); color: #f59e0b; }
+        .btn-warn:hover { background: #f59e0b; color: #fff; border-color: #f59e0b; }
         .btn-ghost { background: var(--surface2); border-color: var(--border); color: var(--text-mid); }
         .btn-ghost:hover { border-color: var(--border-hover); color: var(--text); }
         .btn-back { background: var(--surface2); border-color: var(--border); color: var(--text-mid); flex: 0 0 auto; min-width: 42px; min-height: auto; padding: 12px; }
@@ -144,6 +148,10 @@
         @keyframes pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .done-badge svg { width: 16px; height: 16px; color: #fff; }
         .done-badge.ok { background: var(--yes); }
+        .done-badge.end { background: var(--no); }
+        .info-note { font-size: 0.65rem; font-weight: 600; color: var(--text-dim); padding: 14px 14px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); margin-top: 14px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.75; }
+        .info-note svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; color: #3b82f6; }
+        .info-note.warn svg { color: #f59e0b; }
 
         /* Rebuttal Bar */
         .rebuttal-bar { padding: 10px 20px 6px; overflow-x: auto; display: flex; gap: 6px; flex-shrink: 0; scrollbar-width: none; justify-content: center; flex-wrap: wrap; }
@@ -230,7 +238,7 @@
                     <div class="prog-node" id="d4">4</div>
                 </div>
             </div>
-            <div class="step-label" id="stepLabel">Step 1 of 7 &mdash; Greeting</div>
+            <div class="step-label" id="stepLabel">Step 1 of 11 &mdash; Greeting</div>
             <div class="rebuttal-bar" id="rebuttalBar"></div>
             <main class="main" id="main"></main>
 
@@ -347,7 +355,7 @@ function toggleTheme(){
 // ── App State ──
 let step = 0, startTime = null, timerRef = null, hist = [];
 const STEPS = ['Greeting','Verify','Confirm','Transfer'];
-const TOTAL = 7;
+const TOTAL = 11;
 startTime = Date.now(); timerRef = setInterval(tick, 1000);
 
 function resetCall(){ clearInterval(timerRef); step=0; startTime=Date.now(); hist=[]; timerRef=setInterval(tick,1000); go(1); }
@@ -363,20 +371,20 @@ function setProgress(n, ended){
     const labels = {1:'Greeting',2:'Verify',3:'Confirm',4:'Transfer'};
     document.getElementById('stepLabel').innerHTML = ended?'Call Ended':`Step ${n} of ${TOTAL} &mdash; ${labels[n]}`;
 }
-function mp(s){ return s<=2?1:s<=4?2:s<=5?3:4; }
+function mp(s){ return s<=2?1:s<=5?2:s<=9?3:4; }
 
 function go(n){
     if(step>0 && step!==99) hist.push(step);
     step=n; setProgress(mp(n),false);
     const m=document.getElementById('main');
-    const r={1:rStep1,2:rStep2,3:rStep3,4:rStep4,5:rStep5,6:rStep6,7:rStep7,99:rEnd};
+    const r={1:rStep1,2:rStep2,3:rStep3,4:rStep4,5:rStep5,6:rStep6,7:rStep7,8:rStep8,9:rStep9,10:rStep10,11:rStep11,99:rEnd,98:rDQ};
     (r[n]||rStep1)(m);
 }
 function goBack(){
     if(!hist.length) return;
     const p=hist.pop(); step=p; setProgress(mp(p),false);
     const m=document.getElementById('main');
-    const r={1:rStep1,2:rStep2,3:rStep3,4:rStep4,5:rStep5,6:rStep6,7:rStep7};
+    const r={1:rStep1,2:rStep2,3:rStep3,4:rStep4,5:rStep5,6:rStep6,7:rStep7,8:rStep8,9:rStep9,10:rStep10,11:rStep11};
     (r[p]||rStep1)(m);
 }
 
@@ -388,6 +396,9 @@ const kb = (items,back) => `<div class="kb-hint">${items.map(i=>`<span class="kb
 const bb = () => `<button class="btn btn-back" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>`;
 const arrR = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="9 18 15 12 9 6"/></svg>`;
 const resetBtn = `<button class="btn btn-ghost" onclick="resetCall()" style="margin-top:14px;"><span class="btn-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span class="btn-label">New Call</span></span></button>`;
+
+const chk = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+const xIc = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
 
 // ── Step 1: Greeting ──
 function rStep1(el){
@@ -427,47 +438,102 @@ function rStep3(el){
     `)}</div>`;
 }
 
-// ── Step 4: Confirm Debt Type ──
+// ── Step 4: Debt Program Check ──
 function rStep4(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('',2,'Qualification Check')}
+        ${tx('Are you currently in a <strong>Debt Settlement Program</strong>?')}
+        <div class="info-note warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div><strong>Must be NO</strong> to proceed. If caller is already in a debt settlement program, disqualify and end call.</div></div>
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-go" onclick="go(5)"><span class="btn-row">${chk}<span class="btn-label">NO</span></span><span class="btn-sub">Not in a program &mdash; Continue</span></button>
+            <button class="btn btn-no" onclick="go(98)"><span class="btn-row">${xIc}<span class="btn-label">YES</span></span><span class="btn-sub">Already in program &mdash; Disqualify</span></button>
+        </div>
+        ${kb([{k:'N',l:'No'},{k:'Y',l:'Yes'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 5: Confirm Debt Type ──
+function rStep5(el){
     el.innerHTML=`<div class="script-card">${gc(`
         ${bd('',2,'Verify Debt')}
         ${tx('Great. And just to confirm, are those all <strong>unsecured debts</strong>, such as credit cards, personal loans, or medical bills?')}
         <div class="actions">
             ${bb()}
-            <button class="btn btn-go" onclick="go(5)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Debt type confirmed</span></button>
+            <button class="btn btn-go" onclick="go(6)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Debt type confirmed</span></button>
         </div>
         ${kb([{k:'Enter',l:'or'},{k:'&rarr;',l:'Next'}],true)}
     `)}</div>`;
 }
 
-// ── Step 5: Verify Information ──
-function rStep5(el){
+// ── Step 6: Verify Information ──
+function rStep6(el){
     el.innerHTML=`<div class="script-card">${gc(`
         ${bd('',3,'Confirm Details')}
         ${tx('Thank you for confirming. For verification, I have your first name as <strong>[First Name]</strong>, your last name as <strong>[Last Name]</strong>, and you\'re currently living in <strong>[State]</strong>. Is that all correct?')}
         <div class="actions">
             ${bb()}
-            <button class="btn btn-go" onclick="go(6)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Info confirmed</span></button>
+            <button class="btn btn-go" onclick="go(7)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Info confirmed</span></button>
         </div>
         ${kb([{k:'Enter',l:'or'},{k:'&rarr;',l:'Next'}],true)}
     `)}</div>`;
 }
 
-// ── Step 6: Transfer Explanation ──
-function rStep6(el){
+// ── Step 7: Confirmation ──
+function rStep7(el){
     el.innerHTML=`<div class="script-card">${gc(`
-        ${bd('',4,'Transfer')}
-        ${tx('Excellent. Thank you for verifying your information. The next step is to connect you with one of our <strong>debt specialists</strong>. They\'ll review your financial situation, answer any questions you have, and explain the debt relief options that may be available based on your circumstances.')}
+        ${bd('',3,'Confirmed')}
+        ${tx('Excellent. Thank you for verifying your information.')}
         <div class="actions">
             ${bb()}
-            <button class="btn btn-go" onclick="go(7)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Proceed to transfer</span></button>
+            <button class="btn btn-go" onclick="go(8)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Proceed to debt breakdown</span></button>
         </div>
         ${kb([{k:'Enter',l:'or'},{k:'&rarr;',l:'Next'}],true)}
     `)}</div>`;
 }
 
-// ── Step 7: Transfer ──
-function rStep7(el){
+// ── Step 8: Clarify Credit Card Portion ──
+function rStep8(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('',3,'Debt Breakdown')}
+        ${tx('Okay, thank you. I just need to clarify one thing regarding the total amount you declared. Out of the <strong>[verified amount]</strong> in total debt, how much of that amount is from credit cards?')}
+        <div class="info-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><div><strong>Wait for the amount</strong> from the caller before proceeding.</div></div>
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-go" onclick="go(9)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Amount received</span></button>
+        </div>
+        ${kb([{k:'Enter',l:'or'},{k:'&rarr;',l:'Next'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 9: Confirm Remaining Unsecured ──
+function rStep9(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('',3,'Debt Breakdown')}
+        ${tx('Okay, so if the total verified debt is <strong>[total amount]</strong> and <strong>[credit card amount]</strong> is from credit cards, that leaves <strong>[remaining amount]</strong>. Just to confirm, the remaining <strong>[remaining amount]</strong>, are these all <strong>unsecured debts</strong>? In other words, are these debts that don\'t have any collateral attached to them, such as a property, vehicle, or other asset?')}
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-go" onclick="go(10)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Confirmed unsecured</span></button>
+        </div>
+        ${kb([{k:'Enter',l:'or'},{k:'&rarr;',l:'Next'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 10: Transfer Explanation ──
+function rStep10(el){
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('',4,'Transfer')}
+        ${tx('The next step is to connect you with one of our <strong>debt specialists</strong>. They\'ll review your financial situation, answer any questions you have, and explain the debt relief options that may be available based on your circumstances.')}
+        <div class="actions">
+            ${bb()}
+            <button class="btn btn-go" onclick="go(11)" style="flex:2;"><span class="btn-row">${arrR}<span class="btn-label">Continue</span></span><span class="btn-sub">Proceed to transfer</span></button>
+        </div>
+        ${kb([{k:'Enter',l:'or'},{k:'&rarr;',l:'Next'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 11: Transfer ──
+function rStep11(el){
     el.innerHTML=`<div class="script-card">${gc(`
         ${bd('',4,'Transfer')}
         ${tx('I have a specialist available now, so I\'ll connect you. <strong>Please stay on the line while I transfer your call.</strong>')}
@@ -476,6 +542,16 @@ function rStep7(el){
             <button class="btn btn-go" onclick="doTransfer()" style="flex:2;"><span class="btn-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg><span class="btn-label">Initiate Transfer</span></span><span class="btn-sub">Cold transfer to next available agent</span></button>
         </div>
         ${kb([{k:'Enter',l:'or'},{k:'T',l:'Transfer'}],true)}
+    `)}</div>`;
+}
+
+// ── Step 98: Disqualified ──
+function rDQ(el){
+    setProgress(0,true); clearInterval(timerRef);
+    el.innerHTML=`<div class="script-card">${gc(`
+        ${bd('s-end','','\u2717 Disqualified')}
+        <div style="text-align:center;padding:8px 0 16px;"><div class="done-badge end"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><h3 style="font-size:0.88rem;font-weight:700;margin-bottom:4px;">Disqualified &mdash; Call Ended</h3><p style="color:var(--text-dim);font-size:0.72rem;">Caller is already in a Debt Settlement Program. Cannot proceed.</p></div>
+        ${resetBtn}
     `)}</div>`;
 }
 
@@ -510,8 +586,9 @@ document.addEventListener('keydown', e => {
     const k=e.key.toLowerCase();
     if(k==='escape'){resetCall();return;}
     if(k==='backspace'||k==='arrowleft'){goBack();return;}
-    if(step>=1 && step<=6){if(k==='enter'||k==='arrowright'||k==='>'||k==='=') go(step+1);}
-    else if(step===7){if(k==='enter'||k==='t') doTransfer();}
+    if(step>=1 && step<=10){if(k==='enter'||k==='arrowright'||k==='>'||k==='=') go(step+1);}
+    else if(step===4){if(k==='n')go(5);else if(k==='y')go(98);}
+    else if(step===11){if(k==='enter'||k==='t') doTransfer();}
 });
 </script>
 </body>
