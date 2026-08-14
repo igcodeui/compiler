@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MVA Campaign Intake & Scripting Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cinzel:wght@600;700&family=Oswald:wght@500;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cinzel:wght@600;700&family=Oswald:wght@500;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
     <style>
         
         /* CSS VARIABLE THEME SCHEME ENGINE */
@@ -187,6 +187,7 @@
                     
                     <div class="flex flex-wrap gap-2">
                         <button onclick="showRebuttal(1)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">SIGNING REBUTTALS</button>
+                        <button onclick="showLegalFundingPopup()" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">LEGAL FUNDING REBUTTAL</button>
                         <button onclick="goToPreTransfer()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             Pre Transfer
                         </button>
@@ -472,6 +473,21 @@
                                 <span class="theme-highlight font-semibold">Agent:</span> The next step is for one of our SSDI licensed specialists to take a closer look at your case. They'll answer your questions, explain the benefits you may qualify for, and discuss the options available based on your situation.<br><br>
                                 <span class="theme-highlight font-semibold">Agent:</span> Please stay on the line while I connect you. The transfer will only take a brief moment.
                             </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--highlight)] block heading-font mb-3">Oasis Financial - Legal Funding</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <strong class="text-[var(--highlight)]">Already have an Atty - </strong><a href="https://www.oasisfinancial.com/admed26/" target="_blank" class="text-[var(--accent)] underline font-semibold">submit here</a><br>
+                                
+                                <span class="theme-highlight font-semibold">Agent:</span> While your case is still pending there's another program that can help you with your finances while waiting for your settlement. I just need to verify some information and our senior specialist will give you a call after.<br><br>
+                                <strong class="text-[var(--danger-bg)]">GET ALL INFO NEEDED THEN SUBMIT</strong>
+                            </div>
+                        </div>
+
+                        <div class="theme-inner-card p-3 text-[11px] border border-[var(--panel-border)]">
+                            <strong class="text-[var(--danger-bg)]">NQ States for MVA (Use Oasis Funding instead):</strong>
+                            <span class="theme-text-muted"> AR, CT, KS, KY, MO, NC, NV, SC, WV</span>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
@@ -1417,7 +1433,18 @@ To get started, can you please confirm your age?
                         </ul>
                     </div>
 
-                </body>
+                
+
+
+    <!-- Legal Funding Rebuttal Popup -->
+    <div id="legalFundingPopup" onclick="if(event.target===this)closeLegalFundingPopup()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);" class="flex items-center justify-center p-4">
+        <div style="background:rgba(28,28,30,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.12);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.7);max-width:520px;width:100%;padding:2rem;position:relative;">
+            <button onclick="closeLegalFundingPopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--text-muted);font-size:1.1rem;cursor:pointer;">&#10006;</button>
+            <h3 style="color:var(--accent);font-weight:700;font-size:0.95rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1rem;font-family:var(--font-headings);">LEGAL FUNDING Rebuttal</h3>
+            <p style="color:var(--text-main);font-size:0.9rem;line-height:1.7;">The program you qualify for is legal funding. This is not a loan, so there is no debt, no monthly payment and no risk of collection calls or wage garnishments. This money is to help you pay your bills while you are waiting to get your money from the settlement of your claims.</p>
+        </div>
+    </div>
+</body>
                 </html>
             `;
             
@@ -1705,6 +1732,22 @@ To get started, can you please confirm your age?
                 }
             });
         }
-    </script>
+    
+        function showLegalFundingPopup() {
+            document.getElementById('legalFundingPopup').style.display = 'flex';
+        }
+        function closeLegalFundingPopup() {
+            document.getElementById('legalFundingPopup').style.display = 'none';
+        }
+</script>
+
+    <!-- Legal Funding Rebuttal Popup -->
+    <div id="legalFundingPopup" onclick="if(event.target===this)closeLegalFundingPopup()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);" class="flex items-center justify-center p-4">
+        <div style="background:rgba(28,28,30,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.12);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.7);max-width:520px;width:100%;padding:2rem;position:relative;">
+            <button onclick="closeLegalFundingPopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--text-muted);font-size:1.1rem;cursor:pointer;">&#10006;</button>
+            <h3 style="color:var(--accent);font-weight:700;font-size:0.95rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1rem;font-family:var(--font-headings);">LEGAL FUNDING REBUTTAL</h3>
+            <p style="color:var(--text-main);font-size:0.9rem;line-height:1.7;">The program you qualify for is legal funding. This is not a loan, so there is no debt, no monthly payment and no risk of collection calls or wage garnishments. This money is to help you pay your bills while you are waiting to get your money from the settlement of your claims.</p>
+        </div>
+    </div>
 </body>
 </html>
