@@ -1276,6 +1276,12 @@ To get started, can you please confirm your age?
                 allowedStates: ["NY"],
                 isExcluded: () => false, priority: "NY only - Severe injuries required",
                 criteria: { doi: "Within 2 years", treatment: "ER/Urgent Care within 72 hours, diagnostic imaging (MRI/CT/X-rays) confirming internal damage, ongoing specialist treatment (Orthopedist, Neurologist, PT, Pain Mgmt). No treatment = Disqualify", fault: "Not at fault", injury: "Broken Bones/Fractures, Concussion/Head Injury/TBI, Internal Bleeding, Organ Damage/Tears requiring surgery, Radiculopathy (shooting pain/numbness/tingling down arms/legs)", defendant: "Insured at DOI", attorney: "Not currently represented", other: "Police report filed required.", PoliceReport: "Must be filed" }
+            },
+            {
+                name: "Russo Firm", transferType: "Live Transfer", hours: "24/7", 
+                allowedStates: ["MI"], 
+                isExcluded: () => false, priority: "MI only - If performance is good, can expand to 20+ states",
+                criteria: { doi: "Must be at least 6 months before SOL expires", treatment: "Within 30 days (or continuous, no gaps in treatment over 60 days)", fault: "Not at fault", injury: "Injured", defendant: "Known and insured (or client has UM)", attorney: "None prior or current", other: "If performance is good, they can expand to 20+ states." }
             }
         ];
 
