@@ -188,6 +188,7 @@
                     <div class="flex flex-wrap gap-2">
                         <button onclick="showRebuttal(1)" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">SIGNING REBUTTALS</button>
                         <button onclick="showLegalFundingPopup()" class="custom-btn-bg theme-btn-accent px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95">LEGAL FUNDING REBUTTAL</button>
+                        <button onclick="goToAlreadyRepresentedSMS()" class="theme-btn-highlight px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">Already Represented (SMS)</button>
                         <button onclick="goToPreTransfer()" class="theme-btn-zoho px-4 py-2 text-xs font-semibold shadow-sm transition-transform active:scale-95 border border-white/30">
                             Pre Transfer
                         </button>
@@ -568,15 +569,17 @@
                         <button onclick="goBackToPreviousStep('step-aca')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         
                         <div>
-                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">Final Destination - Opening</span>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--accent)] block heading-font mb-3">ACA - Intro</span>
                             <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                                <span class="theme-highlight font-semibold">Agent:</span> Hello! I'm following up on the accident you told us about that happened on (date of accident).
+                                <span class="theme-highlight font-semibold">Agent:</span> Hi, this is (Agent Name). Am I speaking with (Client Name)?<br><br>
+                                Great! Can you hear me okay?<br><br>
+                                Perfect. I'm just following up regarding your recent car accident. I wanted to check in and make sure everything has been moving along the way it should. Were you completely satisfied with the assistance you received and the way your claim has been handled so far?
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                            <button onclick="goToStep('step-aca-not-qualified', 'step-aca')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">NOT Qualified for MVA</button>
-                            <button onclick="goToStep('step-aca-qualified', 'step-aca')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Qualified for MVA</button>
+                            <button onclick="goToStep('step-aca-not-satisfied', 'step-aca')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">NOT Satisfied</button>
+                            <button onclick="goToStep('step-aca-satisfied', 'step-aca')" class="custom-btn-bg theme-btn-success font-medium shadow-md">Satisfied</button>
                         </div>
                     </div>
 
@@ -616,9 +619,10 @@
                         <button onclick="goBackToPreviousStep('step-aca-satisfied')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         
                         <div>
-                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--success-bg)] block heading-font mb-3">Satisfied Path</span>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--success-bg)] block heading-font mb-3">IF Satisfied</span>
                             <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                                <span class="theme-highlight font-semibold">Agent:</span> Perfect! That's good to know.
+                                <span class="theme-highlight font-semibold">Agent:</span> That's great to hear. The reason for my call is simply to make sure you're receiving every benefit and resource available to you.<br><br>
+                                Just to confirm, are you currently being represented by an attorney?
                             </div>
                         </div>
 
@@ -631,9 +635,11 @@
                         <button onclick="goBackToPreviousStep('step-aca-not-satisfied')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
                         
                         <div>
-                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--highlight)] block heading-font mb-3">Not Satisfied Path</span>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--highlight)] block heading-font mb-3">IF NOT Satisfied</span>
                             <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
-                                <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear that. That's actually one of the reasons for my call today—to make sure you're getting the assistance and benefits available to you and to help ensure you have a better overall experience.
+                                <span class="theme-highlight font-semibold">Agent:</span> I'm sorry to hear that.<br><br>
+                                That's exactly why we're reaching out today. There may be options available to help improve your experience and potentially move your claim forward more efficiently.<br><br>
+                                Just to confirm, are you currently being represented by an Attorney?
                             </div>
                         </div>
 
@@ -642,6 +648,37 @@
                         </div>
                     </div>
 
+
+                    <div id="step-already-represented-sms" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--oa-bg)]">
+                        <button onclick="goBackToPreviousStep('step-already-represented-sms')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
+                        
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--oa-bg)] block heading-font mb-3">IF REPRESENTED BY AN ATTORNEY (For Submission)</span>
+                            <div class="theme-inner-card p-5 leading-relaxed text-[15px]">
+                                <span class="theme-highlight font-semibold">Agent:</span> Great! Thank you for confirming.<br><br>
+                                Since your case is still pending, you may be eligible to apply for legal funding to help while you wait for your claim to be resolved. There is no application fee, no obligation and the qualification process takes less than 2 mins. Ok?<br><br>
+                                For me to continue with this call and verify your identity, I'll send a one-time verification text message to (phone number). Standard message and data rates may apply.<br><br>
+                                Submit here: <a href="https://live.tcpatech.com/678765d914fc2" target="_blank" class="text-[var(--accent)] underline font-semibold">https://live.tcpatech.com/678765d914fc2</a><br><br>
+                                I've just sent the verification code. Whenever you're ready, could you please read me the 4 digit code you received?<br><br>
+                                Thank you! Your identity has been verified, and we can move forward.<br><br>
+                                <strong class="text-[var(--danger-bg)]">a.</strong> Has your case already settled? <strong class="text-[var(--danger-bg)]">(Must be NO)</strong><br>
+                                <strong class="text-[var(--danger-bg)]">b.</strong> Have you applied for legal funding before? <strong class="text-[var(--danger-bg)]">(Must be NO)</strong><br><br>
+                                Perfect. I just need a few details about your attorney.<br><br>
+                                <strong>a.</strong> What is the best phone number for your Attorney?<br>
+                                <strong>b.</strong> What is your Attorney's email address?<br>
+                                <strong>c.</strong> Can you please confirm your Attorney's full name?<br>
+                                <strong>d.</strong> Which law firm is your attorney with?<br>
+                                <strong>e.</strong> Approximately how much funding are you looking to apply for while your case is pending?<br><br>
+                                Excellent. I've updated your information and submitted it for review.<br><br>
+                                A member of our team will contact you with an update as soon as your application has been reviewed.<br><br>
+                                Thank you for your time, and have a wonderful day.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <button onclick="triggerDispo('step-already-represented-sms')" class="custom-btn-bg-red theme-btn-danger font-medium shadow-md">Not Qualified / Dispo</button>
+                        </div>
+                    </div>
                     <!-- TRANSITION SECTION -->
                     <div id="step-transition" class="hidden theme-panel border-opacity-40 rounded-3xl p-6 space-y-8 border-[var(--tcpa-bg)]">
                         <button onclick="goBackToPreviousStep('step-transition')" class="absolute top-6 right-6 theme-inner-card hover:bg-opacity-80 font-medium py-1.5 px-3 text-xs transition-colors z-10">↶ Go Back</button>
@@ -663,7 +700,7 @@ To get started, can you please confirm your age?
 
                         <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 mt-6">
                             <button onclick="goToStep('step-final-expense', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--highlight); color: var(--highlight-text);">63–85: Final Expense</button>
-                            <button onclick="goToStep('step-aca-questions', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--accent); color: var(--accent-text);">19–64: ACA</button>
+                            <button onclick="goToStep('step-aca-questions', 'step-already-represented-sms', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--accent); color: var(--accent-text);">19–64: ACA</button>
                             <button onclick="goToStep('step-ssdi-full', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--oa-bg); color: var(--oa-text);">49–62: SSDI</button>
                             <button onclick="goToStep('step-u65', 'step-transition')" class="theme-btn-neutral font-medium shadow-md" style="background: var(--oa-bg); color: var(--oa-text);">U65</button>
                             <button onclick="goToDebtSLSC()" class="theme-btn-neutral font-medium shadow-md" style="background: var(--oa-bg); color: var(--oa-text);">DEBT & SLC</button>
@@ -1647,7 +1684,7 @@ To get started, can you please confirm your age?
                 'step-accident-info-1', 'step-accident-info-2', 'step-medical-info-1', 
                 'step-closing', 'step-warm-transfer', 'step-dispo', 
                 'step-ssdi-full', 'step-no-accident', 'step-already-represented', 'step-debt-slsc', 'step-debt-has-debt', 'step-debt-no-debt', 'step-debt-transfer', 'step-aca', 'step-aca-not-qualified',
-                'step-aca-qualified', 'step-aca-satisfied', 'step-aca-not-satisfied', 'step-transition', 'step-aca-questions',
+                'step-aca-qualified', 'step-aca-satisfied', 'step-aca-not-satisfied', 'step-transition', 'step-aca-questions', 'step-already-represented-sms',
                 'step-final-expense', 'step-final-expense-satisfied', 'step-final-expense-not-satisfied',
                 'step-final-expense-coverage-no', 'step-final-expense-coverage-yes', 'step-final-expense-beneficiary', 'step-u65',
                 // Inbound Steps
@@ -1737,6 +1774,12 @@ To get started, can you please confirm your age?
         }
         function closeLegalFundingPopup() {
             document.getElementById('legalFundingPopup').style.display = 'none';
+        }
+
+        function goToAlreadyRepresentedSMS() {
+            hideAllSteps();
+            stepHistory = [];
+            document.getElementById('step-already-represented-sms').classList.remove('hidden');
         }
 </script>
 
