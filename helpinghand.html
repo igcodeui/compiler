@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helping Hand - Campaign Scripting Tool</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  body { font-family: 'Inter', system-ui, sans-serif; }
+  .scrollbar-thin::-webkit-scrollbar { width: 5px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 9999px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+  .sidebar-enter { transform: translateX(-100%); }
+  .sidebar-active { transform: translateX(0); }
+  .fade-in { animation: fadeIn 0.25s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideInLeft { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+  .slide-in-left { animation: slideInLeft 0.3s ease-out; }
+  @keyframes pulseOnce { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  .pulse-once { animation: pulseOnce 0.4s ease-out; }
+  .overlay { background: rgba(0,0,0,0.3); transition: opacity 0.3s; }
+  .branch-btn { transition: all 0.15s ease; }
+  .branch-btn:hover { transform: translateX(4px); }
+  .step-sidebar-item { transition: all 0.15s ease; }
+  .copy-toast { animation: toastIn 0.3s ease-out, toastOut 0.3s ease-in 1.7s forwards; }
+  @keyframes toastIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+</style>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+    }
+  }
+}
+</script>
+</head>
+<body class="bg-white text-gray-900 min-h-screen flex flex-col">
+
+<div id="app" class="flex-1 flex flex-col"></div>
+
+<footer id="footer" class="mt-auto border-t border-gray-100 py-3 px-4 text-center text-xs text-gray-400">
+  Helping Hand Campaign Scripting Tool &middot; Read-Only Guide
+</footer>
+
+<div id="toast-container" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-[100] pointer-events-none"></div>
+
+<script>
+// ===================== DATA =====================
+const DQ_SPIEL = "I'm so sorry, but at this time based on your answers you do not qualify for additional support other than your programs provided on the website. I encourage you to continue to visit the Helping Hands site and I will stay in touch with you when new programs become available to you by text, email or phone. Have a wonderful Day, Bye.";
+
+const scripts = [
+  {
+    id: "debt-relief",
+    title: "Cross Sell Debt Relief",
+    subtitle: "Debt Dismissal Programs",
+    description: "Qualification script for Personal Debt Dismissal programs including IRS Tax Debt, Credit Card Debt, and Student Loan Debt.",
+    icon: "🏛️",
+    colorTheme: "emerald",
+    qualifications: [
+      "Must have debt (Tax, Credit Card, Personal Loan, or Student Loan)",
+      "Must provide employment status and income information",
+      "Must provide address for verification"
+    ],
+    startStepId: "dr-greeting",
+    steps: [
+      { id: "dr-greeting", type: "greeting", speaker: "agent", title: "Opening Greeting", text: "Thank so much for holding, this is [AGENT NAME] with COMPANY NAME. Are you interested in seeing if you qualify for Personal Debt Dismissal programs?", copyable: true, badges: ["READ ALOUD"], branches: [{ label: "Yes, interested", targetStepId: "dr-name", isDefault: true }, { label: "No", targetStepId: "dr-dq" }] },
+      { id: "dr-name", type: "question", speaker: "agent", title: "Get Member Name", text: "Great... Who do I have the pleasure of speaking with?", copyable: true, field: { name: "fullName", type: "text", label: "Full Name", required: true }, branches: [{ label: "Continue", targetStepId: "dr-debt-types", isDefault: true }] },
+      { id: "dr-debt-types", type: "info", speaker: "agent", title: "Explain Debt Types", text: "We help clients with various kinds of debt including IRS Tax Debt, Credit Card Debt, and even Student Loan Debt.", copyable: true, notes: "We will have to ask a few questions about your debt situation so we can make sure we can generate the most help for you at this time.", branches: [{ label: "Continue", targetStepId: "dr-zip", isDefault: true }] },
+      { id: "dr-zip", type: "question", speaker: "agent", title: "Zip Code", text: "What is the Zip Code where you currently live?", copyable: true, field: { name: "zipCode", type: "text", label: "Zip Code", required: true }, branches: [{ label: "Continue", targetStepId: "dr-employment", isDefault: true }] },
+      { id: "dr-employment", type: "question", speaker: "agent", title: "Employment Status", text: "Are you currently employed, self employed, retired or on disability?", copyable: true, field: { name: "employmentStatus", type: "select", label: "Employment Status", options: ["Employed","Self Employed","Unemployed","Homemaker","Retired","Disabled","Separated"], required: true }, branches: [{ label: "Continue", targetStepId: "dr-income", isDefault: true }] },
+      { id: "dr-income", type: "question", speaker: "agent", title: "Monthly Income", text: "How much is your monthly income?", copyable: true, field: { name: "monthlyIncome", type: "text", label: "Monthly Income Amount", required: true }, branches: [{ label: "Continue", targetStepId: "dr-affordable-payment", isDefault: true }] },
+      { id: "dr-affordable-payment", type: "question", speaker: "agent", title: "Affordable Monthly Payment", text: "If we could get you in a plan to settle your debt, about how much could you afford monthly as a payment?", copyable: true, field: { name: "affordablePayment", type: "text", label: "Monthly Affordable Payment Amount", required: true }, branches: [{ label: "Continue", targetStepId: "dr-tax-debt", isDefault: true }] },
+      { id: "dr-tax-debt", type: "question", speaker: "agent", title: "IRS Tax Debt", text: "How much do you owe in Federal Tax to the IRS?", copyable: true, field: { name: "taxDebt", type: "text", label: "Tax Debt Amount", note: "Enter $0 if none" }, branches: [{ label: "Has Tax Debt (>$0)", targetStepId: "dr-tax-questions" }, { label: "No Tax Debt", targetStepId: "dr-cc-debt", isDefault: true }] },
+      { id: "dr-tax-questions", type: "question", speaker: "agent", title: "Tax Debt Follow-up: Payments", text: "Are you currently making any payments to the IRS?", copyable: true, field: { name: "taxPaying", type: "yesno", label: "Making Payments to IRS" }, branches: [{ label: "Continue", targetStepId: "dr-tax-hardship", isDefault: true }] },
+      { id: "dr-tax-hardship", type: "question", speaker: "agent", title: "Tax Debt Follow-up: Hardship", text: "Are you currently in a hardship program such as a non-collectible status?", copyable: true, field: { name: "taxHardship", type: "yesno", label: "Enrolled in Tax Hardship Program" }, branches: [{ label: "Continue", targetStepId: "dr-tax-years", isDefault: true }] },
+      { id: "dr-tax-years", type: "question", speaker: "agent", title: "Tax Debt Follow-up: Duration", text: "How many years have you had this tax debt burden?", copyable: true, field: { name: "taxDebtYears", type: "text", label: "Years of Tax Debt Burden" }, branches: [{ label: "Continue", targetStepId: "dr-cc-debt", isDefault: true }] },
+      { id: "dr-cc-debt", type: "question", speaker: "agent", title: "Credit Card Debt", text: "Not including personal loans, how much do you owe in Credit Card Debt?", copyable: true, field: { name: "creditCardDebt", type: "text", label: "Credit Card Debt Amount" }, branches: [{ label: "Continue", targetStepId: "dr-personal-loan", isDefault: true }] },
+      { id: "dr-personal-loan", type: "question", speaker: "agent", title: "Personal Loan Debt", text: "How about personal loan debt not related to credit cards?", copyable: true, field: { name: "personalLoanDebt", type: "text", label: "Personal Loan Debt Amount" }, branches: [{ label: "Has CC or Personal Loan Debt", targetStepId: "dr-relief-program" }, { label: "No unsecured debt", targetStepId: "dr-student-loan", isDefault: true }] },
+      { id: "dr-relief-program", type: "question", speaker: "agent", title: "Current Relief Program", text: "Related to your credit card and other personal loan debt, are you currently in any type of third-party RELIEF program assisting with any unsecured debt?", copyable: true, field: { name: "reliefProgram", type: "yesno", label: "Already Enrolled in Relief Program" }, branches: [{ label: "Continue", targetStepId: "dr-student-loan", isDefault: true }] },
+      { id: "dr-student-loan", type: "question", speaker: "agent", title: "Student Loan Debt", text: "Do you have any federal student loan debt?", copyable: true, field: { name: "studentLoanDebt", type: "text", label: "Student Loan Debt Amount" }, branches: [{ label: "Has Student Loan Debt", targetStepId: "dr-servicer" }, { label: "No Student Loan Debt", targetStepId: "dr-bankruptcy", isDefault: true }] },
+      { id: "dr-servicer", type: "question", speaker: "agent", title: "Loan Servicer", text: "Who is your loan servicer?", copyable: true, field: { name: "loanServicer", type: "select", label: "Student Loan Servicer", options: ["Sallie Mae","Great Lakes","Nelnet","Navient","Other","Fed Loans","Advantage","Mojilla"] }, branches: [{ label: "Continue", targetStepId: "dr-repayment", isDefault: true }] },
+      { id: "dr-repayment", type: "question", speaker: "agent", title: "Repayment Program", text: "Are you currently in an income based repayment program?", copyable: true, field: { name: "repaymentProgram", type: "yesno", label: "Income Based Repayment Program" }, branches: [{ label: "Continue", targetStepId: "dr-years-school", isDefault: true }] },
+      { id: "dr-years-school", type: "question", speaker: "agent", title: "Years Out of School", text: "How long have you been out of school?", copyable: true, field: { name: "yearsOutSchool", type: "text", label: "Years Out of School" }, branches: [{ label: "Continue", targetStepId: "dr-bankruptcy", isDefault: true }] },
+      { id: "dr-bankruptcy", type: "question", speaker: "agent", title: "Bankruptcy History", text: "And the question all financial servicing companies need to know, have you ever filed for Bankruptcy?", copyable: true, field: { name: "bankruptcyYears", type: "text", label: "Years Since Filing Bankruptcy", note: "Enter \"0\" if never filed or over 7 years ago", required: true }, branches: [{ label: "Continue", targetStepId: "dr-address", isDefault: true }] },
+      { id: "dr-address", type: "question", speaker: "agent", title: "Confirm Full Address", text: "Let me confirm your full address.", highlight: true, field: { name: "address", type: "text", label: "Street Address", required: true }, branches: [{ label: "Continue", targetStepId: "dr-city-state", isDefault: true }] },
+      { id: "dr-city-state", type: "question", speaker: "agent", title: "City & State", text: "Confirm city and state.", field: { name: "state", type: "select", label: "State" }, branches: [{ label: "Continue", targetStepId: "dr-zip-confirm", isDefault: true }] },
+      { id: "dr-zip-confirm", type: "question", speaker: "agent", title: "Zip Code Confirmation", text: "Confirm zip code.", field: { name: "zipConfirm", type: "text", label: "Zip Code", required: true }, branches: [{ label: "Continue", targetStepId: "dr-email", isDefault: true }] },
+      { id: "dr-email", type: "question", speaker: "agent", title: "Email Address", text: "And your email address?", field: { name: "email", type: "text", label: "Email Address", required: true }, branches: [{ label: "Continue", targetStepId: "dr-transfer", isDefault: true }] },
+      { id: "dr-transfer", type: "transfer", speaker: "agent", title: "Transfer Script", text: "Thank you for confirming that. I am going to transfer you to a specialist, that will go over your options. I am going to put you on hold while I contact an available agent who can get this process started for you.", copyable: true, highlight: true, badges: ["READ ALOUD", "MUTE LEAD"], notes: "Let them acknowledge you are putting them on hold. Then: Mute Lead \u2192 Click Find A Buyer", branches: [{ label: "Continue to Handshake", targetStepId: "dr-handshake", isDefault: true }] },
+      { id: "dr-handshake", type: "handshake", speaker: "agent", title: "Transfer Handshake", text: "Hi, this is [AGENT NAME] from your verification department. I have [MEMBER NAME] on the line. They have [AMOUNT] in (type of debt), can you go over their options please.", copyable: true, highlight: true, badges: ["UNMUTE LEAD"], notes: "UnMute Lead, then select \"Successful Transfer\" to end the call.", branches: [{ label: "Call Complete", targetStepId: "dr-complete", isDefault: true }] },
+      { id: "dr-complete", type: "note", speaker: "system", title: "Call Complete", text: "Select \"Successful Transfer\" to end the call." },
+      { id: "dr-dq", type: "dq", speaker: "agent", title: "Does Not Qualify", text: DQ_SPIEL, copyable: true, badges: ["DQ SPIEL"] }
+    ],
+    quickRefs: [
+      { id: "dr-qr-dq", label: "DQ Spiel", text: DQ_SPIEL, type: "dq" },
+      { id: "dr-qr-transfer", label: "Transfer Script", text: "Thank you for confirming that. I am going to transfer you to a specialist, that will go over your options. I am going to put you on hold while I contact an available agent who can get this process started for you.", type: "transfer" },
+      { id: "dr-qr-handshake", label: "Handshake", text: "Hi, this is [AGENT NAME] from your verification department. I have [MEMBER NAME] on the line. They have [AMOUNT] in (type of debt), can you go over their options please.", type: "handshake" }
+    ]
+  },
+  {
+    id: "energy-express",
+    title: "Energy Express",
+    subtitle: "Utility Pricing Options",
+    description: "Qualification script for alternative billing options on energy supply with pricing and stability advantages.",
+    icon: "⚡",
+    colorTheme: "amber",
+    qualifications: [
+      "Must reside in PA, OH, DE, or NJ",
+      "Must currently receive a utility bill",
+      "Must answer YES to proceed"
+    ],
+    startStepId: "ee-greeting",
+    steps: [
+      { id: "ee-greeting", type: "greeting", speaker: "agent", title: "Opening Greeting", text: "Good Morning/Afternoon, my name is [AGENT FIRST NAME] with Helping Hands Utility Pricing Team, who do I have the pleasure speaking with?", copyable: true, badges: ["READ ALOUD"], field: { name: "memberName", type: "text", label: "Member Name", required: true }, branches: [{ label: "Continue", targetStepId: "ee-state", isDefault: true }] },
+      { id: "ee-state", type: "question", speaker: "agent", title: "State Verification", text: "To confirm, you live in the state of [STATE]?", copyable: true, field: { name: "state", type: "text", label: "State", required: true, note: "IF NOT FROM PA, OH, DE OR NJ \u2192 PROCEED TO DQ" }, branches: [{ label: "PA, OH, DE, or NJ", targetStepId: "ee-billing", isDefault: true }, { label: "Other state (DQ)", targetStepId: "ee-dq" }] },
+      { id: "ee-billing", type: "question", speaker: "agent", title: "Utility Bill Question", text: "Based on your file, it looks like your ENERGY account may qualify for alternative billing options which can have some pricing and stability advantages depending on what offers are available and what you may qualify for. Do you currently receive a bill for your utilities supply?", copyable: true, highlight: true, field: { name: "receivesBill", type: "yesno", label: "Receives Utility Bill", note: "ANSWER SHOULD BE YES" }, branches: [{ label: "Yes", targetStepId: "ee-transfer-offer", isDefault: true }, { label: "No (DQ)", targetStepId: "ee-dq" }] },
+      { id: "ee-transfer-offer", type: "question", speaker: "agent", title: "Transfer Offer", text: "What I can do for you is transfer you over to a representative to see what type of options you may qualify for. Would you like me to do this?", copyable: true, field: { name: "wantsTransfer", type: "yesno", label: "Wants Transfer", note: "ANSWER SHOULD BE YES" }, branches: [{ label: "Yes", targetStepId: "ee-handshake", isDefault: true }, { label: "No", targetStepId: "ee-dq" }] },
+      { id: "ee-handshake", type: "handshake", speaker: "agent", title: "Transfer Handshake", text: "Hi there! I have [FIRST NAME] on the line and they are looking for different supply options on their energy bill, can you please assist from here?", copyable: true, highlight: true, badges: ["WARM TRANSFER"], branches: [{ label: "Call Complete", targetStepId: "ee-complete", isDefault: true }] },
+      { id: "ee-complete", type: "note", speaker: "system", title: "Call Complete", text: "Transfer complete. Select \"Successful Transfer\" to end the call." },
+      { id: "ee-dq", type: "dq", speaker: "agent", title: "Does Not Qualify", text: DQ_SPIEL, copyable: true, badges: ["DQ SPIEL"] }
+    ],
+    quickRefs: [
+      { id: "ee-qr-dq", label: "DQ Spiel", text: DQ_SPIEL, type: "dq" },
+      { id: "ee-qr-handshake", label: "Handshake", text: "Hi there! I have [FIRST NAME] on the line and they are looking for different supply options on their energy bill, can you please assist from here?", type: "handshake" }
+    ]
+  },
+  {
+    id: "aca-express",
+    title: "ACA Express",
+    subtitle: "Affordable Care Act Plans",
+    description: "Qualification script for Affordable Care Act health plans with coverage for preventive care, preexisting conditions, and potential $0 premiums.",
+    icon: "❤️",
+    colorTheme: "rose",
+    qualifications: [
+      "Must NOT have Medicaid, Medicare, Tri-Care, Medi-Cal, VA, employer, or private insurance",
+      "Must reside in an active ACA state",
+      "Active states: AL, AZ, CO, FL, GA, IN, KS, LA, MI, MO, MS, MT, NC, ND, NE, OH, OK, SC, TN, TX, WI, WV, WY"
+    ],
+    startStepId: "aca-greeting",
+    steps: [
+      { id: "aca-greeting", type: "greeting", speaker: "agent", title: "Opening Greeting", text: "Hi, thank you for calling Helping Hands on a recorded line. With who do I have the pleasure of speaking with?", copyable: true, badges: ["RECORDED LINE"], field: { name: "memberName", type: "text", label: "Member Name", required: true }, branches: [{ label: "Continue", targetStepId: "aca-intro", isDefault: true }] },
+      { id: "aca-intro", type: "agent_says", speaker: "agent", title: "Introduction & Context", text: "Hi [NAME], this is [AGENT NAME]. You probably got our email about Affordable Care Act health plans\u2014I can help you check what options you qualify for. Can I ask you a couple of quick questions to get started?", copyable: true, branches: [{ label: "Continue", targetStepId: "aca-state", isDefault: true }] },
+      { id: "aca-state", type: "question", speaker: "agent", title: "State of Residence", text: "What state do you currently reside?", copyable: true, field: { name: "state", type: "select", label: "State", note: "Active states: AL, AZ, CO, FL, GA, IN, KS, LA, MI, MO, MS, MT, NC, ND, NE, OH, OK, SC, TN, TX, WI, WV, WY" }, branches: [{ label: "Active ACA State", targetStepId: "aca-coverage", isDefault: true }, { label: "Not an active state (DQ)", targetStepId: "aca-dq" }] },
+      { id: "aca-coverage", type: "question", speaker: "agent", title: "Current Health Coverage", text: "Do you currently have Medicaid, Medicare, Tri-Care, Medi-Cal, VA benefits, employer-provided health insurance, or private insurance?", copyable: true, highlight: true, field: { name: "healthCoverage", type: "select", label: "Health Coverage", options: ["Medi-Cal","Medicaid","Medicare","VA","Others","None"], required: true, note: "If they say YES to any coverage \u2192 DQ. If NONE \u2192 proceed." }, branches: [{ label: "Has coverage (DQ)", targetStepId: "aca-dq" }, { label: "No coverage / None", targetStepId: "aca-benefits", isDefault: true }] },
+      { id: "aca-benefits", type: "agent_says", speaker: "agent", title: "Second Level Verification - Key Benefits", text: "Before I connect you with a licensed agent, I just want to quickly go over a few key benefits\u2014sound good?", copyable: true, branches: [{ label: "Continue", targetStepId: "aca-benefits-list", isDefault: true }] },
+      { id: "aca-benefits-list", type: "info", speaker: "agent", title: "Key Benefits Overview", text: "First, many plans include free preventive care\u2014checkups, screenings, prescription drugs, and vaccines.\n\nSecond, coverage is guaranteed, even with preexisting conditions.\n\nThird, based on your income, you may qualify for big savings\u2014many of our members' plans even have $0 monthly premiums.\n\nDoes that sound like something you're interested in?", copyable: true, highlight: true, badges: ["KEY SELLING POINTS"], branches: [{ label: "Yes, interested", targetStepId: "aca-transfer", isDefault: true }, { label: "No / asks about Rental, Food Stamps, Financial, Utility (End Call)", targetStepId: "aca-soft-exit" }] },
+      { id: "aca-transfer", type: "transfer", speaker: "agent", title: "Transfer to Licensed Agent", text: "Great! I'll connect you now with a licensed agent who can go over your options and check what you qualify for. Hang on one moment while I transfer you.", copyable: true, branches: [{ label: "Continue to Transfer Spiel", targetStepId: "aca-transfer-spiel", isDefault: true }] },
+      { id: "aca-transfer-spiel", type: "transfer", speaker: "agent", title: "Transfer Confirmation", text: "Just to confirm, we are transferring you to discuss your health insurance subsidies with our Senior Agent who can explain more about the Affordable Care Act and what health benefits you might qualify for. Please hold the line.", copyable: true, highlight: true, badges: ["WARM TRANSFER TO ACA BUYER"], branches: [{ label: "Continue to Handshake", targetStepId: "aca-handshake", isDefault: true }] },
+      { id: "aca-handshake", type: "handshake", speaker: "agent", title: "Transfer Handshake", text: "Hi I have [MEMBER NAME] on the line, he/she is a pre-qualified candidate who would like to explore their health insurance options, thanks!", copyable: true, highlight: true, branches: [{ label: "Call Complete", targetStepId: "aca-complete", isDefault: true }] },
+      { id: "aca-complete", type: "note", speaker: "system", title: "Call Complete", text: "Transfer complete. Select \"Successful Transfer\" to end the call." },
+      { id: "aca-dq", type: "dq", speaker: "agent", title: "Does Not Qualify", text: DQ_SPIEL, copyable: true, badges: ["DQ SPIEL"] },
+      { id: "aca-soft-exit", type: "dq", speaker: "agent", title: "Soft Exit - Not Interested", text: DQ_SPIEL, copyable: true, badges: ["SOFT EXIT"] }
+    ],
+    quickRefs: [
+      { id: "aca-qr-dq", label: "DQ Spiel", text: DQ_SPIEL, type: "dq" },
+      { id: "aca-qr-transfer", label: "Transfer Spiel", text: "Just to confirm, we are transferring you to discuss your health insurance subsidies with our Senior Agent who can explain more about the Affordable Care Act and what health benefits you might qualify for. Please hold the line.", type: "transfer" },
+      { id: "aca-qr-handshake", label: "Handshake", text: "Hi I have [MEMBER NAME] on the line, he/she is a pre-qualified candidate who would like to explore their health insurance options, thanks!", type: "handshake" }
+    ]
+  },
+  {
+    id: "medicare-express",
+    title: "Medicare Express",
+    subtitle: "Medicare Benefits Review",
+    description: "Comprehensive script for Medicare benefits review including cross-sell opportunities for Energy and Internet services.",
+    icon: "🛡️",
+    colorTheme: "purple",
+    qualifications: [
+      "Must be 64 years old or older",
+      "ALL US STATES accepted",
+      "Energy cross-sell: PA, OH, MA, NJ, or NY only"
+    ],
+    startStepId: "me-greeting",
+    steps: [
+      { id: "me-greeting", type: "greeting", speaker: "agent", title: "Opening Greeting", text: "Hi thanks for calling Hidden Benefits this is [AGENT FIRST NAME] and who do I have the pleasure of speaking with?", copyable: true, badges: ["READ ALOUD"], field: { name: "memberName", type: "text", label: "Member Name", required: true }, branches: [{ label: "Continue", targetStepId: "me-expectations", isDefault: true }] },
+      { id: "me-expectations", type: "info", speaker: "agent", title: "Set Expectations", text: "Hi [FIRST NAME]. Just to set expectations real quick, Our benefits department does not approve or deny loans \u2014 you already handled that online. Most people who apply for loans are dealing with higher monthly costs like medical bills, prescriptions, or everyday expenses. If you are 65 or close to it, you may be eligible for extra Medicare benefits that can help lower those costs \u2014 without adding debt.", copyable: true, branches: [{ label: "Continue", targetStepId: "me-medicare-check", isDefault: true }] },
+      { id: "me-medicare-check", type: "question", speaker: "agent", title: "Medicare Status Check", text: "Quick question \u2014 are you currently on Medicare?", copyable: true, highlight: true, field: { name: "onMedicare", type: "yesno", label: "Currently on Medicare" }, branches: [{ label: "Yes", targetStepId: "me-medicare-yes", isDefault: true }, { label: "No / Not Sure", targetStepId: "me-rebuttal" }] },
+      { id: "me-medicare-yes", type: "agent_says", speaker: "agent", title: "Medicare Benefits Pitch", text: "Perfect. A lot of people do not realize Medicare plans change every year, and many now include extras like dental, vision, hearing, or prescription savings. What we do is a free benefits review to see if your current plan still fits or if there is something newer that could reduce out-of-pocket costs. It only takes a few minutes and there is no obligation. Would you like me to connect you with a licensed Medicare specialist now?", copyable: true, highlight: true, badges: ["KEY SELLING POINTS"], branches: [{ label: "Yes", targetStepId: "me-dob", isDefault: true }, { label: "No", targetStepId: "me-rebuttal" }] },
+      { id: "me-rebuttal", type: "rebuttal", speaker: "agent", title: "Rebuttal - Not on Medicare / Hesitant", text: "No problem at all. If you are approaching 65 or already eligible, this is actually the best time to look \u2014 timing matters when it comes to avoiding higher costs later. A licensed specialist can quickly explain what you may qualify for and whether it makes sense for you \u2014 again, no obligation. Would you prefer to connect now, or schedule a quick call for a better time?", copyable: true, branches: [{ label: "Yes", targetStepId: "me-dob", isDefault: true }, { label: "No - Try Energy/Internet", targetStepId: "me-energy-check" }] },
+      { id: "me-dob", type: "question", speaker: "agent", title: "Date of Birth", text: "May I please have your date of birth?", copyable: true, field: { name: "dateOfBirth", type: "text", label: "Date of Birth", required: true }, branches: [{ label: "Continue", targetStepId: "me-parts-ab", isDefault: true }] },
+      { id: "me-parts-ab", type: "question", speaker: "agent", title: "Medicare Parts A & B", text: "Do you currently have Medicare parts A and B?", copyable: true, highlight: true, field: { name: "partsAB", type: "yesno", label: "Medicare Parts A & B", note: "Must choose yes or no" }, branches: [{ label: "Yes", targetStepId: "me-provider", isDefault: true }, { label: "Not Sure", targetStepId: "me-not-sure" }, { label: "No", targetStepId: "me-dq" }] },
+      { id: "me-not-sure", type: "agent_says", speaker: "agent", title: "Not Sure About Coverage", text: "Okay, no problem at all, the senior agent can look you up by your name, dob, and social to see if you have both parts coverage and see if you qualify for additional benefits like better grocery benefits, more dental coverage, and lower copays.", copyable: true, branches: [{ label: "Continue to Transfer", targetStepId: "me-transfer-benefits", isDefault: true }] },
+      { id: "me-provider", type: "question", speaker: "agent", title: "Current Medicare Plan Provider", text: "Great! Then based on that, you might have some additional MEDICARE benefits based on your area that you might qualify for. May I ask who your current Medicare Plan provider is?", copyable: true, field: { name: "insuranceProvider", type: "select", label: "Insurance Provider", options: ["UnitedHealthcare (UHC)","Humana","CVS Health (Aetna)","Kaiser Permanente","Anthem (Elevance Health)","Cigna","Centene (WellCare)","Blue Cross Blue Shield (BCBS)","Molina Healthcare","Mutual of Omaha","Other"] }, branches: [{ label: "Continue", targetStepId: "me-benefits-like", isDefault: true }] },
+      { id: "me-benefits-like", type: "question", speaker: "agent", title: "Current Benefits They Like", text: "What benefits do you really like about your plan?", copyable: true, field: { name: "currentBenefits", type: "text", label: "Current Benefits" }, branches: [{ label: "Continue", targetStepId: "me-benefits-want", isDefault: true }] },
+      { id: "me-benefits-want", type: "question", speaker: "agent", title: "Additional Benefits They Want", text: "What benefits do you want more of?", copyable: true, field: { name: "additionalBenefits", type: "text", label: "Additional Benefits Desired" }, branches: [{ label: "Continue", targetStepId: "me-card-request", isDefault: true }] },
+      { id: "me-card-request", type: "agent_says", speaker: "agent", title: "Request Medicare Card", text: "To speed up the call while I get a licensed specialist on the phone, if you have your red white and blue card handy that would help.", copyable: true, branches: [{ label: "Continue to Transfer", targetStepId: "me-transfer-benefits", isDefault: true }] },
+      { id: "me-transfer-benefits", type: "info", speaker: "agent", title: "Key Benefits Highlight", text: "Before I connect you with a licensed agent, I just want to quickly highlight a few key Medicare benefits\u2014sound good?\n\nFirst, many Medicare Advantage plans include extra benefits like dental, vision, hearing, transportation, fitness programs and amazing grocery subsidies.\n\nSecond, prescription drug coverage may be included at no extra cost.\n\nThird, depending on your eligibility, you may qualify for a plan with a $0 monthly premium and little to no copays.\n\nDoes that sound like something you would like to hear more about?", copyable: true, highlight: true, badges: ["KEY SELLING POINTS"], branches: [{ label: "Yes", targetStepId: "me-transfer-confirmed", isDefault: true }, { label: "No / Rental, Food Stamps, etc (End Call)", targetStepId: "me-dq" }] },
+      { id: "me-transfer-confirmed", type: "transfer", speaker: "agent", title: "Transfer to Licensed Agent", text: "Great! I will connect you now with a licensed INSURECHOICE Medicare agent who can review your options and see what additional benefits you may qualify for. Please hold one moment while I transfer you.", copyable: true, branches: [{ label: "Continue to Transfer Spiel", targetStepId: "me-transfer-spiel", isDefault: true }] },
+      { id: "me-transfer-spiel", type: "transfer", speaker: "agent", title: "Transfer Confirmation", text: "Just to confirm, we are transferring you to our licensed Medicare agent who can explain the different plans available and check if you qualify for extra benefits at no cost. Please hold the line.", copyable: true, highlight: true, badges: ["WARM TRANSFER TO MEDICARE BUYER"], branches: [{ label: "Continue to Handshake", targetStepId: "me-handshake", isDefault: true }] },
+      { id: "me-handshake", type: "handshake", speaker: "agent", title: "Transfer Handshake", text: "Hi, I have [CUSTOMER NAME] on the line. He/She is a pre-qualified candidate who would like to explore their Medicare options. Thanks!", copyable: true, highlight: true, branches: [{ label: "Call Complete", targetStepId: "me-complete", isDefault: true }] },
+      { id: "me-complete", type: "note", speaker: "system", title: "Call Complete", text: "Transfer complete. Select \"Successful Transfer\" to end the call." },
+      { id: "me-energy-check", type: "question", speaker: "agent", title: "Energy Cross-Sell: State Check", text: "I can see on your file that your ENERGY account may qualify for alternative billing options for your ELECTRICITY which can have some pricing and stability advantages. What state are you in?", copyable: true, badges: ["CROSS-SELL"], field: { name: "energyState", type: "text", label: "State", note: "Energy states: PA, OH, MA, NJ, or NY" }, branches: [{ label: "PA, OH, MA, NJ, or NY", targetStepId: "me-energy-billing", isDefault: true }, { label: "Other state - Try Internet", targetStepId: "me-internet" }] },
+      { id: "me-energy-billing", type: "question", speaker: "agent", title: "Energy: Utility Bill", text: "Do you currently receive a bill for your utilities supply?", copyable: true, field: { name: "energyBill", type: "yesno", label: "Receives Utility Bill", note: "ANSWER SHOULD BE YES" }, branches: [{ label: "Yes", targetStepId: "me-energy-active", isDefault: true }, { label: "No (DQ)", targetStepId: "me-dq" }] },
+      { id: "me-energy-active", type: "question", speaker: "agent", title: "Energy: Service Active", text: "Is your Electric Service active at your address?", copyable: true, field: { name: "serviceActive", type: "yesno", label: "Service Active", note: "ANSWER SHOULD BE YES" }, branches: [{ label: "Yes", targetStepId: "me-energy-assistance", isDefault: true }, { label: "No (DQ)", targetStepId: "me-dq" }] },
+      { id: "me-energy-assistance", type: "question", speaker: "agent", title: "Energy: Assistance Program", text: "Are you on any assistance program for your utility bill like PIPP or CAPP?", copyable: true, field: { name: "assistanceProgram", type: "yesno", label: "Assistance Program", note: "ANSWER SHOULD BE NO | If YES, DQ" }, branches: [{ label: "No", targetStepId: "me-energy-transfer", isDefault: true }, { label: "Yes (DQ)", targetStepId: "me-dq" }] },
+      { id: "me-energy-transfer", type: "transfer", speaker: "agent", title: "Energy Transfer Offer", text: "Congratulations [FIRST NAME] based on your answers, you may qualify for our Electricity assistance program. What I can do for you is transfer you over to a representative to see what type of options you may qualify for. Would you like me to do this?", copyable: true, highlight: true, badges: ["CROSS-SELL"], field: { name: "wantsEnergyTransfer", type: "yesno", label: "Wants Transfer" }, branches: [{ label: "Yes", targetStepId: "me-energy-handshake", isDefault: true }, { label: "No - Try Internet", targetStepId: "me-internet" }] },
+      { id: "me-energy-handshake", type: "handshake", speaker: "agent", title: "Energy Transfer Handshake", text: "Hi there! I have [FIRST NAME] on the line and they are looking for different supply options on their ELECTRIC bill, can you please assist from here?", copyable: true, highlight: true, badges: ["WARM TRANSFER"], branches: [{ label: "Call Complete", targetStepId: "me-complete", isDefault: true }] },
+      { id: "me-internet", type: "question", speaker: "agent", title: "Internet Cross-Sell", text: "[FIRST NAME] a lot of people who call us do not realize that we are also offering exclusive discounted rates on high-speed internet service. Are you interested to check if you qualify?", copyable: true, badges: ["CROSS-SELL"], field: { name: "interestedInternet", type: "yesno", label: "Interested in Internet Program" }, branches: [{ label: "Yes", targetStepId: "me-internet-residence", isDefault: true }, { label: "No / Hesitates", targetStepId: "me-internet-rebuttal" }] },
+      { id: "me-internet-rebuttal", type: "rebuttal", speaker: "agent", title: "Internet Rebuttal", text: "Let us do a quick, free consultation and see what options you have. It only takes a few minutes, and there is no obligation \u2014 just a chance to find the best internet service available in your area. Are you interested?", copyable: true, branches: [{ label: "Yes", targetStepId: "me-internet-residence", isDefault: true }, { label: "No (Soft Exit)", targetStepId: "me-soft-exit" }] },
+      { id: "me-internet-residence", type: "question", speaker: "agent", title: "Internet: Primary Residence", text: "Before I do transfer you, one of the eligibility requirements is having a primary residence where the service would be installed. Do you currently manage the internet service in your home?", copyable: true, field: { name: "permanentResidence", type: "yesno", label: "Permanent Residence", note: "Must confirm YES to proceed" }, branches: [{ label: "Yes", targetStepId: "me-internet-transfer", isDefault: true }, { label: "No (Soft Exit)", targetStepId: "me-soft-exit" }] },
+      { id: "me-internet-transfer", type: "transfer", speaker: "agent", title: "Internet Transfer", text: "That is great to hear! Just to confirm, we are transferring you to discuss the Discounted Internet Program with our Senior Agent. Please stay on line while I connect you.", copyable: true, highlight: true, badges: ["CROSS-SELL", "WARM TRANSFER"], branches: [{ label: "Call Complete", targetStepId: "me-complete", isDefault: true }] },
+      { id: "me-soft-exit", type: "dq", speaker: "agent", title: "Soft Exit - Not Interested", text: "Totally understand. I appreciate your time today. If you ever want to review your options in the future, you can always reach out. Have a great rest of your day.", copyable: true, badges: ["SOFT EXIT"] },
+      { id: "me-dq", type: "dq", speaker: "agent", title: "Does Not Qualify", text: DQ_SPIEL, copyable: true, badges: ["DQ SPIEL"] },
+      { id: "me-legit-rebuttal", type: "rebuttal", speaker: "agent", title: "Rebuttal: Is Your Company Legit?", text: "That is a great question! Yes, we are a legitimate company that helps seniors review their Medicare options. We work with licensed agents and approved providers to make sure you are getting the best coverage available. While I have you, let us quickly check if you qualify for any new benefits this year \u2014 do you still have your red, white, and blue Medicare card with you?", copyable: true, badges: ["COMMON OBJECTION"], branches: [{ label: "Go back to qualifying questions", targetStepId: "me-dob", isDefault: true }] }
+    ],
+    quickRefs: [
+      { id: "me-qr-dq", label: "DQ Spiel", text: DQ_SPIEL, type: "dq" },
+      { id: "me-qr-transfer", label: "Medicare Transfer", text: "Just to confirm, we are transferring you to our licensed Medicare agent who can explain the different plans available and check if you qualify for extra benefits at no cost. Please hold the line.", type: "transfer" },
+      { id: "me-qr-handshake", label: "Medicare Handshake", text: "Hi, I have [CUSTOMER NAME] on the line. He/She is a pre-qualified candidate who would like to explore their Medicare options. Thanks!", type: "handshake" },
+      { id: "me-qr-energy-handshake", label: "Energy Handshake", text: "Hi there! I have [FIRST NAME] on the line and they are looking for different supply options on their ELECTRIC bill, can you please assist from here?", type: "handshake" },
+      { id: "me-qr-pipp", label: "PIPP/CAPP Explanation", text: "PIPP and CAPP are government assistance programs that help customers manage their utility bills based on income. I just ask because if you are enrolled in one, certain plans might not be available \u2014 I want to make sure we offer you the right options.", type: "rebuttal" },
+      { id: "me-qr-legit", label: "Is Company Legit?", text: "That is a great question! Yes, we are a legitimate company that helps seniors review their Medicare options. We work with licensed agents and approved providers to make sure you are getting the best coverage available.", type: "rebuttal" },
+      { id: "me-qr-soft-exit", label: "Soft Exit", text: "Totally understand. I appreciate your time today. If you ever want to review your options in the future, you can always reach out. Have a great rest of your day.", type: "exit" }
+    ]
+  }
+];
+
+// ===================== APP STATE =====================
+const App = {
+  state: {
+    currentView: 'home',
+    currentScriptId: null,
+    currentStepId: null,
+    sidebarOpen: false,
+    searchQuery: '',
+    searchOpen: false,
+    rightPanelOpen: false,
+    activeRightTab: 'quickref',
+    visitedSteps: new Set(),
+    navHistory: [],
+  },
+
+  get bookmarks() {
+    try { return JSON.parse(localStorage.getItem('hh-bookmarks') || '{}'); } catch { return {}; }
+  },
+  set bookmarks(v) {
+    localStorage.setItem('hh-bookmarks', JSON.stringify(v));
+  },
+  get notes() {
+    try { return JSON.parse(localStorage.getItem('hh-notes') || '{}'); } catch { return {}; }
+  },
+  set notes(v) {
+    localStorage.setItem('hh-notes', JSON.stringify(v));
+  },
+
+  get currentScript() {
+    return scripts.find(s => s.id === this.state.currentScriptId);
+  },
+  get currentStep() {
+    const s = this.currentScript;
+    return s ? s.steps.find(st => st.id === this.state.currentStepId) : null;
+  },
+  get currentStepIndex() {
+    const s = this.currentScript;
+    if (!s) return 0;
+    return s.steps.findIndex(st => st.id === this.state.currentStepId);
+  },
+  get progress() {
+    const s = this.currentScript;
+    if (!s) return 0;
+    const idx = this.currentStepIndex;
+    return Math.round(((idx + 1) / s.steps.length) * 100);
+  },
+
+  init() {
+    this.render();
+  },
+
+  selectScript(id) {
+    const s = scripts.find(sc => sc.id === id);
+    if (!s) return;
+    this.state.currentScriptId = id;
+    this.state.currentStepId = s.startStepId;
+    this.state.currentView = 'script';
+    this.state.sidebarOpen = false;
+    this.state.searchQuery = '';
+    this.state.searchOpen = false;
+    this.state.rightPanelOpen = false;
+    this.state.visitedSteps = new Set([s.startStepId]);
+    this.render();
+  },
+
+  goToStep(stepId) {
+    if (this.state.currentStepId && this.state.currentStepId !== stepId) {
+      this.state.navHistory.push(this.state.currentStepId);
+    }
+    this.state.currentStepId = stepId;
+    this.state.visitedSteps.add(stepId);
+    if (window.innerWidth < 768) {
+      this.state.sidebarOpen = false;
+    }
+    this.render();
+  },
+
+  goBack() {
+    if (this.state.navHistory.length > 0) {
+      const prev = this.state.navHistory.pop();
+      this.state.currentStepId = prev;
+      this.render();
+    }
+  },
+
+  goHome() {
+    this.state.currentView = 'home';
+    this.state.currentScriptId = null;
+    this.state.currentStepId = null;
+    this.state.sidebarOpen = false;
+    this.state.rightPanelOpen = false;
+    this.render();
+  },
+
+  toggleSidebar() {
+    this.state.sidebarOpen = !this.state.sidebarOpen;
+    this.renderSidebar();
+    this.renderOverlay();
+  },
+
+  toggleRightPanel(tab) {
+    if (tab) {
+      this.state.activeRightTab = tab;
+    }
+    this.state.rightPanelOpen = !this.state.rightPanelOpen;
+    this.renderRightPanel();
+    this.renderOverlay();
+  },
+
+  toggleBookmark(stepId) {
+    const b = this.bookmarks;
+    const key = this.state.currentScriptId;
+    if (!b[key]) b[key] = [];
+    const idx = b[key].indexOf(stepId);
+    if (idx >= 0) b[key].splice(idx, 1);
+    else b[key].push(stepId);
+    this.bookmarks = b;
+    this.render();
+  },
+
+  isBookmarked(stepId) {
+    const b = this.bookmarks;
+    const key = this.state.currentScriptId;
+    return b[key] && b[key].includes(stepId);
+  },
+
+  saveNote(text) {
+    const n = this.notes;
+    const key = this.state.currentScriptId;
+    n[key] = text;
+    this.notes = n;
+  },
+
+  getNote() {
+    const n = this.notes;
+    const key = this.state.currentScriptId;
+    return n[key] || '';
+  },
+
+  copyText(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      this.showToast('Copied to clipboard!');
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      this.showToast('Copied to clipboard!');
+    });
+  },
+
+  showToast(msg) {
+    const c = document.getElementById('toast-container');
+    const t = document.createElement('div');
+    t.className = 'copy-toast bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium';
+    t.textContent = msg;
+    c.appendChild(t);
+    setTimeout(() => t.remove(), 2000);
+  },
+
+  handleSearch(q) {
+    this.state.searchQuery = q;
+    this.renderSidebarSteps();
+  },
+
+  getFilteredSteps() {
+    const s = this.currentScript;
+    if (!s) return [];
+    const q = this.state.searchQuery.toLowerCase().trim();
+    if (!q) return s.steps;
+    return s.steps.filter(st =>
+      st.title.toLowerCase().includes(q) ||
+      st.text.toLowerCase().includes(q) ||
+      (st.notes && st.notes.toLowerCase().includes(q))
+    );
+  },
+
+  // =========== COLOR HELPERS ===========
+  getColorClasses() {
+    const theme = this.currentScript?.colorTheme || 'emerald';
+    const map = {
+      emerald: { accent: 'emerald', border: 'border-emerald-300', bg: 'bg-emerald-50', text: 'text-emerald-700', dot: 'bg-emerald-500', progressBg: 'bg-emerald-100', progressFill: 'bg-emerald-500' },
+      amber:   { accent: 'amber', border: 'border-amber-300', bg: 'bg-amber-50', text: 'text-amber-700', dot: 'bg-amber-500', progressBg: 'bg-amber-100', progressFill: 'bg-amber-500' },
+      rose:    { accent: 'rose', border: 'border-rose-300', bg: 'bg-rose-50', text: 'text-rose-700', dot: 'bg-rose-500', progressBg: 'bg-rose-100', progressFill: 'bg-rose-500' },
+      purple:  { accent: 'purple', border: 'border-purple-300', bg: 'bg-purple-50', text: 'text-purple-700', dot: 'bg-purple-500', progressBg: 'bg-purple-100', progressFill: 'bg-purple-500' },
+    };
+    return map[theme] || map.emerald;
+  },
+
+  getStepTypeStyle(type) {
+    const map = {
+      greeting:   { border: 'border-l-emerald-500', icon: '🎤', bg: '', badgeBg: 'bg-emerald-100 text-emerald-800', label: 'Greeting' },
+      question:   { border: 'border-l-teal-500', icon: '❓', bg: '', badgeBg: 'bg-teal-100 text-teal-800', label: 'Question' },
+      agent_says: { border: 'border-l-gray-400', icon: '💬', bg: '', badgeBg: 'bg-gray-100 text-gray-700', label: 'Agent Says' },
+      member_response: { border: 'border-l-teal-400', icon: '🗣️', bg: '', badgeBg: 'bg-teal-100 text-teal-800', label: 'Member' },
+      info:      { border: 'border-l-amber-500', icon: 'ℹ️', bg: 'bg-amber-50/50', badgeBg: 'bg-amber-100 text-amber-800', label: 'Info' },
+      transfer:  { border: 'border-l-orange-500', icon: '🔀', bg: 'bg-orange-50/50', badgeBg: 'bg-orange-100 text-orange-800', label: 'Transfer' },
+      dq:        { border: 'border-l-red-500', icon: '🚫', bg: 'bg-red-50', badgeBg: 'bg-red-100 text-red-800', label: 'DQ' },
+      handshake: { border: 'border-l-violet-500', icon: '🤝', bg: 'bg-violet-50/50', badgeBg: 'bg-violet-100 text-violet-800', label: 'Handshake' },
+      rebuttal:  { border: 'border-l-slate-400', icon: '🔄', bg: 'bg-slate-50', badgeBg: 'bg-slate-100 text-slate-700', label: 'Rebuttal' },
+      note:      { border: 'border-l-gray-300', icon: '📝', bg: 'bg-gray-50', badgeBg: 'bg-gray-100 text-gray-600', label: 'System' },
+    };
+    return map[type] || map.agent_says;
+  },
+
+  getBadgeStyle(badge) {
+    const b = badge.toUpperCase();
+    if (b.includes('READ ALOUD') || b.includes('KEY SELLING')) return 'bg-emerald-100 text-emerald-800';
+    if (b.includes('DQ')) return 'bg-red-100 text-red-800';
+    if (b.includes('MUTE') || b.includes('UNMUTE')) return 'bg-orange-100 text-orange-800';
+    if (b.includes('WARM TRANSFER')) return 'bg-purple-100 text-purple-800';
+    if (b.includes('CROSS-SELL') || b.includes('CROSS SELL')) return 'bg-teal-100 text-teal-800';
+    if (b.includes('SOFT EXIT')) return 'bg-gray-200 text-gray-700';
+    if (b.includes('RECORDED')) return 'bg-sky-100 text-sky-800';
+    if (b.includes('COMMON OBJECTION')) return 'bg-slate-200 text-slate-700';
+    return 'bg-gray-100 text-gray-700';
+  },
+
+  getQuickRefStyle(type) {
+    const map = {
+      dq: 'border-l-red-400 bg-red-50/50',
+      transfer: 'border-l-orange-400 bg-orange-50/50',
+      handshake: 'border-l-violet-400 bg-violet-50/50',
+      rebuttal: 'border-l-slate-400 bg-slate-50/50',
+      exit: 'border-l-gray-400 bg-gray-50/50',
+    };
+    return map[type] || 'border-l-gray-300 bg-gray-50/50';
+  },
+
+  // =========== RENDER ===========
+  render() {
+    const app = document.getElementById('app');
+    if (this.state.currentView === 'home') {
+      app.innerHTML = this.renderHome();
+    } else {
+      app.innerHTML = this.renderScriptViewer();
+    }
+    this.attachEvents();
+  },
+
+  renderOverlay() {
+    let ov = document.getElementById('mobile-overlay');
+    const isOpen = this.state.sidebarOpen || this.state.rightPanelOpen;
+    if (!ov && isOpen) {
+      ov = document.createElement('div');
+      ov.id = 'mobile-overlay';
+      ov.className = 'overlay fixed inset-0 z-30 md:hidden';
+      ov.onclick = () => {
+        this.state.sidebarOpen = false;
+        this.state.rightPanelOpen = false;
+        this.renderSidebar();
+        this.renderRightPanel();
+        ov.remove();
+      };
+      document.body.appendChild(ov);
+    } else if (ov && !isOpen) {
+      ov.remove();
+    }
+  },
+
+  // =========== HOME VIEW ===========
+  renderHome() {
+    return `
+    <header class="border-b border-gray-100 bg-white sticky top-0 z-20">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-3">
+        <span class="text-3xl">🤝</span>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Helping Hand</h1>
+          <p class="text-xs sm:text-sm text-gray-500 font-medium">Campaign Scripting Tool</p>
+        </div>
+      </div>
+    </header>
+    <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-8">
+      <p class="text-sm text-gray-500 mb-6">Select a campaign script to begin navigating the call flow.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        ${scripts.map(s => this.renderHomeCard(s)).join('')}
+      </div>
+    </main>`;
+  },
+
+  renderHomeCard(s) {
+    const themeColors = {
+      emerald: { card: 'hover:border-emerald-300', iconBg: 'bg-emerald-100', title: 'text-emerald-800' },
+      amber:   { card: 'hover:border-amber-300', iconBg: 'bg-amber-100', title: 'text-amber-800' },
+      rose:    { card: 'hover:border-rose-300', iconBg: 'bg-rose-100', title: 'text-rose-800' },
+      purple:  { card: 'hover:border-purple-300', iconBg: 'bg-purple-100', title: 'text-purple-800' },
+    };
+    const tc = themeColors[s.colorTheme] || themeColors.emerald;
+    return `
+    <button data-action="selectScript" data-id="${s.id}" class="group text-left rounded-xl border border-gray-200 ${tc.card} p-5 sm:p-6 transition-all duration-200 hover:shadow-lg hover:shadow-gray-200/50 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300">
+      <div class="flex items-start gap-4">
+        <div class="${tc.iconBg} w-12 h-12 rounded-lg flex items-center justify-center text-xl shrink-0">${s.icon}</div>
+        <div class="min-w-0 flex-1">
+          <h2 class="font-bold ${tc.title} text-base sm:text-lg leading-tight">${s.title}</h2>
+          <p class="text-xs text-gray-500 font-medium mt-0.5">${s.subtitle}</p>
+          <p class="text-sm text-gray-600 mt-2 line-clamp-2">${s.description}</p>
+          <div class="flex items-center gap-3 mt-3">
+            <span class="inline-flex items-center gap-1 text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              ${s.qualifications.length} quals
+            </span>
+            <span class="inline-flex items-center gap-1 text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+              ${s.steps.length} steps
+            </span>
+          </div>
+        </div>
+      </div>
+    </button>`;
+  },
+
+  // =========== SCRIPT VIEWER ===========
+  renderScriptViewer() {
+    const c = this.getColorClasses();
+    const s = this.currentScript;
+    if (!s) return '';
+    const st = this.currentStep;
+    if (!st) return '';
+    const isBookmarked = this.isBookmarked(st.id);
+
+    return `
+    <!-- Top Bar -->
+    <header class="border-b border-gray-100 bg-white sticky top-0 z-20">
+      <div class="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-3">
+        <button data-action="goHome" class="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"></path></svg>
+          <span class="hidden sm:inline">Home</span>
+        </button>
+        <button data-action="goBack" class="flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors shrink-0" ${this.state.navHistory.length === 0 ? 'opacity-30 pointer-events-none' : ''} title="Go back to previous step">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          <span class="hidden sm:inline">Back</span>
+        </button>
+        <div class="h-5 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="flex items-center gap-2 min-w-0 flex-1">
+          <span class="text-lg">${s.icon}</span>
+          <h1 class="font-semibold text-sm sm:text-base text-gray-900 truncate">${s.title}</h1>
+        </div>
+        <button data-action="toggleBookmark" data-step="${st.id}" class="shrink-0 p-1.5 rounded-lg hover:bg-gray-100 transition-colors" title="Bookmark this step">
+          <svg class="w-5 h-5 ${isBookmarked ? 'text-amber-500 fill-amber-500' : 'text-gray-400'}" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+        </button>
+        <!-- Mobile: hamburger for sidebar, FAB for right panel -->
+        <button data-action="toggleSidebar" class="md:hidden shrink-0 p-1.5 rounded-lg hover:bg-gray-100 transition-colors" title="Steps">
+          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+        <button data-action="toggleRightPanel" class="md:hidden shrink-0 p-1.5 rounded-lg hover:bg-gray-100 transition-colors" title="Quick Refs & Notes">
+          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1 flex overflow-hidden">
+      <!-- Sidebar -->
+      <aside id="sidebar" class="sidebar-enter fixed md:relative z-40 md:z-auto top-0 md:top-auto left-0 h-full md:h-auto w-72 md:w-64 lg:w-72 bg-white border-r border-gray-200 flex flex-col shrink-0 transition-transform duration-300 ease-out ${this.state.sidebarOpen ? 'sidebar-active' : ''} md:translate-x-0">
+        <div class="p-3 border-b border-gray-100">
+          <div class="relative">
+            <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <input id="search-input" type="text" placeholder="Search steps..." value="${this.state.searchQuery}" class="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 bg-gray-50 focus:bg-white transition-colors">
+          </div>
+        </div>
+        <!-- Progress -->
+        <div class="px-3 pt-3 pb-1">
+          <div class="flex items-center justify-between text-xs text-gray-500 mb-1.5">
+            <span>Progress</span>
+            <span class="font-medium">${this.currentStepIndex + 1} / ${s.steps.length}</span>
+          </div>
+          <div class="w-full ${c.progressBg} rounded-full h-1.5">
+            <div class="${c.progressFill} h-1.5 rounded-full transition-all duration-300" style="width: ${this.progress}%"></div>
+          </div>
+        </div>
+        <!-- Step list -->
+        <div id="step-list" class="flex-1 overflow-y-auto scrollbar-thin py-2">
+          ${this.renderSidebarSteps()}
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 overflow-y-auto scrollbar-thin">
+        <div class="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8">
+          ${this.renderStepCard(st)}
+        </div>
+      </main>
+
+      <!-- Right Panel (desktop) -->
+      <aside id="right-panel" class="hidden md:flex w-72 lg:w-80 border-l border-gray-200 bg-white flex-col shrink-0">
+        ${this.renderRightPanelContent()}
+      </aside>
+    </div>
+
+    <!-- Mobile Right Panel (hidden by default) -->
+    <div id="mobile-right-panel" class="fixed inset-0 z-40 md:hidden ${this.state.rightPanelOpen ? '' : 'hidden'}">
+      <div class="absolute inset-0 bg-black/30" data-action="closeMobileRight"></div>
+      <div class="absolute right-0 top-0 bottom-0 w-80 max-w-full bg-white shadow-xl flex flex-col">
+        <div class="flex items-center justify-between p-3 border-b border-gray-100">
+          <div class="flex gap-1">
+            <button data-action="switchRightTab" data-tab="quickref" class="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${this.state.activeRightTab === 'quickref' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}">Quick Refs</button>
+            <button data-action="switchRightTab" data-tab="notes" class="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${this.state.activeRightTab === 'notes' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}">Notes</button>
+          </div>
+          <button data-action="toggleRightPanel" class="p-1.5 rounded-lg hover:bg-gray-100">
+            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+        <div class="flex-1 overflow-y-auto scrollbar-thin">
+          ${this.renderRightPanelContent()}
+        </div>
+      </div>
+    </div>`;
+  },
+
+  renderSidebarSteps() {
+    const steps = this.getFilteredSteps();
+    const c = this.getColorClasses();
+    return steps.map(st => {
+      const ts = this.getStepTypeStyle(st.type);
+      const isCurrent = st.id === this.state.currentStepId;
+      const isVisited = this.state.visitedSteps.has(st.id);
+      const isBm = this.isBookmarked(st.id);
+      const isDq = st.type === 'dq';
+      return `
+      <button data-action="goToStep" data-step="${st.id}" class="step-sidebar-item w-full text-left px-3 py-2 mx-1.5 rounded-lg flex items-center gap-2.5 group ${isCurrent ? 'bg-gray-900 text-white shadow-md' : isDq ? 'hover:bg-red-50' : 'hover:bg-gray-50'} transition-colors">
+        <span class="text-sm shrink-0">${ts.icon}</span>
+        <span class="text-sm truncate flex-1 ${isCurrent ? 'font-semibold' : isVisited && !isCurrent ? 'text-gray-600' : 'text-gray-500'}">${st.title || st.type}</span>
+        ${isBm ? '<svg class="w-3.5 h-3.5 text-amber-500 shrink-0 fill-amber-500" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>' : ''}
+      </button>`;
+    }).join('');
+  },
+
+  renderStepCard(st) {
+    const ts = this.getStepTypeStyle(st.type);
+    const c = this.getColorClasses();
+    const isBookmarked = this.isBookmarked(st.id);
+    const speakerLabel = { agent: 'Agent', member: 'Member', system: 'System' }[st.speaker] || st.speaker;
+    const speakerIcon = { agent: '🎯', member: '🗣️', system: '⚙️' }[st.speaker] || '📝';
+
+    const fieldNote = st.field && st.field.note ? st.field.note : null;
+
+    const scriptHtml = st.text.replace(/\n/g, '<br>');
+
+    let branchesHtml = '';
+    if (st.branches && st.branches.length > 0) {
+      branchesHtml = `
+      <div class="mt-6 space-y-2">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Branch Options</p>
+        <div class="space-y-2">
+          ${st.branches.map(b => {
+            const isDefault = b.isDefault;
+            const isDqBranch = b.targetStepId.includes('dq') || b.targetStepId.includes('soft-exit');
+            let btnClass = 'border border-gray-200 hover:border-gray-400 hover:bg-gray-50 text-gray-700';
+            if (isDefault) btnClass = `border ${c.border} hover:shadow-md ${c.bg} ${c.text} font-semibold`;
+            if (isDqBranch && !isDefault) btnClass = 'border border-red-200 hover:bg-red-50 text-red-700';
+            return `
+            <button data-action="goToStep" data-step="${b.targetStepId}" class="branch-btn w-full flex items-center justify-between px-4 py-3 rounded-lg ${btnClass} text-left transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-300">
+              <span class="text-sm pr-2">${b.label}</span>
+              <svg class="w-4 h-4 shrink-0 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }
+
+    return `
+    <div class="fade-in">
+      <!-- Type Badge & Speaker -->
+      <div class="flex items-center gap-2 mb-3 flex-wrap">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${ts.badgeBg}">
+          <span>${ts.icon}</span> ${ts.label}
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+          ${speakerIcon} ${speakerLabel}
+        </span>
+        ${(st.highlight ? '<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">⭐ Key Step</span>' : '')}
+      </div>
+
+      <!-- Card -->
+      <div class="rounded-xl border-l-4 ${ts.border} ${st.type === 'dq' ? 'border border-red-200 bg-red-50/50' : 'border border-gray-200 bg-white'} ${ts.bg} shadow-sm overflow-hidden">
+        <div class="p-5 sm:p-6">
+          <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-3">${st.title || ''}</h2>
+          <div class="text-base sm:text-lg leading-relaxed text-gray-800 whitespace-pre-line" id="step-text">${scriptHtml}</div>
+          ${fieldNote ? `<p class="mt-3 text-sm italic text-gray-400 border-l-2 border-gray-200 pl-3">${fieldNote}</p>` : ''}
+          ${st.notes ? `<div class="mt-4 p-3 bg-white/80 rounded-lg border border-gray-200"><p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Agent Note</p><p class="text-sm text-gray-600">${st.notes}</p></div>` : ''}
+          ${(st.badges && st.badges.length > 0) ? `<div class="mt-4 flex flex-wrap gap-1.5">${st.badges.map(b => `<span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold ${this.getBadgeStyle(b)}">${b}</span>`).join('')}</div>` : ''}
+        </div>
+      </div>
+
+      ${branchesHtml}
+
+      <!-- Navigation hint -->
+      ${st.branches && st.branches.length === 0 && st.type === 'note' ? `
+      <div class="mt-4 text-center">
+        <p class="text-sm text-gray-400">End of script flow. Go back or return home.</p>
+      </div>` : ''}
+    </div>`;
+  },
+
+  renderRightPanelContent() {
+    const s = this.currentScript;
+    if (!s) return '';
+    const showQr = this.state.activeRightTab === 'quickref';
+    const showNotes = this.state.activeRightTab === 'notes';
+    return `
+    <!-- Tabs (desktop) -->
+    <div class="hidden md:flex gap-1 p-3 border-b border-gray-100">
+      <button data-action="switchRightTab" data-tab="quickref" class="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${showQr ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}">Quick Refs</button>
+      <button data-action="switchRightTab" data-tab="notes" class="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${showNotes ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'}">Notes</button>
+    </div>
+    <div class="overflow-y-auto scrollbar-thin p-3 space-y-3">
+      ${showQr ? this.renderQuickRefs(s) : ''}
+      ${showNotes ? this.renderNotesPanel() : ''}
+    </div>`;
+  },
+
+  renderQuickRefs(s) {
+    if (!s.quickRefs || s.quickRefs.length === 0) return '<p class="text-sm text-gray-400">No quick references.</p>';
+    return s.quickRefs.map(qr => {
+      const style = this.getQuickRefStyle(qr.type);
+      return `
+      <div class="border-l-4 ${style} rounded-lg p-3">
+        <div class="flex items-center justify-between mb-1.5">
+          <h4 class="text-sm font-semibold text-gray-800">${qr.label}</h4>
+          <button data-action="copyQuickRef" data-qr-id="${qr.id}" class="p-1 rounded hover:bg-white/80 transition-colors" title="Copy">
+            <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+          </button>
+        </div>
+        <p class="text-sm text-gray-600 leading-relaxed">${qr.text.replace(/\n/g, '<br>')}</p>
+      </div>`;
+    }).join('');
+  },
+
+  renderNotesPanel() {
+    const note = this.getNote();
+    return `
+    <div>
+      <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Call Notes</p>
+      <p class="text-xs text-gray-400 mb-3">Personal notes for this script. Saved automatically to your browser.</p>
+      <textarea id="notes-textarea" class="w-full h-64 text-sm border border-gray-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-gray-300 resize-y bg-gray-50 focus:bg-white transition-colors" placeholder="Write your notes here...">${note.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>
+    </div>`;
+  },
+
+  // =========== EVENT HANDLING ===========
+  attachEvents() {
+    document.querySelectorAll('[data-action]').forEach(el => {
+      const action = el.getAttribute('data-action');
+      // Remove old listeners by cloning
+      const newEl = el.cloneNode(true);
+      el.parentNode.replaceChild(newEl, el);
+
+      newEl.addEventListener('click', (e) => {
+        switch(action) {
+          case 'selectScript':
+            this.selectScript(newEl.getAttribute('data-id'));
+            break;
+          case 'goHome':
+            this.goHome();
+            break;
+          case 'goBack':
+            this.goBack();
+            break;
+          case 'goToStep':
+            this.goToStep(newEl.getAttribute('data-step'));
+            break;
+          case 'toggleSidebar':
+            this.toggleSidebar();
+            break;
+          case 'toggleRightPanel':
+            this.toggleRightPanel();
+            break;
+          case 'switchRightTab':
+            const tab = newEl.getAttribute('data-tab');
+            this.state.activeRightTab = tab;
+            this.render();
+            break;
+          case 'toggleBookmark':
+            this.toggleBookmark(newEl.getAttribute('data-step'));
+            break;
+          case 'copyText': {
+            const st = this.currentStep;
+            if (st) this.copyText(st.text);
+            break;
+          }
+          case 'copyQuickRef': {
+            const s = this.currentScript;
+            const qrId = newEl.getAttribute('data-qr-id');
+            const qr = s?.quickRefs.find(q => q.id === qrId);
+            if (qr) this.copyText(qr.text);
+            break;
+          }
+          case 'closeMobileRight':
+            this.state.rightPanelOpen = false;
+            this.render();
+            break;
+        }
+      });
+    });
+
+    // Search input
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        this.handleSearch(e.target.value);
+      });
+      // Restore focus & cursor
+      if (this.state.searchOpen) {
+        searchInput.focus();
+        searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+      }
+    }
+
+    // Notes textarea
+    const notesArea = document.getElementById('notes-textarea');
+    if (notesArea) {
+      notesArea.addEventListener('input', (e) => {
+        this.saveNote(e.target.value);
+      });
+    }
+
+    // Handle overlay cleanup
+    this.renderOverlay();
+  },
+
+  renderSidebar() {
+    const sb = document.getElementById('sidebar');
+    if (!sb) return;
+    if (this.state.sidebarOpen) {
+      sb.classList.add('sidebar-active');
+      sb.classList.remove('sidebar-enter');
+    } else {
+      sb.classList.remove('sidebar-active');
+      sb.classList.add('sidebar-enter');
+    }
+    this.renderOverlay();
+  },
+
+  renderRightPanel() {
+    const mrp = document.getElementById('mobile-right-panel');
+    if (!mrp) return;
+    if (this.state.rightPanelOpen) {
+      mrp.classList.remove('hidden');
+    } else {
+      mrp.classList.add('hidden');
+    }
+    this.renderOverlay();
+  },
+};
+
+// Initialize
+App.init();
+</script>
+</body>
+</html>
