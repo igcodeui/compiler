@@ -1278,8 +1278,8 @@ To get started, can you please confirm your age?
                 criteria: { doi: "Within 12 months", treatment: "Within 30 days, no gaps in treatment over 30 days.", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI, or the client has UIM ", attorney: "Not currently represented ", other: "Willing to treat within 1 year" }
             },
             {
-                name: "McDonald Worley", transferType: "Firm calls back within 24 hours", hours: "9:30-6 EST", 
-                allowedStates: ["AK", "AZ", "AR", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "LA", "ME", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NC", "NH", "NJ", "NM", "NY", "ND", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TX", "UT", "VT", "WA", "WV", "WY"], // CO removed due to absolute block
+                name: "McDonald Worley Paused", transferType: "Firm calls back within 24 hours", hours: "9:30-6 EST", 
+                allowedStates: ["TX", "AR", "NY", "GA", "NC"], // CO removed due to absolute block
                 isExcluded: () => false, priority: "Accepts pedestrian cases",
                 criteria: { doi: "Within 3 months", treatment: "Within 7 days, No gaps bigger than 14 days.", fault: "Not at fault", injury: "Injured", defendant: "Insured at DOI, Or client has UIM", attorney: "None", other: "No parking lot cases involving 2 vehicles." }
             },
