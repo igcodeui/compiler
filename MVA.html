@@ -272,6 +272,12 @@
                             <button onclick="document.getElementById('stateSearch').value='GA'; handleStateSearch();" class="theme-inner-card px-3 py-1 hover:bg-[var(--accent)] hover:text-[var(--accent-text)] transition-colors">GA</button>
                             <button onclick="document.getElementById('stateSearch').value='CO'; handleStateSearch();" class="theme-inner-card px-3 py-1 hover:bg-[var(--danger-bg)] hover:text-white transition-colors">CO (Block Test)</button>
                         </div>
+                        <div class="theme-inner-card p-3 text-xs leading-relaxed border-l-4 border-amber-500">
+                            <strong class="block text-[var(--text-main)] mb-1">MVA – SCA PREFUNDING | Agent Reminder</strong>
+                            Available for screening across all 50 states + DC, subject to restrictions.
+                            <strong>Funding must be above $5,000 (strictly greater than $5,000)</strong> for all unrestricted states except <strong>North Carolina (NC): minimum $25,000</strong>.
+                            <span class="block mt-1 text-[var(--danger-bg)] font-semibold">SCA DISQUALIFIED STATES: CA, CO, AR, CT, KY, WV, MD. Do not submit to SCA Prefunding.</span>
+                        </div>
                         <div id="matrixOutputArea" class="mt-4 hidden"></div>
                     </div>
                 </section>
@@ -1307,6 +1313,29 @@ To get started, can you please confirm your age?
             return null;
         }
 
+        // SCA Prefunding rules provided for the MVA campaign.
+        // Restricted states are disqualified for SCA Prefunding.
+        const scaRestrictedStates = new Set(["CA", "CO", "AR", "CT", "KY", "WV", "MD"]);
+        const scaTerritories = new Set(["AS", "GU", "MP", "PR", "VI"]);
+
+        function scaPrefundingCard(stateCode) {
+            const restricted = scaRestrictedStates.has(stateCode);
+            const territory = scaTerritories.has(stateCode);
+            const minimum = stateCode === "NC" ? "$25,000 or more" : "Above $5,000";
+            const status = territory ? "NOT LISTED IN SCA COVERAGE" : restricted ? "DISQUALIFIED – RESTRICTED STATE" : "AVAILABLE FOR SCREENING";
+            const tone = territory || restricted ? 'var(--danger-bg)' : 'var(--success-bg)';
+            return `<div class="theme-inner-card p-4 mb-3 border-l-4 space-y-2" style="border-left-color:${tone}">
+                <div class="flex flex-wrap justify-between gap-2 items-center">
+                    <h3 class="font-bold text-sm">MVA – SCA PREFUNDING</h3>
+                    <span class="text-[10px] font-extrabold" style="color:${tone}">${status}</span>
+                </div>
+                <p class="text-xs">${territory ? "Coverage information provided applies only to the 50 states and DC." : restricted ? "This lead is DISQUALIFIED for SCA Prefunding because the state is restricted. Do not submit or transfer to SCA Prefunding." : "This state is not on SCA's restricted list. Other case and funding criteria still apply."}</p>
+                ${restricted ? '<p class="text-sm font-bold" style="color:var(--danger-bg)">SCA PREFUNDING: NOT QUALIFIED — RESTRICTED STATE</p>' : `<p class="text-sm font-bold">Funding requirement: <span style="color:var(--accent)">${territory ? "Not specified" : minimum}</span></p>`}
+                ${stateCode === "NC" ? '<p class="text-xs font-semibold" style="color:var(--highlight)">North Carolina exception: minimum $25,000 (at least $25,000).</p>' : ''}
+                <p class="text-[10px] theme-text-muted">SCA Prefunding: CA, CO, AR, CT, KY, WV and MD are disqualified. All other states + DC require funding above $5,000, except NC which requires at least $25,000. Meeting the amount does not guarantee approval.</p>
+            </div>`;
+        }
+
         function handleStateSearch() {
             const searchVal = document.getElementById('stateSearch').value;
             const outputArea = document.getElementById('matrixOutputArea');
@@ -1329,7 +1358,8 @@ To get started, can you please confirm your age?
                     <div class="theme-inner-card p-4 border border-[var(--danger-bg)] bg-[var(--danger-bg)] bg-opacity-20 text-white space-y-2">
                         <h3 class="font-bold text-[var(--danger-bg)] text-sm">ABSOLUTE HARD BLOCK: COLORADO PROHIBITED</h3>
                         <p class="text-xs">Do NOT process Colorado traffic (SB 26-174). Disconnect lead immediately.</p>
-                    </div>`;
+                    </div>
+                    <div class="mt-3">${scaPrefundingCard(stateCode)}</div>`;
                 return;
             }
 
@@ -1358,6 +1388,8 @@ To get started, can you please confirm your age?
                     }
                 </div>
             </div>`;
+
+            htmlString += scaPrefundingCard(stateCode);
 
             if (validBuyers.length === 0) {
                 htmlString += `<div class="theme-inner-card p-4 text-center text-xs theme-text-muted">No buyers matching ${stateCode}.</div>`;
