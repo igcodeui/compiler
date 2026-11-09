@@ -1244,7 +1244,30 @@ To get started, can you please confirm your age?
         const acaNewBuyerGreenStates = ["AL","AK","AZ","AR","DE","FL","HI","IN","IA","KS","LA","MI","MS","MO","MT","NE","NH","NC","ND","OH","OK","OR","SC","SD","TN","TX","UT","WV","WI","WY"];
         const U65GreenStates = ["AL","AZ","AR", "CA","CO", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NM","NC","ND","OH","OK","PA","RI","SC","TN", "TX", "VA", "WV", "WI", "WY"];
 
+        // Guardian Legal covers the 50 U.S. states except the four buyer-excluded states.
+        // DC and U.S. territories are not included because they were not specified in the buyer instructions.
+        const guardianLegalExcludedStates = new Set(["KS", "MS", "DE", "OR"]);
+        const guardianLegalAllowedStates = Object.keys(statesData).filter(
+            code => !["AS", "DC", "GU", "MP", "PR", "VI"].includes(code) && !guardianLegalExcludedStates.has(code)
+        );
+
         const buyersData = [
+            {
+                name: "Guardian Legal", transferType: "Live Transfer", hours: "24/7",
+                allowedStates: guardianLegalAllowedStates,
+                isExcluded: (stateCode) => guardianLegalExcludedStates.has(stateCode),
+                priority: "Coverage: 50 states except KS, MS, DE, OR",
+                criteria: {
+                    doi: "Accident within 30 days",
+                    treatment: "Sought some type of treatment within 14 days of the accident",
+                    fault: "Not at fault",
+                    injury: "Refer to treatment requirement",
+                    defendant: "Defendant is insured OR a covered third party exists (firm confirms coverage afterward)",
+                    attorney: "None prior or current",
+                    other: "Police report number if available. PD photos preferred (not required).",
+                    PoliceReport: "Number if available; not required"
+                }
+            },
             {
                 name: "Louis Law", transferType: "Firm calls back ASAP", hours: "24/7", 
                 allowedStates: ["NC", "MS", "FL", "GA", "MI", "TN", "LA", "IL", "KY", "MD", "SC", "TX", "AR", "NM", "OH", "OR", "WA", "WI", "AL", "NE", "NJ", "OK", "AK", "DE", "NY", "VA", "PA", "CT"], 
@@ -1358,6 +1381,7 @@ To get started, can you please confirm your age?
                     <div class="theme-inner-card p-4 border border-[var(--danger-bg)] bg-[var(--danger-bg)] bg-opacity-20 text-white space-y-2">
                         <h3 class="font-bold text-[var(--danger-bg)] text-sm">ABSOLUTE HARD BLOCK: COLORADO PROHIBITED</h3>
                         <p class="text-xs">Do NOT process Colorado traffic (SB 26-174). Disconnect lead immediately.</p>
+                        <p class="text-xs">Guardian Legal's supplied state list does not exclude CO, but this existing portal-wide block still overrides buyer coverage. Confirm internally before changing the Colorado rule.</p>
                     </div>
                     <div class="mt-3">${scaPrefundingCard(stateCode)}</div>`;
                 return;
@@ -1390,6 +1414,13 @@ To get started, can you please confirm your age?
             </div>`;
 
             htmlString += scaPrefundingCard(stateCode);
+
+            if (guardianLegalExcludedStates.has(stateCode)) {
+                htmlString += `<div class="theme-inner-card p-3 mb-3 border-l-4 space-y-1" style="border-left-color:var(--danger-bg)">
+                    <p class="text-xs font-bold" style="color:var(--danger-bg)">GUARDIAN LEGAL — NOT QUALIFIED (STATE EXCLUSION)</p>
+                    <p class="text-xs">Guardian Legal does not accept ${statesData[stateCode]} (${stateCode}). Excluded states: KS, MS, DE, OR.</p>
+                </div>`;
+            }
 
             if (validBuyers.length === 0) {
                 htmlString += `<div class="theme-inner-card p-4 text-center text-xs theme-text-muted">No buyers matching ${stateCode}.</div>`;
